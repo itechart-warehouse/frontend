@@ -1,6 +1,7 @@
 import {useFormik} from 'formik';
 import {Button, TextField} from "@mui/material";
 import * as yup from 'yup';
+import {clientApi} from "../../../services/clientApi";
 
 interface Values {
     email: string,
@@ -28,7 +29,9 @@ function LoginForm() {
         },
         validationSchema: validationSchema,
         onSubmit: (user: Values) => {
-            console.log(JSON.stringify({user}));
+            console.log(user);
+            clientApi.userData.login(user)
+                .then((res) => console.log(res));
         },
     });
 
