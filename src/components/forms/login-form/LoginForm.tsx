@@ -29,9 +29,9 @@ function LoginForm() {
         },
         validationSchema: validationSchema,
         onSubmit: (user: Values) => {
-            console.log(user);
             clientApi.userData.login(user)
-                .then((res) => console.log(res));
+                .then((res) => console.log(res.headers))
+                .catch((err) => console.log(err));
         },
     });
 
