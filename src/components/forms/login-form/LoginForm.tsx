@@ -2,7 +2,8 @@ import {useFormik} from 'formik';
 import {Button, TextField} from "@mui/material";
 import * as yup from 'yup';
 import {clientApi} from "../../../services/clientApi";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {LoginContext} from "../../../context/loginContext";
 
 interface Values {
     email: string,
@@ -23,7 +24,7 @@ const validationSchema = yup.object({
 
 function LoginForm() {
 
-    const [isLoggedIn, setLogged] = useState(false)
+    const {setLoggedIn} = useContext(LoginContext)
 
     const formik = useFormik({
         initialValues: {
@@ -36,7 +37,7 @@ function LoginForm() {
                 .then((res) => {
                     console.log(res.headers.authorization)
                     localStorage.setItem("key", res.headers.authorization)
-                    setLogged(true)
+                    setLoggedIn(true)
                     //TODO Set new context to true
                 })
                 .catch((err) => console.log(err));
