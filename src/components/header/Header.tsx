@@ -7,15 +7,20 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { clientApi } from "../../services/clientApi";
+import {useContext} from "react";
+import {LoginContext} from "../../context/loginContext";
 
 export default function Header() {
+  const {setLoggedIn} = useContext(LoginContext);
   const logout = () => {
     const key = localStorage.getItem("key");
+
     // console.log(key);
     //TODO pass key to logout
     clientApi.userData.logout(key).then((res) => {
       console.log(res);
       localStorage.removeItem("key");
+      setLoggedIn(false);
     });
   };
 

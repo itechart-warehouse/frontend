@@ -9,6 +9,7 @@ import {LoginContext} from "./context/loginContext";
 
 function App() {
     const {isLoggedIn} = useContext(LoginContext)
+    console.log(isLoggedIn)
 
     return (
         <Routes>
@@ -18,8 +19,12 @@ function App() {
                         <Route path="/" element={<Navigate to="home"/>}/>
                         <Route path="home" element={<HomePage/>}/>
                     </>
-                :
-                <Route path="/" element={<LoginPage/>}/>
+                    :
+                    <>
+                        <Route path="home" element={<Navigate to="/"/>}/>
+                        <Route path="/" element={<LoginPage/>}/>
+                    </>
+
                 /*<Route path="/recover" element={<RecoverPasswordPage />} />*/
             }
         </Routes>
