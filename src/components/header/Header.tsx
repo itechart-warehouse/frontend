@@ -10,15 +10,13 @@ import { clientApi } from "../../services/clientApi";
 
 export default function Header() {
   const logout = () => {
-      const key = localStorage.getItem("key")
-      console.log(key);
-      //TODO pass key to logout
-    clientApi.userData.logout()
-        .then ((res) => {
-          console.log(res)
-          localStorage.removeItem("key")
-        });
-
+    const key = localStorage.getItem("key");
+    // console.log(key);
+    //TODO pass key to logout
+    clientApi.userData.logout(key).then((res) => {
+      console.log(res);
+      localStorage.removeItem("key");
+    });
   };
 
   return (
