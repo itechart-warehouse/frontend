@@ -13,14 +13,10 @@ import { LoginContext } from "../../context/loginContext";
 export default function Header() {
   const { setLoggedIn } = useContext(LoginContext);
   const logout = () => {
-    const key = localStorage.getItem("key");
-
-    // console.log(key);
-    //TODO pass key to logout
+    const key = localStorage.getItem("key") as string;
     clientApi.userData
       .logout(key)
       .then((res) => {
-        console.log(res);
         localStorage.removeItem("key");
         setLoggedIn(false);
       })

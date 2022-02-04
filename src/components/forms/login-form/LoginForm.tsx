@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import { LoginContext } from "../../../context/loginContext";
 
 interface Values {
@@ -34,12 +34,20 @@ function LoginForm() {
       clientApi.userData
         .login(user)
         .then((res) => {
-          console.log(res.headers.authorization);
           localStorage.setItem("key", res.headers.authorization);
           setLoggedIn(true);
-          //TODO Set new context to true
         })
-        .catch((err) => alert(err));
+        .catch((err) => {
+            if (err.response) {
+                alert(err.response.data)
+            } else if (err.request) {
+                console.log(err.request)
+                alert("Server is not working")
+            } else {
+                console.log(err.message)
+                alert(err.message)
+            }
+        });
     },
   });
 

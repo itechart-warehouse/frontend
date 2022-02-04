@@ -1,7 +1,6 @@
 import {Route, Routes, Navigate} from "react-router-dom";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import HomePage from "./pages/home/HomePage";
-import Header from "./components/header/Header";
 import "./App.css";
 //import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
@@ -9,8 +8,6 @@ import {LoginContext} from "./context/loginContext";
 
 function App() {
     const {isLoggedIn} = useContext(LoginContext)
-    console.log(isLoggedIn)
-
     return (
         <Routes>
             {

@@ -17,6 +17,6 @@ function LoginPage() {
             </Grid>
         </>
     )
-};
+}
 
 export default LoginPage;

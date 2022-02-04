@@ -1,2 +1,3 @@
 import React from "react";
-export const LoginContext = React.createContext(null);
+let initialContext: any = null;
+export const LoginContext = React.createContext(initialContext);
