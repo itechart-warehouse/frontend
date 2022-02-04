@@ -24,7 +24,7 @@ export default function Header() {
         localStorage.removeItem("key");
         setLoggedIn(false);
       })
-      .catch((err) => console.log(alert(err)));
+      .catch((err) => alert(err));
   };
 
   return (

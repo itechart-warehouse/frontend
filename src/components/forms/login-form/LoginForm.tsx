@@ -39,7 +39,7 @@ function LoginForm() {
           setLoggedIn(true);
           //TODO Set new context to true
         })
-        .catch((err) => console.log(alert(err)));
+        .catch((err) => alert(err));
     },
   });
 
