@@ -7,9 +7,21 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { clientApi } from "../../services/clientApi";
+import { useContext } from "react";
+import { LoginContext } from "../../context/loginContext";
 
 export default function Header() {
-  const logout = () => {};
+  const { setLoggedIn } = useContext(LoginContext);
+  const logout = () => {
+    const key = localStorage.getItem("key") as string;
+    clientApi.userData
+      .logout(key)
+      .then((res) => {
+        localStorage.removeItem("key");
+        setLoggedIn(false);
+      })
+      .catch((err) => alert(err));
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -27,7 +39,7 @@ export default function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Warehouse
           </Typography>
-          <Button onClick={clientApi.userData.logout} color="inherit">
+          <Button onClick={logout} color="inherit">
             Logout
           </Button>
         </Toolbar>

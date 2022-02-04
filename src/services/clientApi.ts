@@ -18,8 +18,8 @@ function initClientApi() {
         axios.post(`${baseUrl}/login`, {
           user: { email: credentials.email, password: credentials.password },
         }),
-      logout: () =>
-        axios.delete(`${baseUrl}/logout`, { data: { answer: "loggedout" } }),
+      logout: (key: string) =>
+        axios.delete(`${baseUrl}/logout`, { headers: { authorization: key } }),
     },
     recoverData: {
       recoverEmail: (credentials: recoverData) =>
