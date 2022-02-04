@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
-import Link from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Values {
   email: string;
@@ -77,12 +77,23 @@ function LoginForm() {
         helperText={formik.touched.password && formik.errors.password}
         sx={{ mb: 3 }}
       />
-      <Button color="primary" variant="contained" fullWidth type="submit">
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        type="submit"
+        style={{ margin: "0 0 10px 0" }}
+      >
         Submit
       </Button>
       <Grid container>
         <Grid item xs>
-          <Link to="/password">Forgot password?</Link>
+          <Typography>
+            {/*TODO add path to recover password and change color definition*/}
+            <Link to="#" style={{ color: "#1976d2" }}>
+              Forgot password?
+            </Link>
+          </Typography>
         </Grid>
       </Grid>
     </form>

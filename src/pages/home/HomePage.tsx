@@ -1,9 +1,11 @@
 import Header from "../../components/header/Header";
 import { Box, Grid, Typography } from "@mui/material";
+import React from "react";
 
 function HomePage() {
   return (
     <>
+      <Header />
       <Box>
         <Grid
           container

@@ -15,7 +15,6 @@ function Main() {
   return (
     <BrowserRouter>
       <LoginContext.Provider value={{ isLoggedIn, setLoggedIn }}>
-        <Header />
         <App />
       </LoginContext.Provider>
     </BrowserRouter>
