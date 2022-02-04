@@ -1,9 +1,10 @@
 import { useFormik } from "formik";
-import { Button, TextField } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useContext} from "react";
+import { useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
+import Link from "react-router-dom";
 
 interface Values {
   email: string;
@@ -38,15 +39,15 @@ function LoginForm() {
           setLoggedIn(true);
         })
         .catch((err) => {
-            if (err.response) {
-                alert(err.response.data)
-            } else if (err.request) {
-                console.log(err.request)
-                alert("Server is not working")
-            } else {
-                console.log(err.message)
-                alert(err.message)
-            }
+          if (err.response) {
+            alert(err.response.data);
+          } else if (err.request) {
+            console.log(err.request);
+            alert("Server is not working");
+          } else {
+            console.log(err.message);
+            alert(err.message);
+          }
         });
     },
   });
@@ -79,6 +80,11 @@ function LoginForm() {
       <Button color="primary" variant="contained" fullWidth type="submit">
         Submit
       </Button>
+      <Grid container>
+        <Grid item xs>
+          <Link to="/password">Forgot password?</Link>
+        </Grid>
+      </Grid>
     </form>
   );
 }
