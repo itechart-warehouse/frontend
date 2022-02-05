@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import HomePage from "./pages/home/HomePage";
 import "./App.css";
-//import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
+import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
 import { LoginContext } from "./context/loginContext";
 
@@ -19,7 +19,7 @@ function App() {
         <>
           <Route path="home" element={<Navigate to="/" />} />
           <Route path="/" element={<LoginPage />} />
-          {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
+          {<Route path="/password" element={<RecoverPasswordPage />} />}
         </>
       )}
     </Routes>
