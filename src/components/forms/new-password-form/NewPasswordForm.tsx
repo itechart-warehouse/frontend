@@ -28,9 +28,10 @@ function NewPasswordForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (password: Values) => {
-      //console.log(email);
+      let paramsSearcher = new URLSearchParams(document.location.search)
+        let token = paramsSearcher.get('reset_password_token')
       clientApi.recoverPassword
-        .recoverPassword(password)
+        .recoverPassword(password, token)
         .then((res) => console.log(res.config.data))
         .catch((err) => {
           if (err.response) {
