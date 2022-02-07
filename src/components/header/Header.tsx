@@ -7,18 +7,18 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { clientApi } from "../../services/clientApi";
-import { useContext } from "react";
-import { LoginContext } from "../../context/loginContext";
+import {useDispatch} from "react-redux";
+import {logoutUser} from "../../store/loginSlice";
 
 export default function Header() {
-  const { setLoggedIn } = useContext(LoginContext);
+  const dispatch = useDispatch()
   const logout = () => {
     const key = localStorage.getItem("key") as string;
     clientApi.userData
       .logout(key)
       .then((res) => {
         localStorage.removeItem("key");
-        setLoggedIn(false);
+        dispatch(logoutUser())
       })
       .catch((err) => alert(err));
   };
