@@ -11,6 +11,11 @@ interface recoverData {
   email: string;
 }
 
+interface recoverPassword {
+  password: string;
+  passwordConfirmation: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -25,6 +30,15 @@ function initClientApi() {
       recoverEmail: (credentials: recoverData) =>
         axios.post(`${baseUrl}/password`, {
           user: { email: credentials.email },
+        }),
+    },
+    recoverPassword: {
+      recoverPassword: (credentials: recoverPassword) =>
+        axios.patch(`${baseUrl}/password`, {
+          user: {
+            password: credentials.password,
+            password_confirmation: credentials.passwordConfirmation,
+          },
         }),
     },
   };

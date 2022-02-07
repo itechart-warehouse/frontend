@@ -5,6 +5,7 @@ import "./App.css";
 import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
 import { LoginContext } from "./context/loginContext";
+import NewPasswordPage from "./pages/new-password/NewPasswordPage";
 
 function App() {
   const { isLoggedIn } = useContext(LoginContext);
@@ -19,7 +20,8 @@ function App() {
         <>
           <Route path="home" element={<Navigate to="/" />} />
           <Route path="/" element={<LoginPage />} />
-          {<Route path="/password" element={<RecoverPasswordPage />} />}
+          <Route path="/password" element={<RecoverPasswordPage />} />
+          <Route path="/password/edit" element={<NewPasswordPage />} />
         </>
       )}
     </Routes>

@@ -10,7 +10,7 @@ function Main() {
 
   useEffect(() => {
     localStorage.getItem("key") ? setLoggedIn(true) : setLoggedIn(false);
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <BrowserRouter>
