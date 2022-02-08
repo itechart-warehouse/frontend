@@ -35,7 +35,6 @@ function LoginForm() {
             clientApi.userData
                 .login(user)
                 .then((res) => {
-                    localStorage.setItem("key", res.headers.authorization);
                     dispatch(loginUser(res.headers.authorization))
                 })
                 .catch((err) => {

@@ -17,7 +17,6 @@ export default function Header() {
     clientApi.userData
       .logout(key)
       .then((res) => {
-        localStorage.removeItem("key");
         dispatch(logoutUser())
       })
       .catch((err) => alert(err));
