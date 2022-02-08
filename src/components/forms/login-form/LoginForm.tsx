@@ -36,7 +36,7 @@ function LoginForm() {
                 .login(user)
                 .then((res) => {
                     localStorage.setItem("key", res.headers.authorization);
-                    dispatch(loginUser())
+                    dispatch(loginUser(res.headers.authorization))
                 })
                 .catch((err) => {
                     if (err.response) {

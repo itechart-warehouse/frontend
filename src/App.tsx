@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "./store";
 
 function App() {
-    const isLoggedIn = useSelector((state: RootState) => state.user.value)
+    const isLoggedIn = useSelector((state: RootState) => state.user.user.isLoggedIn)
     return (
         <Routes>
             {isLoggedIn? (

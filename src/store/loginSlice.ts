@@ -1,23 +1,32 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 export interface LoginState {
-    value: boolean
+    user: {
+        isLoggedIn: boolean,
+        jwt: string
+    }
 }
 
 const initialState: LoginState = {
-    value: false,
+    user: {
+        isLoggedIn: false,
+        jwt: ''
+    }
+
 }
 
 const loginSlice = createSlice({
     name: 'user login logout',
     initialState,
     reducers: {
-        loginUser: (state) => {
-            state.value = true
+        loginUser: (state, actions) => {
+            state.user.isLoggedIn = true
+            state.user.jwt = actions.payload
         },
         logoutUser: (state) => {
-            state.value = false
-        }
+            state.user.isLoggedIn = false
+            state.user.jwt = ''
+        },
     }
 })
 
