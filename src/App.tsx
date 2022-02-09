@@ -5,7 +5,7 @@ import "./App.css";
 import LoginPage from "./pages/login/LoginPage";
 import {useSelector} from "react-redux";
 import {RootState} from "./store";
-import Companies from "./pages/company/Companies";
+import CompaniesPage from "./pages/company/all-companies/CompaniesPage";
 import Header from "./components/header/Header";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
                     <>
                         <Route path="/" element={<Navigate to="home"/>}/>
                         <Route path="home" element={<HomePage/>}/>
-                        <Route path="companies" element={<Companies/>}/>
+                        <Route path="companies" element={<CompaniesPage/>}/>
                     </>
                 ) : (
                     <>

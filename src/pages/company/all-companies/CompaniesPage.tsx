@@ -1,7 +1,7 @@
 import {Typography, Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody} from "@mui/material";
 import Paper from '@mui/material/Paper';
 //TODO Fake data (remove after backend)
-const companies = [
+const companiesPage = [
     {name: "Apple",
         address: "Minsk",
         phone: "8735635735",
@@ -39,7 +39,7 @@ function Companies() {
             <Container maxWidth="xl" sx={mainContainerStyle}>
                 <Typography variant="h2" sx={titleStyle}>Companies listing</Typography>
                 <TableContainer component={Paper}>
-                    <Table sx={{minWidth: 650}} aria-label="companies table">
+                    <Table sx={{minWidth: 650}} aria-label="companiesPage table">
                         <TableHead>
                             <TableRow sx={rowStyle}>
                                 <TableCell>Company name</TableCell>
@@ -50,7 +50,7 @@ function Companies() {
                         </TableHead>
                         <TableBody>
                             {
-                                companies.map((company, index) => {
+                                companiesPage.map((company, index) => {
                                     //TODO change key to id from backend
                                     //TODO Company name is a link to show page
                                     return (<TableRow key={index}>
