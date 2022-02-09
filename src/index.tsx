@@ -6,8 +6,6 @@ import {Provider} from "react-redux";
 import { PersistGate }from 'redux-persist/integration/react'
 import {store, persistor} from "./store";
 
-import Header from "./components/header/Header";
-
 function Main() {
 
     return (

@@ -5,7 +5,7 @@ import React from "react";
 function HomePage() {
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <Box>
         <Grid
           container
