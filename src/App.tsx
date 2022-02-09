@@ -24,7 +24,7 @@ function App() {
                     </>
                 ) : (
                     <>
-                        <Route path="home" element={<Navigate to="/"/>}/>
+                        <Route path="/*" element={<Navigate to="/"/>}/>
                         <Route path="/" element={<LoginPage/>}/>
                         {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
                     </>
