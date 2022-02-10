@@ -1,25 +1,14 @@
 import {Typography, Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody} from "@mui/material";
 import Paper from '@mui/material/Paper';
-//TODO Fake data (remove after backend)
-const companiesPage = [
-    {name: "Apple",
-        address: "Minsk",
-        phone: "8735635735",
-        email: "test@test.com"
-    },
-    {
-        name: "Google",
-        address: "Minsk",
-        phone: "8735635735",
-        email: "test@test.com"
-    },
-    {
-        name: "Amazon",
-        address: "Minsk",
-        phone: "8735635735",
-        email: "test@test.com"
-    }
-]
+import {clientApi} from "../../../services/clientApi";
+import {useEffect, useState} from "react";
+
+interface Company {
+    name: string,
+    address: string
+    phone: string,
+    email: string
+}
 
 const mainContainerStyle = {
     pt: 3
@@ -34,6 +23,13 @@ const rowStyle = {
 }
 
 function Companies() {
+    const [companies, setCompanies] = useState<Company[]>([])
+    useEffect(() => {
+        clientApi.company.getAll()
+            .then(({data}) => {
+                setCompanies(data);
+            })
+    }, [])
     return (
         <>
             <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -50,26 +46,21 @@ function Companies() {
                         </TableHead>
                         <TableBody>
                             {
-                                companiesPage.map((company, index) => {
-                                    //TODO change key to id from backend
-                                    //TODO Company name is a link to show page
-                                    return (<TableRow key={index}>
-                                            <TableCell component="th" scope="row">{company.name}</TableCell>
-                                            <TableCell align="right">{company.address}</TableCell>
-                                            <TableCell align="right">{company.phone}</TableCell>
-                                            <TableCell align="right">{company.email}</TableCell>
-                                        </TableRow>
+                                companies.map((comp, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell component="th" scope="row">{comp.name}</TableCell>
+                                        <TableCell align="right">{comp.address}</TableCell>
+                                        <TableCell align="right">{comp.phone}</TableCell>
+                                        <TableCell align="right">{comp.email}</TableCell>
+                                    </TableRow>
                                     )
-                                })
+                                )
                             }
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Container>
-
         </>
-
-
     )
 }
 

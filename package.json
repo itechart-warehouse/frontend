@@ -55,6 +55,10 @@
     ]
   },
   "devDependencies": {
+    "msw": "^0.36.8",
     "prettier": "2.5.1"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

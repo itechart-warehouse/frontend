@@ -14,6 +14,7 @@ export default function Header() {
   const dispatch = useDispatch()
   const logout = () => {
     const key = localStorage.getItem("key") as string;
+    console.log(key)
     clientApi.userData
       .logout(key)
       .then((res) => {

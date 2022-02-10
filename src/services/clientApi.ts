@@ -27,6 +27,10 @@ function initClientApi() {
           user: { email: credentials.email },
         }),
     },
+    company: {
+      getAll: () =>
+        axios.get(`${baseUrl}/companies`)
+    }
   };
 }
 
