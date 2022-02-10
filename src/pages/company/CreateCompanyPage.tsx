@@ -16,8 +16,8 @@ const CreateCompanyPage = () => {
               justifyContent="center"
               style={{minHeight: '100vh'}}>
             <Grid item>
-                <Typography variant="h2" component="div" gutterBottom color="primary" align="center">Create new
-                    Company</Typography>
+                <Typography variant="h2" component="div" gutterBottom color="primary" align="center">Create
+                    company</Typography>
                 <Box sx={{maxWidth: 500}}>
                     <CreateCompanyForm/>
                 </Box>

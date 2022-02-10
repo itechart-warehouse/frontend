@@ -1,8 +1,13 @@
 import Header from "../../components/header/Header";
-import { Box, Grid, Typography } from "@mui/material";
+import {Box, Button, Grid, Typography} from "@mui/material";
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 function HomePage() {
+    let navigate = useNavigate();
+    const routeLogin = () => {
+        navigate("/company/create");
+    };
   return (
     <>
       <Header />
@@ -17,6 +22,9 @@ function HomePage() {
         >
           <Grid item xs={3}>
             <Typography variant="h2">Welcome to your WarehouseAPP</Typography>
+              <Button onClick={routeLogin} variant="contained" fullWidth>
+                  Create new company
+              </Button>
           </Grid>
         </Grid>
       </Box>

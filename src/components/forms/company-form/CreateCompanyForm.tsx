@@ -2,7 +2,7 @@ import {useFormik} from "formik";
 import {Button, Grid, TextField, Typography} from "@mui/material";
 import * as yup from "yup";
 import {clientApi} from "../../../services/clientApi";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import React from "react";
 
@@ -86,7 +86,10 @@ function CreateCompanyForm() {
 
         },
     });
-
+    let navigate = useNavigate();
+    const routeLogin = () => {
+        navigate('/');
+    };
     return (
         <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -213,6 +216,9 @@ function CreateCompanyForm() {
                 style={{margin: "0 0 10px 0"}}
             >
                 Submit
+            </Button>
+            <Button onClick={routeLogin} variant="outlined" fullWidth>
+                Cancel
             </Button>
         </form>
     );
