@@ -7,16 +7,17 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { clientApi } from "../../services/clientApi";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../store/loginSlice";
+import {RootState} from "../../store";
 
 export default function Header() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
+
   const logout = () => {
-    const key = localStorage.getItem("key") as string;
-    console.log(key)
     clientApi.userData
-      .logout(key)
+      .logout(jwt)
       .then((res) => {
         dispatch(logoutUser())
       })
