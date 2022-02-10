@@ -86,8 +86,8 @@ function CreateCompanyForm() {
 
         },
     });
-    let navigate = useNavigate();
-    const routeLogin = () => {
+    const navigate = useNavigate();
+    const routeRoot = () => {
         navigate('/');
     };
     return (
@@ -217,7 +217,7 @@ function CreateCompanyForm() {
             >
                 Submit
             </Button>
-            <Button onClick={routeLogin} variant="outlined" fullWidth>
+            <Button onClick={routeRoot} variant="outlined" fullWidth>
                 Cancel
             </Button>
         </form>

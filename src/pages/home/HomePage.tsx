@@ -4,8 +4,8 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 
 function HomePage() {
-    let navigate = useNavigate();
-    const routeLogin = () => {
+    const navigate = useNavigate();
+    const routeCreateCompany = () => {
         navigate("/company/create");
     };
   return (
@@ -22,7 +22,7 @@ function HomePage() {
         >
           <Grid item xs={3}>
             <Typography variant="h2">Welcome to your WarehouseAPP</Typography>
-              <Button onClick={routeLogin} variant="contained" fullWidth>
+              <Button onClick={routeCreateCompany} variant="contained" fullWidth>
                   Create new company
               </Button>
           </Grid>
