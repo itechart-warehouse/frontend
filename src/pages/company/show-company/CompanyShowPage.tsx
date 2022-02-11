@@ -20,7 +20,7 @@ function CompanyShowPage() {
             color="primary"
             align="center"
           >
-            Company name
+            Company info
           </Typography>
           <Box sx={{ minWidth: 500 }}>
             <Card variant="outlined">

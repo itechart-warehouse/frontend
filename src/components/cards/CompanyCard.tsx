@@ -31,6 +31,10 @@ export default function CompanyCard() {
   return (
     <React.Fragment>
       <CardContent>
+        <Typography variant="h4" component="div">
+          {company.name}
+        </Typography>
+        <br />
         <Typography variant="h6" component="div">
           Phone Number
         </Typography>
