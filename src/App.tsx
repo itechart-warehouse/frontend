@@ -1,5 +1,6 @@
 import {Route, Routes, Navigate} from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
+import CreateCompanyPage from "./pages/company/CreateCompanyPage";
 import "./App.css";
 //import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
@@ -20,6 +21,7 @@ function App() {
                     <>
                         <Route path="/" element={<Navigate to="home"/>}/>
                         <Route path="home" element={<HomePage/>}/>
+                        <Route path="company/create" element={<CreateCompanyPage/>}/>
                         <Route path="companies" element={<CompaniesPage/>}/>
                     </>
                 ) : (
