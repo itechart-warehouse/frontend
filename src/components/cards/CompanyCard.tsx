@@ -21,7 +21,7 @@ export default function CompanyCard() {
     name: "",
     phone: "",
   });
-  let { id } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     clientApi.company.getById(id).then((res) => {
