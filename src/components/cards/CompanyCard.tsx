@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Company {
   name: string;
@@ -28,6 +28,12 @@ export default function CompanyCard() {
       setCompany(res.data.company);
     });
   }, []);
+
+  let navigate = useNavigate();
+  const routeCompanyList = () => {
+    navigate("/companies");
+  };
+
   return (
     <React.Fragment>
       <CardContent>
@@ -57,6 +63,7 @@ export default function CompanyCard() {
       <CardActions>
         {/*TODO add button actions*/}
         <Button>Edit</Button>
+        <Button onClick={routeCompanyList}>Cancel</Button>
       </CardActions>
     </React.Fragment>
   );
