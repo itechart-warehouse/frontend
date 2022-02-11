@@ -4,6 +4,7 @@ import {clientApi} from "../../../services/clientApi";
 import {useEffect, useState} from "react";
 
 interface Company {
+    id: number,
     name: string,
     address: string
     phone: string,
@@ -26,8 +27,8 @@ function Companies() {
     const [companies, setCompanies] = useState<Company[]>([])
     useEffect(() => {
         clientApi.company.getAll()
-            .then(({data}) => {
-                setCompanies(data);
+            .then((response) => {
+                setCompanies(response.data.companies);
             })
     }, [])
     return (
@@ -46,8 +47,8 @@ function Companies() {
                         </TableHead>
                         <TableBody>
                             {
-                                companies.map((comp, index) => (
-                                    <TableRow key={index}>
+                                companies.map((comp) => (
+                                    <TableRow key={comp.id}>
                                         <TableCell component="th" scope="row">{comp.name}</TableCell>
                                         <TableCell align="right">{comp.address}</TableCell>
                                         <TableCell align="right">{comp.phone}</TableCell>
