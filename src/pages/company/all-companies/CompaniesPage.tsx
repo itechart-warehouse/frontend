@@ -2,6 +2,7 @@ import {Typography, Container, TableContainer, Table, TableHead, TableRow, Table
 import Paper from '@mui/material/Paper';
 import {clientApi} from "../../../services/clientApi";
 import {useEffect, useState} from "react";
+import { Link } from 'react-router-dom';
 
 interface Company {
     id: number,
@@ -49,7 +50,7 @@ function Companies() {
                             {
                                 companies.map((comp) => (
                                     <TableRow key={comp.id}>
-                                        <TableCell component="th" scope="row">{comp.name}</TableCell>
+                                        <TableCell component="th" scope="row"><Link to={`${comp.id}`}>{comp.name}</Link></TableCell>
                                         <TableCell align="right">{comp.address}</TableCell>
                                         <TableCell align="right">{comp.phone}</TableCell>
                                         <TableCell align="right">{comp.email}</TableCell>
