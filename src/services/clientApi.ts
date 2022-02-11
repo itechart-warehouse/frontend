@@ -40,7 +40,7 @@ function initClientApi() {
                     user: {email: credentials.email},
                 }),
         },
-        Company: {
+        company: {
 
             create: (companyCredentials: companyFullData) =>axios.post(`${baseUrl}/company/create`, {
                 company: {
