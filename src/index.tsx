@@ -6,7 +6,10 @@ import {Provider} from "react-redux";
 import { PersistGate }from 'redux-persist/integration/react'
 import {store, persistor} from "./store";
 
-import Header from "./components/header/Header";
+if (process.env.NODE_ENV === 'development') {
+    const { worker } = require('./mocks/browser')
+    worker.start()
+}
 
 function Main() {
 
