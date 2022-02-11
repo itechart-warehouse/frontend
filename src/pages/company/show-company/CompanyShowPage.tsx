@@ -1,11 +1,9 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
-import CompanyCard from "../../components/cards/CompanyCard";
-import Header from "../../components/header/Header";
+import CompanyCard from "../../../components/cards/CompanyCard";
 
 function CompanyShowPage() {
   return (
     <>
-      <Header />
       <Grid
         container
         spacing={0}

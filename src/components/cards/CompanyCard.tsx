@@ -5,11 +5,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
+import { useParams } from "react-router-dom";
 
-let paramsSearcher = new URLSearchParams(document.location.search);
-let id = paramsSearcher.get("id");
-
-interface ICompany {
+interface Company {
   name: string;
   address: string;
   phone: string;
@@ -17,15 +15,16 @@ interface ICompany {
 }
 
 export default function CompanyCard() {
-  const [company, setCompany] = useState<ICompany>({
+  const [company, setCompany] = useState<Company>({
     address: "",
     email: "",
     name: "",
     phone: "",
   });
+  let { id } = useParams();
+
   useEffect(() => {
     clientApi.company.getById(id).then((res) => {
-      console.log(res.data);
       setCompany(res.data.company);
     });
   }, []);
@@ -35,7 +34,6 @@ export default function CompanyCard() {
         <Typography variant="h6" component="div">
           Phone Number
         </Typography>
-        {/*TODO take data from backend*/}
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {company.phone}
         </Typography>
