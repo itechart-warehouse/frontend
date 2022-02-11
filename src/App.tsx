@@ -6,25 +6,33 @@ import "./App.css";
 import LoginPage from "./pages/login/LoginPage";
 import {useSelector} from "react-redux";
 import {RootState} from "./store";
+import CompaniesPage from "./pages/company/all-companies/CompaniesPage";
+import Header from "./components/header/Header";
 
 function App() {
     const isLoggedIn = useSelector((state: RootState) => state.user.user.isLoggedIn)
     return (
-        <Routes>
-            {isLoggedIn? (
-                <>
-                    <Route path="/" element={<Navigate to="home"/>}/>
-                    <Route path="home" element={<HomePage/>}/>
-                    <Route path="company/create" element={<CreateCompanyPage/>}/>
-                </>
-            ) : (
-                <>
-                    <Route path="home" element={<Navigate to="/"/>}/>
-                    <Route path="/" element={<LoginPage/>}/>
-                    {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
-                </>
-            )}
-        </Routes>
+        <>
+            {
+                isLoggedIn && <Header/>
+            }
+            <Routes>
+                {isLoggedIn ? (
+                    <>
+                        <Route path="/" element={<Navigate to="home"/>}/>
+                        <Route path="home" element={<HomePage/>}/>
+                        <Route path="company/create" element={<CreateCompanyPage/>}/>
+                        <Route path="companies" element={<CompaniesPage/>}/>
+                    </>
+                ) : (
+                    <>
+                        <Route path="/*" element={<Navigate to="/"/>}/>
+                        <Route path="/" element={<LoginPage/>}/>
+                        {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
+                    </>
+                )}
+            </Routes>
+        </>
     );
 }
 

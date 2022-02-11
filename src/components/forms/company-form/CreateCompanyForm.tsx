@@ -71,7 +71,7 @@ function CreateCompanyForm() {
         },
         validationSchema: validationSchema,
         onSubmit: (data: Values) => {
-            clientApi.Company
+            clientApi.company
                 .create(data).catch((err) => {
                     if (err.response) {
                         alert(err.response.data);

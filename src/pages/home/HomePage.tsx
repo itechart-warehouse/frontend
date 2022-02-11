@@ -10,7 +10,7 @@ function HomePage() {
     };
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <Box>
         <Grid
           container

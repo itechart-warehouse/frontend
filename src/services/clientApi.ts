@@ -3,12 +3,12 @@ import axios from "axios";
 const baseUrl = "http://localhost:3000";
 
 interface userData {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 interface recoverData {
-    email: string;
+  email: string;
 }
 
 interface companyFullData {
@@ -40,7 +40,7 @@ function initClientApi() {
                     user: {email: credentials.email},
                 }),
         },
-        Company: {
+        company: {
 
             create: (companyCredentials: companyFullData) =>axios.post(`${baseUrl}/company/create`, {
                 company: {
@@ -58,6 +58,7 @@ function initClientApi() {
                     address: companyCredentials.address
                 }
             }),
+            getAll: () => axios.get(`${baseUrl}/companies`)
         }
     };
 }
