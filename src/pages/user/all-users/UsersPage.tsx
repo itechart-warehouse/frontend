@@ -14,11 +14,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface User {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  address: string;
+  user: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    address: string;
+  };
+
+  company: {
+    name: string;
+  };
 }
 
 const mainContainerStyle = {
@@ -38,7 +44,6 @@ function Users() {
   useEffect(() => {
     clientApi.user.getAll().then((response) => {
       setUsers(response.data.users);
-      console.log(response.data.users);
     });
   }, []);
   return (
@@ -53,19 +58,21 @@ function Users() {
               <TableRow sx={rowStyle}>
                 <TableCell>User name</TableCell>
                 <TableCell align="right">Address</TableCell>
+                <TableCell align="right">Company</TableCell>
                 <TableCell align="right">E-mail</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
+              {users.map((item) => (
+                <TableRow key={item.user.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${user.id}`}>
-                      {user.first_name} {user.last_name}
+                    <Link to={`${item.user.id}`}>
+                      {item.user.first_name} {item.user.last_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="right">{user.address}</TableCell>
-                  <TableCell align="right">{user.email}</TableCell>
+                  <TableCell align="right">{item.user.address}</TableCell>
+                  <TableCell align="right">{item.company.name}</TableCell>
+                  <TableCell align="right">{item.user.email}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
