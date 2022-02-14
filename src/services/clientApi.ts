@@ -61,6 +61,9 @@ function initClientApi() {
       getAll: () => axios.get(`${baseUrl}/companies`),
       getById: (id: any) => axios.get(`${baseUrl}/companies/${id}`),
     },
+    user: {
+      getAll: () => axios.get(`${baseUrl}/users`),
+    },
   };
 }
 
