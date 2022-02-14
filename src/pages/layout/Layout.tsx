@@ -9,8 +9,8 @@ function Layout() {
   );
   return (
     <>
-      {isLoggedIn && <Header />}
-      <Outlet />
+        {isLoggedIn && <Header />}
+        <Outlet />
     </>
   );
 }

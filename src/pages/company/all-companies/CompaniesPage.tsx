@@ -45,7 +45,6 @@ function Companies() {
   const routeCreateCompany = () => {
     navigate("/company/create");
   };
-
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -66,7 +65,7 @@ function Companies() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {companies.map((comp) => (
+              { companies.length && companies.map((comp) => (
                 <TableRow key={comp.id}>
                   <TableCell component="th" scope="row">
                     <Link to={`${comp.id}`}>{comp.name}</Link>
@@ -75,7 +74,8 @@ function Companies() {
                   <TableCell align="right">{comp.phone}</TableCell>
                   <TableCell align="right">{comp.email}</TableCell>
                 </TableRow>
-              ))}
+              ))
+              }
             </TableBody>
           </Table>
         </TableContainer>

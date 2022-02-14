@@ -1,5 +1,5 @@
 import * as React from "react";
-import {AppBar, Container, Menu, MenuItem, Grid} from "@mui/material";
+import {AppBar, Container, Menu, MenuItem, Grid, Box} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -48,23 +48,24 @@ export default function Header() {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Grid container spacing={2}>
-                        <Grid item xs={11}>
-                            <Button onClick={rootRoute} color="inherit">
-                                WareHouse
-                            </Button>
-                            <Button
-                                id="basic-button"
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}
-                                color="inherit"
-                            >
-                                Companies
-                            </Button>
+                        <Grid item xs={11} display="flex" alignItems="center" justifyContent="flex-start">
+                                <Typography variant="h4" component="div">Warehouse</Typography>
+                                <Button onClick={rootRoute} color="inherit">
+                                    Home
+                                </Button>
+                                <Button
+                                    id="basic-button"
+                                    aria-controls={open ? 'basic-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    onClick={handleClick}
+                                    color="inherit"
+                                >
+                                    Companies
+                                </Button>
                         </Grid>
                         <Grid item xs={1}>
-                            <Button onClick={logout} color="error" variant="contained">
+                            <Button onClick={logout} color="info" variant="contained">
                                 Logout
                             </Button>
                         </Grid>
