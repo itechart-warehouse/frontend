@@ -18,6 +18,7 @@ interface Values {
     companyPhone: string;
     companyEmail: string;
 }
+
 const validationSchema = yup.object({
     userEmail: yup
         .string()
@@ -56,6 +57,11 @@ const validationSchema = yup.object({
 
 
 function CreateCompanyForm() {
+
+    const navigate = useNavigate();
+    const routeCompaniesList = () => {
+        navigate('/companies');
+    };
     const formik = useFormik({
         initialValues: {
             userEmail: "",
@@ -72,7 +78,11 @@ function CreateCompanyForm() {
         validationSchema: validationSchema,
         onSubmit: (data: Values) => {
             clientApi.company
-                .create(data).catch((err) => {
+                .create(data)
+                .then((res) => {
+                    res.status === 201 && routeCompaniesList()
+                })
+                .catch((err) => {
                     if (err.response) {
                         alert(err.response.data);
                     } else if (err.request) {
@@ -86,10 +96,7 @@ function CreateCompanyForm() {
 
         },
     });
-    const navigate = useNavigate();
-    const routeRoot = () => {
-        navigate('/');
-    };
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -207,7 +214,6 @@ function CreateCompanyForm() {
             />
 
 
-
             <Button
                 color="primary"
                 variant="contained"
@@ -217,7 +223,7 @@ function CreateCompanyForm() {
             >
                 Submit
             </Button>
-            <Button onClick={routeRoot} variant="outlined" fullWidth>
+            <Button onClick={routeCompaniesList} variant="outlined" fullWidth>
                 Cancel
             </Button>
         </form>
