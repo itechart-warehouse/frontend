@@ -6,12 +6,12 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
+  TableBody, Button,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {Link, useNavigate} from "react-router-dom";
 
 interface Company {
   id: number;
@@ -40,12 +40,20 @@ function Companies() {
       setCompanies(response.data.companies);
     });
   }, []);
+
+  const navigate = useNavigate();
+  const routeCreateCompany = () => {
+    navigate("/company/create");
+  };
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Companies listing
         </Typography>
+        <Button onClick={routeCreateCompany} variant="contained" sx={{mb:3}}>
+          Create new company
+        </Button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead>
@@ -57,7 +65,7 @@ function Companies() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {companies.map((comp) => (
+              { companies.length && companies.map((comp) => (
                 <TableRow key={comp.id}>
                   <TableCell component="th" scope="row">
                     <Link to={`${comp.id}`}>{comp.name}</Link>
@@ -66,7 +74,8 @@ function Companies() {
                   <TableCell align="right">{comp.phone}</TableCell>
                   <TableCell align="right">{comp.email}</TableCell>
                 </TableRow>
-              ))}
+              ))
+              }
             </TableBody>
           </Table>
         </TableContainer>
