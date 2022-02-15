@@ -7,8 +7,8 @@ import { clientApi } from "../../services/clientApi";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/loginSlice";
 import { RootState } from "../../store";
-import CompanyButton from "../menu-items/CompanyButton";
-import UserButton from "../menu-items/UserButton";
+import CompanyButton from "./menu-items/CompanyButton";
+import UserButton from "./menu-items/UserButton";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
