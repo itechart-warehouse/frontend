@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setCompanyState} from "../../store/companySlice";
 
 interface Company {
   name: string;
@@ -30,8 +32,13 @@ export default function CompanyCard() {
   }, []);
 
   let navigate = useNavigate();
+  const dispatch = useDispatch();
   const routeCompanyList = () => {
     navigate("/companies");
+  };
+  const routeCompanyEdit = () => {
+    navigate(`/companies/${id}/edit`);
+    dispatch(setCompanyState(company));
   };
 
   return (
@@ -62,7 +69,7 @@ export default function CompanyCard() {
       </CardContent>
       <CardActions>
         {/*TODO add button actions*/}
-        <Button>Edit</Button>
+          <Button onClick={routeCompanyEdit}>Edit</Button>
         <Button onClick={routeCompanyList}>Cancel</Button>
       </CardActions>
     </React.Fragment>

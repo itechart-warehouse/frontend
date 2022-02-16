@@ -10,6 +10,7 @@ import CompaniesPage from "./pages/company/all-companies/CompaniesPage";
 import CreateCompanyPage from "./pages/company/create-company/CreateCompanyPage";
 import Layout from "./pages/layout/Layout";
 import UsersPage from "./pages/user/all-users/UsersPage";
+import EditCompanyPage from "./pages/company/edit-company/EditCompanyPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -26,6 +27,7 @@ function App() {
               <Route path="company/create" element={<CreateCompanyPage />} />
               <Route path="companies" element={<CompaniesPage />} />
               <Route path="companies/:id" element={<CompanyShowPage />} />
+              <Route path="companies/:id/edit" element={<EditCompanyPage />} />
               <Route path="users" element={<UsersPage />} />
             </Route>
           </>
