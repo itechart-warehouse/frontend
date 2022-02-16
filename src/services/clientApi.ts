@@ -24,6 +24,14 @@ interface companyFullData {
   companyEmail: string;
 }
 
+interface userFullData {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  address: string;
+  // role: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -63,6 +71,16 @@ function initClientApi() {
     },
     user: {
       getAll: () => axios.get(`${baseUrl}/users`),
+      getById: (id: any) => axios.get(`${baseUrl}/users/${id}`),
+      editUserById: (id: any, credentials: userFullData) =>
+        axios.post(`${baseUrl}/users/update/:id`, {
+          user: {
+            first_name: credentials.firstName,
+            last_name: credentials.lastName,
+            birth_date: credentials.birthDate,
+            address: credentials.address,
+          },
+        }),
     },
   };
 }
