@@ -27,9 +27,9 @@ export default function CompanyCard() {
     clientApi.company.getById(id).then((res) => {
       setCompany(res.data.company);
     });
-  }, []);
+  }, [id]);
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const routeCompanyList = () => {
     navigate("/companies");
   };
