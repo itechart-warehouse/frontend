@@ -1,10 +1,6 @@
 import EditCompanyForm from "../../../components/forms/company-form/EditCompanyForm";
 import React from "react";
-import { Grid, Typography, Container, Box } from "@mui/material";
-
-const mainContainerStyle = {
-    pt: 3,
-};
+import {Grid, Typography, Box} from "@mui/material";
 
 const EditCompanyPage = () => {
     return (
@@ -14,7 +10,7 @@ const EditCompanyPage = () => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            style={{ minHeight: "100vh" }}
+            style={{minHeight: "100vh"}}
         >
             <Grid item>
                 <Typography
@@ -26,8 +22,8 @@ const EditCompanyPage = () => {
                 >
                     Edit company
                 </Typography>
-                <Box sx={{ maxWidth: 500 }}>
-                    <EditCompanyForm  />
+                <Box sx={{maxWidth: 500}}>
+                    <EditCompanyForm/>
                 </Box>
             </Grid>
         </Grid>

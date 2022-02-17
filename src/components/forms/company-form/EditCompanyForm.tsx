@@ -1,10 +1,10 @@
 import {useFormik} from "formik";
-import {Button, Grid, TextField, Typography} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import * as yup from "yup";
 import {clientApi} from "../../../services/clientApi";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import { useNavigate, useParams} from "react-router-dom";
+import {RootStateOrAny, useSelector} from "react-redux";
+import React from "react";
 
 interface Values {
     companyName: string;

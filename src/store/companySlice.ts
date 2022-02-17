@@ -20,7 +20,7 @@ const initialState: CompanyState = {
 }
 
 const companySlice = createSlice({
-    name: 'user login logout',
+    name: 'company card',
     initialState,
     reducers: {
         setCompanyState: (state, actions) => {
