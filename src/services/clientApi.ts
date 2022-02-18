@@ -23,6 +23,12 @@ interface companyFullData {
   companyPhone: string;
   companyEmail: string;
 }
+interface companyData {
+  companyName: string;
+  companyAddress: string;
+  companyPhone: string;
+  companyEmail: string;
+}
 
 interface userFullData {
   userEmail: string;
@@ -71,6 +77,15 @@ function initClientApi() {
         }),
       getAll: () => axios.get(`${baseUrl}/companies`),
       getById: (id: any) => axios.get(`${baseUrl}/companies/${id}`),
+      editCompanyById: (id: any, companyCredentials: companyData) =>
+        axios.post(`${baseUrl}/companies/update/${id}`, {
+          company: {
+            name: companyCredentials.companyName,
+            address: companyCredentials.companyAddress,
+            phone: companyCredentials.companyPhone,
+            email: companyCredentials.companyEmail,
+          },
+        }),
     },
     user: {
       create: (userCredentials: userFullData) =>
