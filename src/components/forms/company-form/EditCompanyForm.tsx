@@ -1,8 +1,8 @@
 import {useFormik} from "formik";
-import {Button, TextField} from "@mui/material";
+import {Button, FormControlLabel, Switch, TextField} from "@mui/material";
 import * as yup from "yup";
 import {clientApi} from "../../../services/clientApi";
-import { useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {RootStateOrAny, useSelector} from "react-redux";
 import React from "react";
 
@@ -11,7 +11,11 @@ interface Values {
     companyAddress: string;
     companyPhone: string;
     companyEmail: string;
+    active: boolean;
 }
+
+
+const label = {inputProps: {'aria-label': 'Active'}};
 
 const validationSchema = yup.object({
     companyName: yup
@@ -27,6 +31,9 @@ const validationSchema = yup.object({
         .string()
         .email("Enter a valid email")
         .required("Company email is required"),
+    active: yup
+        .boolean()
+        .required("Active is required")
 });
 
 
@@ -45,11 +52,12 @@ function EditCompanyForm() {
             companyAddress: company.address,
             companyPhone: company.phone,
             companyEmail: company.email,
+            active: company.active
         },
         validationSchema: validationSchema,
         onSubmit: (data: Values) => {
             clientApi.company
-                .editCompanyById(id,data)
+                .editCompanyById(id, data)
                 .then((res) => {
                     res.status === 200 && routeCompaniesList()
                 })
@@ -118,6 +126,14 @@ function EditCompanyForm() {
             />
 
 
+            <FormControlLabel
+                sx={{mb: 3}}
+                control={<Switch
+                    id="active"
+                    name="active"
+                    checked={formik.values.active}
+                    onChange={formik.handleChange}
+                />} label="Company status"/>
 
             <Button
                 color="primary"
