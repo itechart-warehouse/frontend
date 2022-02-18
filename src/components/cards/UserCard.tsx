@@ -17,6 +17,9 @@ interface User {
     },
     company: {
         name: string;
+    },
+    role: {
+        name: string
     }
 
 }
@@ -32,7 +35,10 @@ function UserCard() {
         },
         company: {
             name: ''
-        }
+        },
+        role: {
+            name: ''
+        },
     })
 
     const {id} = useParams();
@@ -48,6 +54,8 @@ function UserCard() {
     const routeUsersList = () => {
         navigate("/users")
     }
+
+    console.log(currentUser);
 
     return (
         <>
@@ -73,6 +81,12 @@ function UserCard() {
                 </Typography>
                 <Typography sx={{mb: 1.5}} color="text.secondary">
                     {currentUser.user.email}
+                </Typography>
+                <Typography variant="h6" component="div">
+                    Role
+                </Typography>
+                <Typography sx={{mb: 1.5}} color="text.secondary">
+                    {currentUser.role.name}
                 </Typography>
                 <Typography variant="h6" component="div">
                     Company
