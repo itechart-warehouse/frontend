@@ -1,10 +1,19 @@
 import {useFormik} from "formik";
-import {Button, Grid, TextField, Typography} from "@mui/material";
+import {
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select
+} from "@mui/material";
 import * as yup from "yup";
 import {clientApi} from "../../../services/clientApi";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 
 interface Values {
@@ -16,6 +25,19 @@ interface Values {
     address: string;
     company_id: string;
     role_id: string;
+}
+
+interface Company {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
+interface Roles {
+  id: number;
+  name: string;
 }
 
 const validationSchema = yup.object({
@@ -48,11 +70,27 @@ const validationSchema = yup.object({
     });
 
 function CreateUserForm() {
-
     const navigate = useNavigate();
     const routeUsersList = () => {
         navigate('/users');
     };
+    const [companies, setCompanies] = useState<Company[]>([]);
+    const [roles, setRoles] = useState<Roles[]>([]);
+
+    useEffect(() => {
+      clientApi.user.getInfoToCreate().then((response) => {
+        setCompanies(response.data.companies);
+        setRoles(response.data.roles);
+      });
+    }, []);
+
+    const [role_id, setRole] = React.useState('');
+    const [company_id, setCompany] = React.useState('');
+    const handleChange = (event: any) => {
+      setRole(event.target.value);
+      setCompany(event.target.value);
+    };
+
     const formik = useFormik({
         initialValues: {
             userEmail: "",
@@ -156,29 +194,39 @@ function CreateUserForm() {
                 sx={{mb: 3}}
             />
 
-            <TextField
-                fullWidth
-                id="company_id"
-                name="company_id"
-                label="Company Id"
-                value={formik.values.company_id}
-                onChange={formik.handleChange}
-                error={formik.touched.company_id && Boolean(formik.errors.company_id)}
-                helperText={formik.touched.company_id && formik.errors.company_id}
-                sx={{mb: 3}}
-            />
+            <FormControl fullWidth>
+                <InputLabel id="Company">Company</InputLabel>
+                  <Select
+                    value={formik.values.company_id}
+                    label="Role"
+                    onChange={formik.handleChange}
+                    sx={{mb: 3}}
+                  >
+                  { companies.length && companies.map((company) => (
+                    <MenuItem value={company.id}>
+                      {company.name}
+                    </MenuItem>
+                  ))
+                  }
+              </Select>
+            </FormControl>
 
-            <TextField
-                fullWidth
-                id="role_id"
-                name="role_id"
-                label="Role Id"
-                value={formik.values.role_id}
-                onChange={formik.handleChange}
-                error={formik.touched.role_id && Boolean(formik.errors.role_id)}
-                helperText={formik.touched.role_id && formik.errors.role_id}
-                sx={{mb: 3}}
-            />
+            <FormControl fullWidth>
+                <InputLabel id="Role">Role</InputLabel>
+                  <Select
+                    value={formik.values.role_id}
+                    label="Role"
+                    onChange={formik.handleChange}
+                    sx={{mb: 3}}
+                  >
+                  { roles.length && roles.map((role) => (
+                    <MenuItem value={role.id}>
+                      {role.name}
+                    </MenuItem>
+                  ))
+                  }
+              </Select>
+            </FormControl>
 
             <Button
                 color="primary"
@@ -192,7 +240,9 @@ function CreateUserForm() {
             <Button onClick={routeUsersList} variant="outlined" fullWidth>
                 Cancel
             </Button>
+
         </form>
+
     );
 }
 
