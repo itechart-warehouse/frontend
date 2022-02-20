@@ -1,5 +1,17 @@
 import { useFormik } from "formik";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  NativeSelect,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -12,6 +24,11 @@ interface Values {
   address: string;
   birthDate: string;
   // role: string;
+  userRoleId: number;
+}
+interface Roles {
+  id: number;
+  name: string;
 }
 
 const validationSchema = yup.object({
@@ -25,26 +42,44 @@ const validationSchema = yup.object({
 });
 
 function EditUserForm() {
+  const [roles, setRoles] = useState<Roles[]>([]);
+  useEffect(() => {
+    clientApi.user.getAllRoles().then((response) => {
+      setRoles(response.data.roles);
+    });
+  }, []);
+  console.log(roles);
+
   const navigate = useNavigate();
   const routeUsersList = () => {
     navigate("/users");
   };
   const { id } = useParams();
-  const user = useSelector((state: RootStateOrAny) => state.user.user);
+  const user = useSelector((state: RootStateOrAny) => state.userCard.userCard);
   console.log(user);
+
+  const [user_role_id, setRole] = React.useState(user.user.user_role_id);
+  const handleChange = (event: any) => {
+    setRole(event.target.value);
+  };
+
   const formik = useFormik({
     initialValues: {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      address: user.address,
-      birthDate: user.phone,
+      firstName: user.user.first_name,
+      lastName: user.user.last_name,
+      address: user.user.address,
+      birthDate: user.user.birth_date,
+      // role: user.role.name,
+      userRoleId: user.user.user_role_id,
     },
+
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       clientApi.user
         .editUserById(id, data)
         .then((res) => {
           res.status === 200 && routeUsersList();
+          console.log("input", data);
         })
         .catch((err) => {
           if (err.response) {
@@ -59,6 +94,7 @@ function EditUserForm() {
         });
     },
   });
+  console.log("selected", user_role_id);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -73,7 +109,6 @@ function EditUserForm() {
         helperText={formik.touched.firstName && formik.errors.firstName}
         sx={{ mb: 3 }}
       />
-
       <TextField
         fullWidth
         id="lastName"
@@ -85,6 +120,23 @@ function EditUserForm() {
         helperText={formik.touched.lastName && formik.errors.lastName}
         sx={{ mb: 3 }}
       />
+      <FormControl fullWidth>
+        <InputLabel id="role">Role</InputLabel>
+        <Select
+          labelId="role"
+          id="role"
+          value={formik.values.userRoleId}
+          label="Role"
+          onChange={handleChange}
+          sx={{ mb: 3 }}
+        >
+          {roles.map((role) => (
+            <MenuItem key={role.id} value={role.id}>
+              {role.name} {role.id}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <TextField
         fullWidth
         id="address"

@@ -1,29 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserState {
-  user: {
+  userCard: {
     firstName: string;
     lastName: string;
     address: string;
     birthDate: string;
+    user_role_id: number;
   };
 }
 
 const initialState: UserState = {
-  user: {
+  userCard: {
     firstName: "",
     lastName: "",
     address: "",
     birthDate: "",
+    user_role_id: 0,
   },
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: "user card",
   initialState,
   reducers: {
     setUserState: (state, actions) => {
-      state.user = actions.payload;
+      state.userCard = actions.payload;
     },
   },
 });

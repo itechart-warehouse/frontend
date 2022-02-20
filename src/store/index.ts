@@ -21,10 +21,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: loginReducer,
-  fullUser: userSlice,
-    company: companySlice
+  userCard: userSlice,
+  company: companySlice,
 });
-
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
