@@ -95,7 +95,7 @@ function EditUserForm() {
     },
   });
   console.log("selected", user_role_id);
-
+  formik.values.userRoleId= user_role_id;
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
@@ -125,7 +125,7 @@ function EditUserForm() {
         <Select
           labelId="role"
           id="role"
-          value={formik.values.userRoleId}
+          value={user_role_id}
           label="Role"
           onChange={handleChange}
           sx={{ mb: 3 }}
