@@ -88,9 +88,11 @@ function CreateUserForm() {
     const [company_id, setCompany] = React.useState('');
     const handleChange = (event: any) => {
       setRole(event.target.value);
-      setCompany(event.target.value);
     };
 
+    const handleChangeCompany = (event: any) => {
+      setCompany(event.target.value);
+    };
     const formik = useFormik({
         initialValues: {
             userEmail: "",
@@ -123,7 +125,9 @@ function CreateUserForm() {
 
         },
     });
-
+    console.log("Select", role_id);
+    formik.values.company_id = company_id;
+    formik.values.role_id = role_id;
     return (
         <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -199,11 +203,11 @@ function CreateUserForm() {
                   <Select
                     value={formik.values.company_id}
                     label="Role"
-                    onChange={formik.handleChange}
+                    onChange={handleChangeCompany}
                     sx={{mb: 3}}
                   >
                   { companies.length && companies.map((company) => (
-                    <MenuItem value={company.id}>
+                    <MenuItem key={company.id} value={company.id}>
                       {company.name}
                     </MenuItem>
                   ))
@@ -216,11 +220,11 @@ function CreateUserForm() {
                   <Select
                     value={formik.values.role_id}
                     label="Role"
-                    onChange={formik.handleChange}
+                    onChange={handleChange}
                     sx={{mb: 3}}
                   >
                   { roles.length && roles.map((role) => (
-                    <MenuItem value={role.id}>
+                    <MenuItem key={role.id} value={role.id}>
                       {role.name}
                     </MenuItem>
                   ))

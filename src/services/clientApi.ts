@@ -97,7 +97,7 @@ function initClientApi() {
             last_name: userCredentials.lastName,
             birth_date: userCredentials.birthDate,
             address: userCredentials.address,
-            role_id: userCredentials.role_id,
+            user_role_id: userCredentials.role_id,
           },
           company: {
             id: userCredentials.company_id
