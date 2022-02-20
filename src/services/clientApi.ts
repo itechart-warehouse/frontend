@@ -105,6 +105,8 @@ function initClientApi() {
         }),
       getAll: () => axios.get(`${baseUrl}/users`),
       getInfoToCreate: () => axios.get(`${baseUrl}/user/create`),
+      getById: (id: any) => axios.get(`${baseUrl}/users/${id}`),
+
     },
   };
 }
