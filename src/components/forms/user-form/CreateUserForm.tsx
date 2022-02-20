@@ -125,7 +125,6 @@ function CreateUserForm() {
 
         },
     });
-    console.log("Select", role_id);
     formik.values.company_id = company_id;
     formik.values.role_id = role_id;
     return (
