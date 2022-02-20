@@ -2,15 +2,10 @@ import { useFormik } from "formik";
 import {
   Button,
   FormControl,
-  FormHelperText,
-  Grid,
   InputLabel,
   MenuItem,
-  NativeSelect,
   Select,
-  SelectChangeEvent,
   TextField,
-  Typography,
 } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
@@ -23,7 +18,6 @@ interface Values {
   lastName: string;
   address: string;
   birthDate: string;
-  // role: string;
   userRoleId: number;
 }
 interface Roles {
@@ -35,10 +29,7 @@ const validationSchema = yup.object({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   address: yup.string().required("Address is required"),
-  birthDate: yup
-    .string()
-    // .date()
-    .required("Birth date is required"),
+  birthDate: yup.string().required("Birth date is required"),
 });
 
 function EditUserForm() {
@@ -48,7 +39,6 @@ function EditUserForm() {
       setRoles(response.data.roles);
     });
   }, []);
-  console.log(roles);
 
   const navigate = useNavigate();
   const routeUsersList = () => {
@@ -56,7 +46,6 @@ function EditUserForm() {
   };
   const { id } = useParams();
   const user = useSelector((state: RootStateOrAny) => state.userCard.userCard);
-  console.log(user);
 
   const [user_role_id, setRole] = React.useState(user.user.user_role_id);
   const handleChange = (event: any) => {
@@ -69,7 +58,6 @@ function EditUserForm() {
       lastName: user.user.last_name,
       address: user.user.address,
       birthDate: user.user.birth_date,
-      // role: user.role.name,
       userRoleId: user.user.user_role_id,
     },
 
@@ -79,7 +67,6 @@ function EditUserForm() {
         .editUserById(id, data)
         .then((res) => {
           res.status === 200 && routeUsersList();
-          console.log("input", data);
         })
         .catch((err) => {
           if (err.response) {
@@ -94,8 +81,7 @@ function EditUserForm() {
         });
     },
   });
-  console.log("selected", user_role_id);
-  formik.values.userRoleId= user_role_id;
+  formik.values.userRoleId = user_role_id;
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
