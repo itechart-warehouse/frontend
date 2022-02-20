@@ -2,20 +2,15 @@ import { useFormik } from "formik";
 import {
   Button,
   FormControl,
-  FormHelperText,
-  Grid,
   InputLabel,
   MenuItem,
-  NativeSelect,
   Select,
-  SelectChangeEvent,
   TextField,
-  Typography,
 } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { RootStateOrAny, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 
 interface Values {
@@ -63,6 +58,7 @@ function EditUserForm() {
     setRole(event.target.value);
   };
 
+  console.log(user);
   const formik = useFormik({
     initialValues: {
       firstName: user.user.first_name,
@@ -95,7 +91,7 @@ function EditUserForm() {
     },
   });
   console.log("selected", user_role_id);
-
+  formik.values.userRoleId = user_role_id;
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
@@ -125,7 +121,7 @@ function EditUserForm() {
         <Select
           labelId="role"
           id="role"
-          value={formik.values.userRoleId}
+          value={user_role_id}
           label="Role"
           onChange={handleChange}
           sx={{ mb: 3 }}
