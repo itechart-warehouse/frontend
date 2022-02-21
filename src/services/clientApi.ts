@@ -28,6 +28,7 @@ interface companyData {
   companyAddress: string;
   companyPhone: string;
   companyEmail: string;
+  active: boolean;
 }
 
 interface userFullData {
@@ -84,6 +85,7 @@ function initClientApi() {
             address: companyCredentials.companyAddress,
             phone: companyCredentials.companyPhone,
             email: companyCredentials.companyEmail,
+            active: companyCredentials.active,
           },
         }),
     },

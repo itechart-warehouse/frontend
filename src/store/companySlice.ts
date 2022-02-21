@@ -6,6 +6,7 @@ export interface CompanyState {
         companyAddress: string;
         companyPhone: string;
         companyEmail: string;
+        active: boolean;
     }
 }
 
@@ -15,6 +16,7 @@ const initialState: CompanyState = {
         companyAddress: '',
         companyPhone: '',
         companyEmail: '',
+        active: false
     }
 
 }
