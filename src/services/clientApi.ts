@@ -42,6 +42,14 @@ interface userFullData {
   role_id: string;
 }
 
+interface userEditData {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  address: string;
+  userRoleId: number;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -85,7 +93,6 @@ function initClientApi() {
             address: companyCredentials.companyAddress,
             phone: companyCredentials.companyPhone,
             email: companyCredentials.companyEmail,
-            active: companyCredentials.active,
           },
         }),
     },
@@ -102,13 +109,23 @@ function initClientApi() {
             user_role_id: userCredentials.role_id,
           },
           company: {
-            id: userCredentials.company_id
+            id: userCredentials.company_id,
           },
         }),
       getAll: () => axios.get(`${baseUrl}/users`),
       getInfoToCreate: () => axios.get(`${baseUrl}/user/create`),
       getById: (id: any) => axios.get(`${baseUrl}/users/${id}`),
-
+      editUserById: (id: any, credentials: userEditData) =>
+        axios.post(`${baseUrl}/users/update/${id}`, {
+          user: {
+            first_name: credentials.firstName,
+            last_name: credentials.lastName,
+            birth_date: credentials.birthDate,
+            address: credentials.address,
+            user_role_id: credentials.userRoleId,
+          },
+        }),
+      getAllRoles: () => axios.get(`${baseUrl}/roles`),
     },
   };
 }
