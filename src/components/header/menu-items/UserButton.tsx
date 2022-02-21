@@ -17,7 +17,9 @@ export default function UserButton() {
   const usersRoute = () => {
     navigate("/users");
   };
-
+  const userCreate = () => {
+    navigate("/user/create");
+  };
   return (
     <>
       <Button
@@ -46,6 +48,14 @@ export default function UserButton() {
           }}
         >
           Listing
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            userCreate();
+          }}
+        >
+          Create user
         </MenuItem>
       </Menu>
     </>
