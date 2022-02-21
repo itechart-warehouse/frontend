@@ -47,8 +47,8 @@ function EditUserForm() {
   const { id } = useParams();
   const user = useSelector((state: RootStateOrAny) => state.userCard.userCard);
 
-  const [user_role_id, setRole] = React.useState(user.user.user_role_id);
-  const handleChange = (event: any) => {
+  const [user_role_id, setRole] = useState(user.user.user_role_id);
+  const handleChangeRole = (event: any) => {
     setRole(event.target.value);
   };
 
@@ -113,12 +113,12 @@ function EditUserForm() {
           id="role"
           value={user_role_id}
           label="Role"
-          onChange={handleChange}
+          onChange={handleChangeRole}
           sx={{ mb: 3 }}
         >
           {roles.map((role) => (
             <MenuItem key={role.id} value={role.id}>
-              {role.name} {role.id}
+              {role.name}
             </MenuItem>
           ))}
         </Select>
