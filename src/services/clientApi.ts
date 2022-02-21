@@ -42,7 +42,7 @@ interface userFullData {
   role_id: string;
 }
 
-interface userFullData {
+interface userEditData {
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -109,13 +109,13 @@ function initClientApi() {
             user_role_id: userCredentials.role_id,
           },
           company: {
-            id: userCredentials.company_id
+            id: userCredentials.company_id,
           },
         }),
       getAll: () => axios.get(`${baseUrl}/users`),
       getInfoToCreate: () => axios.get(`${baseUrl}/user/create`),
       getById: (id: any) => axios.get(`${baseUrl}/users/${id}`),
-      editUserById: (id: any, credentials: userFullData) =>
+      editUserById: (id: any, credentials: userEditData) =>
         axios.post(`${baseUrl}/users/update/${id}`, {
           user: {
             first_name: credentials.firstName,
