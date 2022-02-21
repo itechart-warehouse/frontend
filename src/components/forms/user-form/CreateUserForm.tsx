@@ -201,7 +201,7 @@ function CreateUserForm() {
                 <InputLabel id="Company">Company</InputLabel>
                   <Select
                     value={formik.values.company_id}
-                    label="Role"
+                    label="Company"
                     onChange={handleChangeCompany}
                     sx={{mb: 3}}
                   >
