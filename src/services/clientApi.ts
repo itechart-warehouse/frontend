@@ -31,6 +31,17 @@ interface companyData {
   active: boolean;
 }
 
+interface userFullData {
+  userEmail: string;
+  userPassword: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  address: string;
+  company_id: string;
+  role_id: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -79,8 +90,25 @@ function initClientApi() {
         }),
     },
     user: {
+      create: (userCredentials: userFullData) =>
+        axios.post(`${baseUrl}/user/create`, {
+          user: {
+            email: userCredentials.userEmail,
+            password: userCredentials.userPassword,
+            first_name: userCredentials.firstName,
+            last_name: userCredentials.lastName,
+            birth_date: userCredentials.birthDate,
+            address: userCredentials.address,
+            user_role_id: userCredentials.role_id,
+          },
+          company: {
+            id: userCredentials.company_id
+          },
+        }),
       getAll: () => axios.get(`${baseUrl}/users`),
+      getInfoToCreate: () => axios.get(`${baseUrl}/user/create`),
       getById: (id: any) => axios.get(`${baseUrl}/users/${id}`),
+
     },
   };
 }
