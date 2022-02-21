@@ -74,8 +74,8 @@ function CreateUserForm() {
     const routeUsersList = () => {
         navigate('/users');
     };
-    const [companies, setCompanies] = React.useState<Company[]>([]);
-    const [roles, setRoles] = React.useState<Roles[]>([]);
+    const [companies, setCompanies] = UseState<Company[]>([]);
+    const [roles, setRoles] = UseState<Roles[]>([]);
 
     useEffect(() => {
       clientApi.user.getInfoToCreate().then((response) => {
@@ -84,8 +84,8 @@ function CreateUserForm() {
       });
     }, []);
 
-    const [role_id, setRole] = React.useState('');
-    const [company_id, setCompany] = React.useState('');
+    const [role_id, setRole] = UseState('');
+    const [company_id, setCompany] = UseState('');
     const handleChangeRole = (event: any) => {
       setRole(event.target.value);
     };
