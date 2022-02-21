@@ -14,8 +14,6 @@ interface Values {
   active: boolean;
 }
 
-const label = { inputProps: { "aria-label": "Active" } };
-
 const validationSchema = yup.object({
   companyName: yup.string().required("Company name is required"),
   companyAddress: yup.string().required("Company address is required"),
@@ -34,7 +32,6 @@ function EditCompanyForm() {
   };
   const { id } = useParams();
   const company = useSelector((state: RootStateOrAny) => state.company.company);
-  console.log(company);
   const formik = useFormik({
     initialValues: {
       companyName: company.name,
