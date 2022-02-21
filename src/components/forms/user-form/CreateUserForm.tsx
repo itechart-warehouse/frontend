@@ -74,8 +74,8 @@ function CreateUserForm() {
     const routeUsersList = () => {
         navigate('/users');
     };
-    const [companies, setCompanies] = useState<Company[]>([]);
-    const [roles, setRoles] = useState<Roles[]>([]);
+    const [companies, setCompanies] = React.useState<Company[]>([]);
+    const [roles, setRoles] = React.useState<Roles[]>([]);
 
     useEffect(() => {
       clientApi.user.getInfoToCreate().then((response) => {
@@ -86,7 +86,7 @@ function CreateUserForm() {
 
     const [role_id, setRole] = React.useState('');
     const [company_id, setCompany] = React.useState('');
-    const handleChange = (event: any) => {
+    const handleChangeRole = (event: any) => {
       setRole(event.target.value);
     };
 
@@ -219,7 +219,7 @@ function CreateUserForm() {
                   <Select
                     value={formik.values.role_id}
                     label="Role"
-                    onChange={handleChange}
+                    onChange={handleChangeRole}
                     sx={{mb: 3}}
                   >
                   { roles.length && roles.map((role) => (
