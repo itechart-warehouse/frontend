@@ -1,19 +1,16 @@
 import {useFormik} from "formik";
 import {
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select
+    Button,
+    TextField,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select
 } from "@mui/material";
 import * as yup from "yup";
 import {clientApi} from "../../../services/clientApi";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import React, { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 
 
 interface Values {
@@ -28,16 +25,16 @@ interface Values {
 }
 
 interface Company {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    email: string;
 }
 
 interface Roles {
-  id: number;
-  name: string;
+    id: number;
+    name: string;
 }
 
 const validationSchema = yup.object({
@@ -67,32 +64,25 @@ const validationSchema = yup.object({
     role_id: yup
         .string()
         .required("Company address is required"),
-    });
+});
 
 function CreateUserForm() {
+
     const navigate = useNavigate();
-    const routeUsersList = () => {
-        navigate('/users');
-    };
     const [companies, setCompanies] = useState<Company[]>([]);
     const [roles, setRoles] = useState<Roles[]>([]);
 
     useEffect(() => {
-      clientApi.user.getInfoToCreate().then((response) => {
-        setCompanies(response.data.companies);
-        setRoles(response.data.roles);
-      });
+        clientApi.user.getInfoToCreate().then((response) => {
+            setCompanies(response.data.companies);
+            setRoles(response.data.roles);
+        });
     }, []);
 
-    const [role_id, setRole] = useState('');
-    const [company_id, setCompany] = useState('');
-    const handleChangeRole = (event: any) => {
-      setRole(event.target.value);
+    const routeUsersList = () => {
+        navigate('/users');
     };
 
-    const handleChangeCompany = (event: any) => {
-      setCompany(event.target.value);
-    };
     const formik = useFormik({
         initialValues: {
             userEmail: "",
@@ -125,8 +115,6 @@ function CreateUserForm() {
 
         },
     });
-    formik.values.company_id = company_id;
-    formik.values.role_id = role_id;
     return (
         <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -199,36 +187,40 @@ function CreateUserForm() {
 
             <FormControl fullWidth>
                 <InputLabel id="Company">Company</InputLabel>
-                  <Select
+                <Select
+                    id="companyId"
                     value={formik.values.company_id}
                     label="Company"
-                    onChange={handleChangeCompany}
+                    name="company_id"
+                    onChange={formik.handleChange}
                     sx={{mb: 3}}
-                  >
-                  { companies.length && companies.map((company) => (
-                    <MenuItem key={company.id} value={company.id}>
-                      {company.name}
-                    </MenuItem>
-                  ))
-                  }
-              </Select>
+                >
+                    {companies.length && companies.map((company) => (
+                        <MenuItem key={company.id} value={company.id}>
+                            {company.name}
+                        </MenuItem>
+                    ))
+                    }
+                </Select>
             </FormControl>
 
             <FormControl fullWidth>
                 <InputLabel id="Role">Role</InputLabel>
-                  <Select
+                <Select
+                    id="roleId"
                     value={formik.values.role_id}
                     label="Role"
-                    onChange={handleChangeRole}
+                    name="role_id"
+                    onChange={formik.handleChange}
                     sx={{mb: 3}}
-                  >
-                  { roles.length && roles.map((role) => (
-                    <MenuItem key={role.id} value={role.id}>
-                      {role.name}
-                    </MenuItem>
-                  ))
-                  }
-              </Select>
+                >
+                    {roles.length && roles.map((role) => (
+                        <MenuItem key={role.id} value={role.id}>
+                            {role.name}
+                        </MenuItem>
+                    ))
+                    }
+                </Select>
             </FormControl>
 
             <Button

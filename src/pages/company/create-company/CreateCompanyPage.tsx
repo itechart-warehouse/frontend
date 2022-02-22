@@ -1,10 +1,6 @@
 import CreateCompanyForm from "../../../components/forms/company-form/CreateCompanyForm";
 import React from "react";
-import { Grid, Typography, Container, Box } from "@mui/material";
-
-const mainContainerStyle = {
-  pt: 3,
-};
+import { Grid, Typography, Box } from "@mui/material";
 
 const CreateCompanyPage = () => {
   return (
