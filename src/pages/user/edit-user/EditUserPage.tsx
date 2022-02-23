@@ -1,10 +1,6 @@
 import React from "react";
-import { Grid, Typography, Container, Box } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import EditUserForm from "../../../components/forms/user-form/EditUserForm";
-
-const mainContainerStyle = {
-  pt: 3,
-};
 
 const EditUserPage = () => {
   return (

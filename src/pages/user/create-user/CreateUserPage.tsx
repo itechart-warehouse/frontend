@@ -1,10 +1,7 @@
 import CreateUserForm from "../../../components/forms/user-form/CreateUserForm";
 import React from "react";
-import { Grid, Typography, Container, Box } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 
-const mainContainerStyle = {
-  pt: 3,
-};
 
 const CreateUserPage = () => {
   return (
