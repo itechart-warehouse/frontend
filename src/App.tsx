@@ -14,6 +14,7 @@ import EditUserPage from "./pages/user/edit-user/EditUserPage";
 import CreateUserPage from "./pages/user/create-user/CreateUserPage";
 import EditCompanyPage from "./pages/company/edit-company/EditCompanyPage";
 import UserShowPage from "./pages/user/show-user/UserShowPage";
+import NotFoundPage from "./pages/not-found/NotFoundPage";
 
 function App() {
     const isLoggedIn = useSelector(
@@ -26,6 +27,7 @@ function App() {
                     <>
                         <Route path="/" element={<Layout/>}>
                             <Route index element={<Navigate to="home"/>}/>
+                            <Route path="*" element={<NotFoundPage />}/>
                             <Route path="home" element={<HomePage/>}/>
                             <Route path="company/create" element={<CreateCompanyPage/>}/>
                             <Route path="companies" element={<CompaniesPage/>}/>
