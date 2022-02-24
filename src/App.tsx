@@ -20,6 +20,7 @@ function App() {
     const isLoggedIn = useSelector(
         (state: RootState) => state.user.user.isLoggedIn
     );
+
     return (
         <>
             <Routes>
