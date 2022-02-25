@@ -6,8 +6,9 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCompanyState } from "../../store/companySlice";
+import { RootState } from "../../store";
 
 interface Company {
   name: string;
@@ -17,6 +18,7 @@ interface Company {
 }
 
 export default function CompanyCard() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [company, setCompany] = useState<Company>({
     address: "",
     email: "",
@@ -26,9 +28,22 @@ export default function CompanyCard() {
   const { id } = useParams();
 
   useEffect(() => {
-    clientApi.company.getById(id).then((res) => {
-      setCompany(res.data.company);
-    });
+    clientApi.company
+      .getById(id, jwt)
+      .then((res) => {
+        setCompany(res.data.company);
+      })
+      .catch((err) => {
+        if (err.response) {
+          alert(err.response.data);
+        } else if (err.request) {
+          console.log(err.request);
+          alert("Server is not working");
+        } else {
+          console.log(err.message);
+          alert(err.message);
+        }
+      });
   }, [id]);
 
   const navigate = useNavigate();

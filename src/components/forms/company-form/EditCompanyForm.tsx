@@ -5,6 +5,7 @@ import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootStateOrAny, useSelector } from "react-redux";
 import React from "react";
+import { RootState } from "../../../store";
 
 interface Values {
   companyName: string;
@@ -26,6 +27,7 @@ const validationSchema = yup.object({
 });
 
 function EditCompanyForm() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
   const routeCompaniesList = () => {
     navigate("/companies");
@@ -43,7 +45,7 @@ function EditCompanyForm() {
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       clientApi.company
-        .editCompanyById(id, data)
+        .editCompanyById(id, data, jwt)
         .then((res) => {
           res.status === 200 && routeCompaniesList();
         })

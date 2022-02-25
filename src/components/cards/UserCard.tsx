@@ -6,9 +6,10 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserState } from "../../store/userSlice";
-import {clearError, setError} from "../../store/errorSlice";
+import { RootState } from "../../store";
+import { clearError, setError } from "../../store/errorSlice";
 
 interface User {
   user: {
@@ -27,7 +28,6 @@ interface User {
 }
 
 function UserCard() {
-
   const [currentUser, setCurrentUser] = useState<User>({
     user: {
       first_name: "",
@@ -44,25 +44,34 @@ function UserCard() {
     },
   });
 
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const { id } = useParams();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     clientApi.user
-      .getById(id)
-      .catch((err) => {
-        dispatch(setError(err.response.statusText));
-        return Promise.reject(err);
-      })
+      .getById(id, jwt)
       .then((res) => {
         dispatch(clearError());
         setCurrentUser(res.data);
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError(err.response.data));
+          alert(err.response.data);
+        } else if (err.request) {
+          dispatch(setError(err.request));
+          console.log(err.request);
+          alert("Server is not working");
+        } else {
+          dispatch(setError(err.message));
+          console.log(err.message);
+          alert(err.message);
+        }
+      });
   }, [id]);
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const routeUsersList = () => {
     navigate("/users");
   };
@@ -70,6 +79,7 @@ function UserCard() {
     navigate(`/users/${id}/edit`);
     dispatch(setUserState(currentUser));
   };
+
 
   return (
     <>
