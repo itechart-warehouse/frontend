@@ -5,8 +5,11 @@ import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { clearError } from "../../store/errorSlice";
 import { useNavigate } from "react-router-dom";
 
-function ModalWindow({isOpen}) {
+interface ModalWindowProps {
+    isOpen: boolean,
+}
 
+function ModalWindow({ isOpen } : ModalWindowProps) {
   const error = useSelector((state: RootStateOrAny) => state.error);
   const [open, setOpen] = useState(isOpen);
   const navigate = useNavigate();
@@ -20,7 +23,7 @@ function ModalWindow({isOpen}) {
     <Box sx={{ width: "100%" }}>
       <Collapse in={open}>
         <Alert
-          severity={error.length ? "warning" : "success"}
+          severity="warning"
           action={
             <IconButton
               aria-label="close"
@@ -38,7 +41,7 @@ function ModalWindow({isOpen}) {
           sx={{ mb: 2 }}
         >
           {/* TODO add success message*/}
-          {error}
+            {error[0]}
         </Alert>
       </Collapse>
     </Box>

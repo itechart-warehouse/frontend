@@ -14,17 +14,14 @@ function Layout() {
 
   return (
     <>
-      {isLoggedIn && <Header />}
+      {isLoggedIn ? <Header /> : null}
       {isError.length ? (
         <>
           <ModalWindow isOpen={true} />
           <NotFoundPage />
         </>
       ) : (
-        <>
-          <ModalWindow isOpen={false} />
-          <Outlet />
-        </>
+        <Outlet />
       )}
     </>
   );

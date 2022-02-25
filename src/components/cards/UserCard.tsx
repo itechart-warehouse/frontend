@@ -43,35 +43,33 @@ function UserCard() {
       name: "",
     },
   });
-
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     clientApi.user
       .getById(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError(err.response.statusText));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError("Server is not working"));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError(err.message));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
       .then((res) => {
         dispatch(clearError());
         setCurrentUser(res.data);
-      })
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError(err.response.data));
-          alert(err.response.data);
-        } else if (err.request) {
-          dispatch(setError(err.request));
-          console.log(err.request);
-          alert("Server is not working");
-        } else {
-          dispatch(setError(err.message));
-          console.log(err.message);
-          alert(err.message);
-        }
       });
   }, [id]);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const routeUsersList = () => {
     navigate("/users");
   };
@@ -79,7 +77,6 @@ function UserCard() {
     navigate(`/users/${id}/edit`);
     dispatch(setUserState(currentUser));
   };
-
 
   return (
     <>
