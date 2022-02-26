@@ -127,6 +127,9 @@ function initClientApi() {
         }),
       getAllRoles: () => axios.get(`${baseUrl}/roles`),
     },
+    warehouse: {
+      getAll: () => axios.get(`${baseUrl}/warehouses`),
+    },
   };
 }
 
