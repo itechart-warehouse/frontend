@@ -36,7 +36,10 @@ function App() {
               <Route path="users/:id" element={<UserShowPage />} />
               <Route path="users/:id/edit" element={<EditUserPage />} />
               <Route path="user/create" element={<CreateUserPage />} />
-              <Route path="warehouses" element={<WarehousesPage />} />
+              <Route
+                path="companies/:id/warehouses"
+                element={<WarehousesPage />}
+              />
             </Route>
           </>
         ) : (

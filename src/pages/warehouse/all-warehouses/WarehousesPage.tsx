@@ -12,7 +12,7 @@ import {
 import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
@@ -37,14 +37,14 @@ const rowStyle = {
 };
 
 function Warehouses() {
+  const { id } = useParams();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   useEffect(() => {
-    clientApi.warehouse.getAll(jwt).then((response) => {
+    clientApi.warehouse.getAllByCompanyId(id, jwt).then((response) => {
       setWarehouses(response.data.warehouses);
     });
   }, []);
-
   const navigate = useNavigate();
   const routeCreateWarehouse = () => {
     navigate("/warehouse/create");
@@ -53,7 +53,7 @@ function Warehouses() {
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Companies listing
+          Warehouses listing
         </Typography>
         <Button
           onClick={routeCreateWarehouse}

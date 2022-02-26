@@ -91,6 +91,14 @@ function Companies() {
                     <TableCell align="right">{comp.address}</TableCell>
                     <TableCell align="right">{comp.phone}</TableCell>
                     <TableCell align="right">{comp.email}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="outlined"
+                        href={`companies/${comp.id}/warehouses`}
+                      >
+                        Warehouses
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

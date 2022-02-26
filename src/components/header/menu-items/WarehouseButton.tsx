@@ -14,9 +14,6 @@ export default function WarehouseButton() {
   };
 
   const navigate = useNavigate();
-  const warehousesRoute = () => {
-    navigate("/warehouses");
-  };
   const warehouseCreate = () => {
     navigate("/warehouse/create");
   };
@@ -41,14 +38,6 @@ export default function WarehouseButton() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            warehousesRoute();
-          }}
-        >
-          Listing
-        </MenuItem>
         <MenuItem
           onClick={() => {
             handleClose();
