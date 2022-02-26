@@ -12,6 +12,7 @@ import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootStateOrAny, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
+import { RootState } from "../../../store";
 
 interface Values {
   firstName: string;
@@ -20,6 +21,7 @@ interface Values {
   birthDate: string;
   userRoleId: number;
 }
+
 interface Roles {
   id: number;
   name: string;
@@ -33,25 +35,11 @@ const validationSchema = yup.object({
 });
 
 function EditUserForm() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [roles, setRoles] = useState<Roles[]>([]);
-  useEffect(() => {
-    clientApi.user.getAllRoles().then((response) => {
-      setRoles(response.data.roles);
-    });
-  }, []);
-
   const navigate = useNavigate();
-  const routeUsersList = () => {
-    navigate("/users");
-  };
   const { id } = useParams();
   const user = useSelector((state: RootStateOrAny) => state.userCard.userCard);
-
-  const [user_role_id, setRole] = useState(user.user.user_role_id);
-  const handleChangeRole = (event: any) => {
-    setRole(event.target.value);
-  };
-
   const formik = useFormik({
     initialValues: {
       firstName: user.user.first_name,
@@ -64,7 +52,7 @@ function EditUserForm() {
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       clientApi.user
-        .editUserById(id, data)
+        .editUserById(id, data, jwt)
         .then((res) => {
           res.status === 200 && routeUsersList();
         })
@@ -81,7 +69,17 @@ function EditUserForm() {
         });
     },
   });
-  formik.values.userRoleId = user_role_id;
+
+  useEffect(() => {
+    clientApi.user.getAllRoles(jwt).then((response) => {
+      setRoles(response.data.roles);
+    });
+  }, []);
+
+  const routeUsersList = () => {
+    navigate("/users");
+  };
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
@@ -110,10 +108,11 @@ function EditUserForm() {
         <InputLabel id="role">Role</InputLabel>
         <Select
           labelId="role"
-          id="role"
-          value={user_role_id}
+          id="userRoleId"
+          name="userRoleId"
+          value={formik.values.userRoleId}
           label="Role"
-          onChange={handleChangeRole}
+          onChange={formik.handleChange}
           sx={{ mb: 3 }}
         >
           {roles.map((role) => (

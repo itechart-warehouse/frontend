@@ -6,8 +6,9 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserState } from "../../store/userSlice";
+import { RootState } from "../../store";
 
 interface User {
   user: {
@@ -42,12 +43,26 @@ function UserCard() {
     },
   });
 
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const { id } = useParams();
 
   useEffect(() => {
-    clientApi.user.getById(id).then((res) => {
-      setCurrentUser(res.data);
-    });
+    clientApi.user
+      .getById(id, jwt)
+      .then((res) => {
+        setCurrentUser(res.data);
+      })
+      .catch((err) => {
+        if (err.response) {
+          alert(err.response.data);
+        } else if (err.request) {
+          console.log(err.request);
+          alert("Server is not working");
+        } else {
+          console.log(err.message);
+          alert(err.message);
+        }
+      });
   }, [id]);
 
   const navigate = useNavigate();

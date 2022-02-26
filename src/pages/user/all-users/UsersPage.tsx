@@ -13,6 +13,8 @@ import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface User {
   user: {
@@ -41,11 +43,25 @@ const rowStyle = {
 };
 
 function Users() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
-    clientApi.user.getAll().then((response) => {
-      setUsers(response.data.users);
-    });
+    clientApi.user
+      .getAll(jwt)
+      .then((response) => {
+        setUsers(response.data.users);
+      })
+      .catch((err) => {
+        if (err.response) {
+          alert(err.response.data);
+        } else if (err.request) {
+          console.log(err.request);
+          alert("Server is not working");
+        } else {
+          console.log(err.message);
+          alert(err.message);
+        }
+      });
   }, []);
 
   const navigate = useNavigate();
