@@ -13,6 +13,8 @@ import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface Warehouse {
   id: number;
@@ -35,9 +37,10 @@ const rowStyle = {
 };
 
 function Warehouses() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   useEffect(() => {
-    clientApi.warehouse.getAll().then((response) => {
+    clientApi.warehouse.getAll(jwt).then((response) => {
       setWarehouses(response.data.warehouses);
     });
   }, []);
