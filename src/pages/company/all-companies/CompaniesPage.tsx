@@ -13,8 +13,9 @@ import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import {clearError, setError} from "../../../store/errorSlice";
 
 interface Company {
   id: number;
@@ -39,26 +40,31 @@ const rowStyle = {
 function Companies() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [companies, setCompanies] = useState<Company[]>([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     clientApi.company
       .getAll(jwt)
-      .then((response) => {
-        setCompanies(response.data.companies);
-      })
       .catch((err) => {
         if (err.response) {
-          alert(err.response.data);
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
         } else if (err.request) {
-          console.log(err.request);
-          alert("Server is not working");
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
         } else {
-          console.log(err.message);
-          alert(err.message);
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
         }
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        dispatch(clearError());
+        setCompanies(response.data.companies);
       });
   }, []);
 
-  const navigate = useNavigate();
   const routeCreateCompany = () => {
     navigate("/company/create");
   };

@@ -13,8 +13,9 @@ import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import {clearError, setError} from "../../../store/errorSlice";
 
 interface User {
   user: {
@@ -45,22 +46,27 @@ const rowStyle = {
 function Users() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [users, setUsers] = useState<User[]>([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     clientApi.user
       .getAll(jwt)
-      .then((response) => {
-        setUsers(response.data.users);
-      })
       .catch((err) => {
         if (err.response) {
-          alert(err.response.data);
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
         } else if (err.request) {
-          console.log(err.request);
-          alert("Server is not working");
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
         } else {
-          console.log(err.message);
-          alert(err.message);
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
         }
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        dispatch(clearError());
+        setUsers(response.data.users);
       });
   }, []);
 
