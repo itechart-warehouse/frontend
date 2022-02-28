@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompanyState } from "../../store/companySlice";
 import { RootState } from "../../store";
+import {clearError, setError} from "../../store/errorSlice";
 
 interface Company {
   name: string;
@@ -30,19 +31,22 @@ export default function CompanyCard() {
   useEffect(() => {
     clientApi.company
       .getById(id, jwt)
-      .then((res) => {
-        setCompany(res.data.company);
-      })
       .catch((err) => {
         if (err.response) {
-          alert(err.response.data);
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
         } else if (err.request) {
-          console.log(err.request);
-          alert("Server is not working");
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
         } else {
-          console.log(err.message);
-          alert(err.message);
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
         }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        setCompany(res.data.company);
       });
   }, [id]);
 

@@ -15,7 +15,6 @@ import CreateUserPage from "./pages/user/create-user/CreateUserPage";
 import EditCompanyPage from "./pages/company/edit-company/EditCompanyPage";
 import UserShowPage from "./pages/user/show-user/UserShowPage";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
-import ModalWindow from "./components/modal/ModalWindow";
 
 function App() {
   const isLoggedIn = useSelector(

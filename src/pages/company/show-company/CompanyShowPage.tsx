@@ -1,7 +1,5 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
 import CompanyCard from "../../../components/cards/CompanyCard";
-import {useDispatch} from "react-redux";
-import {clearError} from "../../../store/errorSlice";
 
 function CompanyShowPage() {
   return (

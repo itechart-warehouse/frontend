@@ -32,6 +32,7 @@ function EditCompanyForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
+  //TODO we need request to BE to get company by id and set initial values
   const company = useSelector((state: RootStateOrAny) => state.company.company);
   const formik = useFormik({
     initialValues: {
@@ -46,15 +47,10 @@ function EditCompanyForm() {
       clientApi.company
         .editCompanyById(id, data, jwt)
         .catch((err) => {
-          console.log(err.request);
           if (err.response) {
             err.response.status === 500
-              ? dispatch(setError(err.response.statusText))
-              : dispatch(
-                  setError([
-                    ...err.response.data.company_errors,
-                  ])
-                );
+              ? dispatch(setError([err.response.statusText]))
+              : dispatch(setError([...err.response.data.company_errors]));
           } else if (err.request) {
             dispatch(setError(["Server is not working"]));
             console.log("request", err.request);
@@ -64,7 +60,8 @@ function EditCompanyForm() {
           }
           return Promise.reject(err);
         })
-        .then((res) => {
+        .then(() => {
+          //  TODO we need to clear current company state after submit
           dispatch(clearError());
           routeCompaniesList();
         });

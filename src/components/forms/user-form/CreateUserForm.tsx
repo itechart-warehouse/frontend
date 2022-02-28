@@ -111,7 +111,7 @@ function CreateUserForm() {
           }
           return Promise.reject(err);
         })
-        .then((res) => {
+        .then(() => {
           dispatch(clearError());
           routeUsersList();
         });
