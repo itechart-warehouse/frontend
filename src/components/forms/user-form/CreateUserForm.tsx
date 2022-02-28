@@ -11,8 +11,9 @@ import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { clearError, setError } from "../../../store/errorSlice";
 
 interface Values {
   userEmail: string;
@@ -60,12 +61,21 @@ function CreateUserForm() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [roles, setRoles] = useState<Roles[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.user.getInfoToCreate(jwt).then((response) => {
-      setCompanies(response.data.companies);
-      setRoles(response.data.roles);
-    });
+    clientApi.user
+      .getInfoToCreate(jwt)
+      .catch((err) => {
+        dispatch(setError([err.response.statusText]));
+        console.log(err.response);
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        dispatch(clearError());
+        setCompanies(response.data.companies);
+        setRoles(response.data.roles);
+      });
   }, []);
 
   const routeUsersList = () => {
@@ -87,19 +97,23 @@ function CreateUserForm() {
     onSubmit: (data: Values) => {
       clientApi.user
         .create(data, jwt)
-        .then((res) => {
-          res.status === 201 && routeUsersList();
-        })
         .catch((err) => {
           if (err.response) {
-            alert(err.response.data);
+            err.response.status === 500
+              ? dispatch(setError([err.response.statusText]))
+              : dispatch(setError([...err.response.data.user_errors]));
           } else if (err.request) {
-            console.log(err.request);
-            alert("Server is not working");
+            dispatch(setError(["Server is not working"]));
+            console.log("request", err.request);
           } else {
-            console.log(err.message);
-            alert(err.message);
+            dispatch(setError([err.message]));
+            console.log("message", err.message);
           }
+          return Promise.reject(err);
+        })
+        .then((res) => {
+          dispatch(clearError());
+          routeUsersList();
         });
     },
   });

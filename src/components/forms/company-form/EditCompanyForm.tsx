@@ -3,9 +3,10 @@ import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { RootState } from "../../../store";
+import { clearError, setError } from "../../../store/errorSlice";
 
 interface Values {
   companyName: string;
@@ -29,9 +30,7 @@ const validationSchema = yup.object({
 function EditCompanyForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
-  const routeCompaniesList = () => {
-    navigate("/companies");
-  };
+  const dispatch = useDispatch();
   const { id } = useParams();
   const company = useSelector((state: RootStateOrAny) => state.company.company);
   const formik = useFormik({
@@ -46,22 +45,35 @@ function EditCompanyForm() {
     onSubmit: (data: Values) => {
       clientApi.company
         .editCompanyById(id, data, jwt)
-        .then((res) => {
-          res.status === 200 && routeCompaniesList();
-        })
         .catch((err) => {
+          console.log(err.request);
           if (err.response) {
-            alert(err.response.data);
+            err.response.status === 500
+              ? dispatch(setError(err.response.statusText))
+              : dispatch(
+                  setError([
+                    ...err.response.data.company_errors,
+                  ])
+                );
           } else if (err.request) {
-            console.log(err.request);
-            alert("Server is not working");
+            dispatch(setError(["Server is not working"]));
+            console.log("request", err.request);
           } else {
-            console.log(err.message);
-            alert(err.message);
+            dispatch(setError([err.message]));
+            console.log("message", err.message);
           }
+          return Promise.reject(err);
+        })
+        .then((res) => {
+          dispatch(clearError());
+          routeCompaniesList();
         });
     },
   });
+
+  const routeCompaniesList = () => {
+    navigate("/companies");
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
