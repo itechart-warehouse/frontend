@@ -1,4 +1,11 @@
-import { Box, Collapse, IconButton, Alert } from "@mui/material";
+import {
+  Box,
+  Collapse,
+  IconButton,
+  Alert,
+  List,
+  ListItem,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
@@ -6,11 +13,11 @@ import { clearError } from "../../store/errorSlice";
 import { useNavigate } from "react-router-dom";
 
 interface ModalWindowProps {
-    isOpen: boolean,
+  isOpen: boolean;
 }
 
-function ModalWindow({ isOpen } : ModalWindowProps) {
-  const error = useSelector((state: RootStateOrAny) => state.error);
+function ModalWindow({ isOpen }: ModalWindowProps) {
+  const error = useSelector((state: RootStateOrAny) => state.error.errors);
   const [open, setOpen] = useState(isOpen);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,7 +48,11 @@ function ModalWindow({ isOpen } : ModalWindowProps) {
           sx={{ mb: 2 }}
         >
           {/* TODO add success message*/}
-            {error[0]}
+          <List>
+            {error.map((err: Array<String>, index: number) => {
+              return <ListItem key={index}>{err}</ListItem>;
+            })}
+          </List>
         </Alert>
       </Collapse>
     </Box>

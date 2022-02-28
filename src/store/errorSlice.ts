@@ -1,16 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: string[] = [];
+interface initialStateType {
+  errors: Array<String>;
+}
+const initialState: initialStateType = { errors: [] };
 
 const errorSlice = createSlice({
   name: "errors",
   initialState,
   reducers: {
     setError: (state, action) => {
-      return [action.payload];
+      return { errors: action.payload };
     },
     clearError: () => {
-      return [];
+      return initialState;
     },
   },
 });

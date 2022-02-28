@@ -10,7 +10,7 @@ function Layout() {
     (state: RootState) => state.user.user.isLoggedIn
   );
 
-  const isError = useSelector((state: RootState) => state.error);
+  const isError = useSelector((state: RootState) => state.error.errors);
 
   return (
     <>
