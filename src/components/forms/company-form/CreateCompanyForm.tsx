@@ -68,7 +68,7 @@ function CreateCompanyForm() {
         .catch((err) => {
           if (err.response) {
             err.response.status === 500
-              ? dispatch(setError(err.response.statusText))
+              ? dispatch(setError([err.response.statusText]))
               : dispatch(
                   setError([
                     ...err.response.data.company_errors,

@@ -59,7 +59,7 @@ function EditUserForm() {
           console.log(err.request);
           if (err.response) {
             err.response.status === 500
-              ? dispatch(setError(err.response.statusText))
+              ? dispatch(setError([err.response.statusText]))
               : dispatch(setError([...err.response.data.user_errors]));
           } else if (err.request) {
             dispatch(setError(["Server is not working"]));
