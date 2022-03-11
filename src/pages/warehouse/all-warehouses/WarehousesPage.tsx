@@ -17,11 +17,18 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
 interface Warehouse {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-  area: string;
+  warehouse: {
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    area: string;
+  };
+  user: {
+    id: number;
+    first_name: string;
+    last_name: string;
+  };
 }
 
 const mainContainerStyle = {
@@ -43,11 +50,12 @@ function Warehouses() {
   useEffect(() => {
     clientApi.warehouse.getAllByCompanyId(id, jwt).then((response) => {
       setWarehouses(response.data.warehouses);
+      console.log(response.data.warehouses);
     });
   }, []);
   const navigate = useNavigate();
   const routeCreateWarehouse = () => {
-    navigate("/warehouse/create");
+    navigate("create");
   };
   return (
     <>
@@ -69,18 +77,26 @@ function Warehouses() {
                 <TableCell>Warehouse name</TableCell>
                 <TableCell align="right">Address</TableCell>
                 <TableCell align="right">Phone</TableCell>
+                <TableCell align="right">Admin</TableCell>
                 <TableCell align="right">Area</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {warehouses.map((warehouse) => (
-                <TableRow key={warehouse.id}>
+              {warehouses.map((ware) => (
+                <TableRow key={ware.warehouse.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${warehouse.id}`}>{warehouse.name}</Link>
+                    <Link to={`${ware.warehouse.id}`}>
+                      {ware.warehouse.name}
+                    </Link>
                   </TableCell>
-                  <TableCell align="right">{warehouse.address}</TableCell>
-                  <TableCell align="right">{warehouse.phone}</TableCell>
-                  <TableCell align="right">{warehouse.area}</TableCell>
+                  <TableCell align="right">{ware.warehouse.address}</TableCell>
+                  <TableCell align="right">{ware.warehouse.phone}</TableCell>
+                  <TableCell align="right">
+                    <Link to={`/users/${ware.user.id}`}>
+                      {ware.user.first_name} {ware.user.last_name}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="right">{ware.warehouse.area}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
