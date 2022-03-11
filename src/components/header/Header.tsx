@@ -50,7 +50,7 @@ export default function Header() {
               </Button>
               <CompanyButton />
               <UserButton />
-              <WarehouseButton />
+              {/*<WarehouseButton />*/}
             </Grid>
             <Grid item xs={1}>
               <Button onClick={logout} color="info" variant="contained">
