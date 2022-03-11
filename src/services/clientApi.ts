@@ -50,6 +50,19 @@ interface userEditData {
   userRoleId: number;
 }
 
+interface warehouseFullData {
+  userEmail: string;
+  userPassword: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  address: string;
+  warehouseName: string;
+  warehouseAddress: string;
+  warehousePhone: string;
+  area: number;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -127,6 +140,25 @@ function initClientApi() {
           },
         }),
       getAllRoles: () => axios.get(`${baseUrl}/roles`),
+    },
+    warehouse: {
+      create: (warehouseCredentials: warehouseFullData) =>
+        axios.post(`${baseUrl}/warehouse/create`, {
+          company: {
+            email: warehouseCredentials.area,
+            name: warehouseCredentials.warehouseName,
+            address: warehouseCredentials.address,
+            phone: warehouseCredentials.warehousePhone,
+          },
+          user: {
+            email: warehouseCredentials.userEmail,
+            password: warehouseCredentials.userPassword,
+            first_name: warehouseCredentials.firstName,
+            last_name: warehouseCredentials.lastName,
+            birth_date: warehouseCredentials.birthDate,
+            address: warehouseCredentials.address,
+          },
+        }),
     },
   };
 }
