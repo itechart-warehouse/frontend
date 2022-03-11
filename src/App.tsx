@@ -43,7 +43,9 @@ function App() {
         ) : (
           <>
             <Route path="/*" element={<Navigate to="/" />} />
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<LoginPage />} />
+            </Route>
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
         )}
