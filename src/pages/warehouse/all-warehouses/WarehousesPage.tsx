@@ -68,7 +68,6 @@ function Warehouses() {
       .then((response) => {
         dispatch(clearError());
         setWarehouses(response.data.warehouses);
-        console.log(response.data.warehouses);
       });
   }, []);
 
