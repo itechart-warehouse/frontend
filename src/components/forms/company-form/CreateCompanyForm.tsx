@@ -4,8 +4,9 @@ import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { clearError, setError } from "../../../store/errorSlice";
 
 interface Values {
   userEmail: string;
@@ -45,9 +46,8 @@ const validationSchema = yup.object({
 function CreateCompanyForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
-  const routeCompaniesList = () => {
-    navigate("/companies");
-  };
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       userEmail: "",
@@ -65,22 +65,35 @@ function CreateCompanyForm() {
     onSubmit: (data: Values) => {
       clientApi.company
         .create(data, jwt)
-        .then((res) => {
-          res.status === 201 && routeCompaniesList();
-        })
         .catch((err) => {
           if (err.response) {
-            alert(err.response.data);
+            err.response.status === 500
+              ? dispatch(setError([err.response.statusText]))
+              : dispatch(
+                  setError([
+                    ...err.response.data.company_errors,
+                    ...err.response.data.user_errors,
+                  ])
+                );
           } else if (err.request) {
-            console.log(err.request);
-            alert("Server is not working");
+            dispatch(setError(["Server is not working"]));
+            console.log("request", err.request);
           } else {
-            console.log(err.message);
-            alert(err.message);
+            dispatch(setError([err.message]));
+            console.log("message", err.message);
           }
+          return Promise.reject(err);
+        })
+        .then(() => {
+          dispatch(clearError());
+          routeCompaniesList();
         });
     },
   });
+
+  const routeCompaniesList = () => {
+    navigate("/companies");
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>

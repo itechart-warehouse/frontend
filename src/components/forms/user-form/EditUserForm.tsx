@@ -10,9 +10,10 @@ import {
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { RootState } from "../../../store";
+import { clearError, setError } from "../../../store/errorSlice";
 
 interface Values {
   firstName: string;
@@ -38,6 +39,7 @@ function EditUserForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [roles, setRoles] = useState<Roles[]>([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const user = useSelector((state: RootStateOrAny) => state.userCard.userCard);
   const formik = useFormik({
@@ -53,27 +55,40 @@ function EditUserForm() {
     onSubmit: (data: Values) => {
       clientApi.user
         .editUserById(id, data, jwt)
-        .then((res) => {
-          res.status === 200 && routeUsersList();
-        })
         .catch((err) => {
+          console.log(err.request);
           if (err.response) {
-            alert(err.response.data);
+            err.response.status === 500
+              ? dispatch(setError([err.response.statusText]))
+              : dispatch(setError([...err.response.data.user_errors]));
           } else if (err.request) {
-            console.log(err.request);
-            alert("Server is not working");
+            dispatch(setError(["Server is not working"]));
+            console.log("request", err.request);
           } else {
-            console.log(err.message);
-            alert(err.message);
+            dispatch(setError([err.message]));
+            console.log("message", err.message);
           }
+          return Promise.reject(err);
+        })
+        .then(() => {
+          //  TODO we need to clear current user state after submit
+          dispatch(clearError());
+          routeUsersList();
         });
     },
   });
 
   useEffect(() => {
-    clientApi.user.getAllRoles(jwt).then((response) => {
-      setRoles(response.data.roles);
-    });
+    clientApi.user
+      .getAllRoles(jwt)
+      .catch((err) => {
+        console.log(err.response);
+        dispatch(setError([err.response.statusText]));
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        setRoles(response.data.roles);
+      });
   }, []);
 
   const routeUsersList = () => {
