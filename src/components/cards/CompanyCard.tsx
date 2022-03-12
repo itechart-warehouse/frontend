@@ -6,8 +6,10 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCompanyState } from "../../store/companySlice";
+import { RootState } from "../../store";
+import {clearError, setError} from "../../store/errorSlice";
 
 interface Company {
   name: string;
@@ -17,6 +19,7 @@ interface Company {
 }
 
 export default function CompanyCard() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [company, setCompany] = useState<Company>({
     address: "",
     email: "",
@@ -26,9 +29,25 @@ export default function CompanyCard() {
   const { id } = useParams();
 
   useEffect(() => {
-    clientApi.company.getById(id).then((res) => {
-      setCompany(res.data.company);
-    });
+    clientApi.company
+      .getById(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        setCompany(res.data.company);
+      });
   }, [id]);
 
   const navigate = useNavigate();

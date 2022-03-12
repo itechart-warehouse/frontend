@@ -18,7 +18,7 @@ export default function Header() {
   const logout = () => {
     clientApi.userData
       .logout(jwt)
-      .then((res) => {
+      .then(() => {
         dispatch(logoutUser());
       })
       .catch((err) => alert(err));

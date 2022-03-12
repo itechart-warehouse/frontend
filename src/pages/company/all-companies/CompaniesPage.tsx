@@ -6,12 +6,16 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody, Button,
+  TableBody,
+  Button,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import {clearError, setError} from "../../../store/errorSlice";
 
 interface Company {
   id: number;
@@ -34,14 +38,33 @@ const rowStyle = {
 };
 
 function Companies() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [companies, setCompanies] = useState<Company[]>([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    clientApi.company.getAll().then((response) => {
-      setCompanies(response.data.companies);
-    });
+    clientApi.company
+      .getAll(jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        dispatch(clearError());
+        setCompanies(response.data.companies);
+      });
   }, []);
 
-  const navigate = useNavigate();
   const routeCreateCompany = () => {
     navigate("/company/create");
   };
@@ -51,7 +74,7 @@ function Companies() {
         <Typography variant="h2" sx={titleStyle}>
           Companies listing
         </Typography>
-        <Button onClick={routeCreateCompany} variant="contained" sx={{mb:3}}>
+        <Button onClick={routeCreateCompany} variant="contained" sx={{ mb: 3 }}>
           Create new company
         </Button>
         <TableContainer component={Paper}>
@@ -65,17 +88,17 @@ function Companies() {
               </TableRow>
             </TableHead>
             <TableBody>
-              { companies.length && companies.map((comp) => (
-                <TableRow key={comp.id}>
-                  <TableCell component="th" scope="row">
-                    <Link to={`${comp.id}`}>{comp.name}</Link>
-                  </TableCell>
-                  <TableCell align="right">{comp.address}</TableCell>
-                  <TableCell align="right">{comp.phone}</TableCell>
-                  <TableCell align="right">{comp.email}</TableCell>
-                </TableRow>
-              ))
-              }
+              {companies.length &&
+                companies.map((comp) => (
+                  <TableRow key={comp.id}>
+                    <TableCell component="th" scope="row">
+                      <Link to={`${comp.id}`}>{comp.name}</Link>
+                    </TableCell>
+                    <TableCell align="right">{comp.address}</TableCell>
+                    <TableCell align="right">{comp.phone}</TableCell>
+                    <TableCell align="right">{comp.email}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

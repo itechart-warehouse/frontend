@@ -13,6 +13,9 @@ import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import {clearError, setError} from "../../../store/errorSlice";
 
 interface User {
   user: {
@@ -41,11 +44,30 @@ const rowStyle = {
 };
 
 function Users() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [users, setUsers] = useState<User[]>([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    clientApi.user.getAll().then((response) => {
-      setUsers(response.data.users);
-    });
+    clientApi.user
+      .getAll(jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        dispatch(clearError());
+        setUsers(response.data.users);
+      });
   }, []);
 
   const navigate = useNavigate();
@@ -73,19 +95,18 @@ function Users() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.length &&
-                users.map((item) => (
-                  <TableRow key={item.user.id}>
-                    <TableCell component="th" scope="row">
-                      <Link to={`${item.user.id}`}>
-                        {item.user.first_name} {item.user.last_name}
-                      </Link>
-                    </TableCell>
-                    <TableCell align="right">{item.user.address}</TableCell>
-                    <TableCell align="right">{item.company.name}</TableCell>
-                    <TableCell align="right">{item.user.email}</TableCell>
-                  </TableRow>
-                ))}
+              {users.map((item) => (
+                <TableRow key={item.user.id}>
+                  <TableCell component="th" scope="row">
+                    <Link to={`${item.user.id}`}>
+                      {item.user.first_name} {item.user.last_name}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="right">{item.user.address}</TableCell>
+                  <TableCell align="right">{item.company.name}</TableCell>
+                  <TableCell align="right">{item.user.email}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
