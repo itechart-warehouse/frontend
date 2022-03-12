@@ -29,7 +29,7 @@ interface Warehouse {
     id: number;
     first_name: string;
     last_name: string;
-  };
+  }[];
 }
 
 const mainContainerStyle = {
@@ -68,6 +68,7 @@ function Warehouses() {
       .then((response) => {
         dispatch(clearError());
         setWarehouses(response.data.warehouses);
+        console.log(response.data.warehouses);
       });
   }, []);
 
@@ -110,8 +111,8 @@ function Warehouses() {
                   <TableCell align="right">{ware.warehouse.address}</TableCell>
                   <TableCell align="right">{ware.warehouse.phone}</TableCell>
                   <TableCell align="right">
-                    <Link to={`/users/${ware.user.id}`}>
-                      {ware.user.first_name} {ware.user.last_name}
+                    <Link to={`/users/${ware.user[0].id}`}>
+                      {ware.user[0].first_name} {ware.user[0].last_name}
                     </Link>
                   </TableCell>
                   <TableCell align="right">{ware.warehouse.area}</TableCell>
