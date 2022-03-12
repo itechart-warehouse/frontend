@@ -60,7 +60,7 @@ interface warehouseFullData {
   warehouseName: string;
   warehouseAddress: string;
   warehousePhone: string;
-  area: number;
+  area: string;
 }
 
 function initClientApi() {
@@ -145,7 +145,7 @@ function initClientApi() {
       create: (warehouseCredentials: warehouseFullData, id: any) =>
         axios.post(`${baseUrl}/warehouse/create`, {
           warehouse: {
-            email: warehouseCredentials.area,
+            area: warehouseCredentials.area,
             name: warehouseCredentials.warehouseName,
             address: warehouseCredentials.address,
             phone: warehouseCredentials.warehousePhone,

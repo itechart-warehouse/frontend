@@ -37,7 +37,7 @@ function App() {
               <Route path="users/:id/edit" element={<EditUserPage />} />
               <Route path="user/create" element={<CreateUserPage />} />
               <Route
-                path="warehouse/create"
+                path="companies/:id/warehouses/create"
                 element={<CreateWarehousePage />}
               />
             </Route>

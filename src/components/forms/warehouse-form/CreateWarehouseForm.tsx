@@ -15,7 +15,7 @@ interface Values {
   warehouseName: string;
   warehouseAddress: string;
   warehousePhone: string;
-  area: number;
+  area: string;
 }
 
 const validationSchema = yup.object({
@@ -54,7 +54,7 @@ function CreateWarehouseForm() {
       warehouseName: "",
       warehouseAddress: "",
       warehousePhone: "",
-      area: 0,
+      area: "",
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
@@ -62,6 +62,7 @@ function CreateWarehouseForm() {
         .create(data, id)
         .then((res) => {
           res.status === 201 && routeCompaniesList();
+          console.log(res.data);
         })
         .catch((err) => {
           if (err.response) {
