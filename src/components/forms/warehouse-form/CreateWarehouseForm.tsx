@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { Button, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
 
 interface Values {
@@ -42,6 +42,7 @@ function CreateWarehouseForm() {
   const routeCompaniesList = () => {
     navigate("/companies");
   };
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
       userEmail: "",
@@ -58,7 +59,7 @@ function CreateWarehouseForm() {
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       clientApi.warehouse
-        .create(data)
+        .create(data, id)
         .then((res) => {
           res.status === 201 && routeCompaniesList();
         })

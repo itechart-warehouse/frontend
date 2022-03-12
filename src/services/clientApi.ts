@@ -142,9 +142,9 @@ function initClientApi() {
       getAllRoles: () => axios.get(`${baseUrl}/roles`),
     },
     warehouse: {
-      create: (warehouseCredentials: warehouseFullData) =>
+      create: (warehouseCredentials: warehouseFullData, id: any) =>
         axios.post(`${baseUrl}/warehouse/create`, {
-          company: {
+          warehouse: {
             email: warehouseCredentials.area,
             name: warehouseCredentials.warehouseName,
             address: warehouseCredentials.address,
@@ -157,6 +157,9 @@ function initClientApi() {
             last_name: warehouseCredentials.lastName,
             birth_date: warehouseCredentials.birthDate,
             address: warehouseCredentials.address,
+          },
+          company: {
+            id: id,
           },
         }),
     },
