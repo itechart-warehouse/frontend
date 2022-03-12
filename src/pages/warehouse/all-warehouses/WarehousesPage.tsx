@@ -13,8 +13,9 @@ import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { clearError, setError } from "../../../store/errorSlice";
 
 interface Warehouse {
   warehouse: {
@@ -45,14 +46,31 @@ const rowStyle = {
 
 function Warehouses() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   useEffect(() => {
-    clientApi.warehouse.getAllByCompanyId(id, jwt).then((response) => {
-      setWarehouses(response.data.warehouses);
-      console.log(response.data.warehouses);
-    });
+    clientApi.warehouse
+      .getAllByCompanyId(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((response) => {
+        dispatch(clearError());
+        setWarehouses(response.data.warehouses);
+      });
   }, []);
+
   const navigate = useNavigate();
   const routeCreateWarehouse = () => {
     navigate("create");
