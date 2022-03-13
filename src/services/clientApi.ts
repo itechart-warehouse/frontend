@@ -178,8 +178,6 @@ function initClientApi() {
         axios.get(`${baseUrl}/companies/${company_id}/warehouses`, {
           headers: { authorization: jwt },
         }),
-    },
-    warehouse: {
       create: (warehouseCredentials: warehouseFullData, id: any) =>
         axios.post(`${baseUrl}/warehouse/create`, {
           warehouse: {

@@ -1,4 +1,4 @@
-import {Route, Routes, Navigate} from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import "./App.css";
 //import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
@@ -40,12 +40,14 @@ function App() {
               <Route path="users/:id" element={<UserShowPage />} />
               <Route path="users/:id/edit" element={<EditUserPage />} />
               <Route path="user/create" element={<CreateUserPage />} />
-                <Route path="companies/:id/warehouses" element={<WarehousesPage />}/>
-                <Route
-                    path="companies/:id/warehouses/create"
-                    element={<CreateWarehousePage />}
-                />
-
+              <Route
+                path="companies/:id/warehouses"
+                element={<WarehousesPage />}
+              />
+              <Route
+                path="companies/:id/warehouses/create"
+                element={<CreateWarehousePage />}
+              />
             </Route>
           </>
         ) : (
