@@ -160,6 +160,12 @@ function initClientApi() {
       getAllRoles: (jwt: string) =>
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },
+    warehouse: {
+      getAllByCompanyId: (company_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/companies/${company_id}/warehouses`, {
+          headers: { authorization: jwt },
+        }),
+    },
   };
 }
 
