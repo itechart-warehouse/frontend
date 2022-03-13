@@ -5,7 +5,8 @@ import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
 import { clearError, setError } from "../../../store/errorSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface Values {
   userEmail: string;
@@ -40,6 +41,7 @@ const validationSchema = yup.object({
 });
 
 function CreateWarehouseForm() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
   const { id } = useParams();
   const routeWarehouseList = () => {
@@ -63,7 +65,7 @@ function CreateWarehouseForm() {
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       clientApi.warehouse
-        .create(data, id)
+        .create(data, id, jwt)
         .catch((err) => {
           if (err.response) {
             err.response.status === 500
