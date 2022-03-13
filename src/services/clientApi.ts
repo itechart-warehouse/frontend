@@ -70,8 +70,8 @@ function initClientApi() {
         axios.post(`${baseUrl}/login`, {
           user: { email: credentials.email, password: credentials.password },
         }),
-      logout: (key: string) =>
-        axios.delete(`${baseUrl}/logout`, { headers: { authorization: key } }),
+      logout: (jwt: string) =>
+        axios.delete(`${baseUrl}/logout`, { headers: { authorization: jwt } }),
     },
     recoverData: {
       recoverEmail: (credentials: recoverData) =>
@@ -80,66 +80,104 @@ function initClientApi() {
         }),
     },
     company: {
-      create: (companyCredentials: companyFullData) =>
-        axios.post(`${baseUrl}/company/create`, {
-          company: {
-            email: companyCredentials.companyEmail,
-            name: companyCredentials.companyName,
-            address: companyCredentials.address,
-            phone: companyCredentials.companyPhone,
+      create: (companyCredentials: companyFullData, jwt: string) =>
+        axios.post(
+          `${baseUrl}/company/create`,
+          {
+            company: {
+              email: companyCredentials.companyEmail,
+              name: companyCredentials.companyName,
+              address: companyCredentials.address,
+              phone: companyCredentials.companyPhone,
+            },
+            user: {
+              email: companyCredentials.userEmail,
+              password: companyCredentials.userPassword,
+              first_name: companyCredentials.firstName,
+              last_name: companyCredentials.lastName,
+              birth_date: companyCredentials.birthDate,
+              address: companyCredentials.address,
+            },
           },
-          user: {
-            email: companyCredentials.userEmail,
-            password: companyCredentials.userPassword,
-            first_name: companyCredentials.firstName,
-            last_name: companyCredentials.lastName,
-            birth_date: companyCredentials.birthDate,
-            address: companyCredentials.address,
-          },
+          { headers: { authorization: jwt } }
+        ),
+      getAll: (jwt: string) =>
+        axios.get(`${baseUrl}/companies`, { headers: { authorization: jwt } }),
+      getById: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/companies/${id}`, {
+          headers: { authorization: jwt },
         }),
-      getAll: () => axios.get(`${baseUrl}/companies`),
-      getById: (id: any) => axios.get(`${baseUrl}/companies/${id}`),
-      editCompanyById: (id: any, companyCredentials: companyData) =>
-        axios.post(`${baseUrl}/companies/update/${id}`, {
-          company: {
-            name: companyCredentials.companyName,
-            address: companyCredentials.companyAddress,
-            phone: companyCredentials.companyPhone,
-            email: companyCredentials.companyEmail,
-            active: companyCredentials.active,
+      editCompanyById: (
+        id: any,
+        companyCredentials: companyData,
+        jwt: string
+      ) =>
+        axios.post(
+          `${baseUrl}/companies/update/${id}`,
+          {
+            company: {
+              name: companyCredentials.companyName,
+              address: companyCredentials.companyAddress,
+              phone: companyCredentials.companyPhone,
+              email: companyCredentials.companyEmail,
+              active: companyCredentials.active,
+            },
           },
-        }),
+          { headers: { authorization: jwt } }
+        ),
     },
     user: {
-      create: (userCredentials: userFullData) =>
-        axios.post(`${baseUrl}/user/create`, {
-          user: {
-            email: userCredentials.userEmail,
-            password: userCredentials.userPassword,
-            first_name: userCredentials.firstName,
-            last_name: userCredentials.lastName,
-            birth_date: userCredentials.birthDate,
-            address: userCredentials.address,
-            user_role_id: userCredentials.role_id,
+      create: (userCredentials: userFullData, jwt: string) =>
+        axios.post(
+          `${baseUrl}/user/create`,
+          {
+            user: {
+              email: userCredentials.userEmail,
+              password: userCredentials.userPassword,
+              first_name: userCredentials.firstName,
+              last_name: userCredentials.lastName,
+              birth_date: userCredentials.birthDate,
+              address: userCredentials.address,
+              user_role_id: userCredentials.role_id,
+            },
+            company: {
+              id: userCredentials.company_id,
+            },
           },
-          company: {
-            id: userCredentials.company_id,
-          },
+          { headers: { authorization: jwt } }
+        ),
+      getAll: (jwt: string) =>
+        axios.get(`${baseUrl}/users`, { headers: { authorization: jwt } }),
+      getInfoToCreate: (jwt: string) =>
+        axios.get(`${baseUrl}/user/create`, {
+          headers: { authorization: jwt },
         }),
-      getAll: () => axios.get(`${baseUrl}/users`),
-      getInfoToCreate: () => axios.get(`${baseUrl}/user/create`),
-      getById: (id: any) => axios.get(`${baseUrl}/users/${id}`),
-      editUserById: (id: any, credentials: userEditData) =>
-        axios.post(`${baseUrl}/users/update/${id}`, {
-          user: {
-            first_name: credentials.firstName,
-            last_name: credentials.lastName,
-            birth_date: credentials.birthDate,
-            address: credentials.address,
-            user_role_id: credentials.userRoleId,
-          },
+      getById: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/users/${id}`, {
+          headers: { authorization: jwt },
         }),
-      getAllRoles: () => axios.get(`${baseUrl}/roles`),
+      editUserById: (id: any, credentials: userEditData, jwt: string) =>
+        axios.post(
+          `${baseUrl}/users/update/${id}`,
+          {
+            user: {
+              first_name: credentials.firstName,
+              last_name: credentials.lastName,
+              birth_date: credentials.birthDate,
+              address: credentials.address,
+              user_role_id: credentials.userRoleId,
+            },
+          },
+          { headers: { authorization: jwt } }
+        ),
+      getAllRoles: (jwt: string) =>
+        axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
+    },
+    warehouse: {
+      getAllByCompanyId: (company_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/companies/${company_id}/warehouses`, {
+          headers: { authorization: jwt },
+        }),
     },
     warehouse: {
       create: (warehouseCredentials: warehouseFullData, id: any) =>

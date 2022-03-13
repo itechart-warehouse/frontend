@@ -12,23 +12,24 @@ import {
 import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import {clearError, setError} from "../../../store/errorSlice";
+import { clearError, setError } from "../../../store/errorSlice";
 
-interface User {
+interface Warehouse {
+  warehouse: {
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    area: string;
+  };
   user: {
-    id: string;
+    id: number;
     first_name: string;
     last_name: string;
-    email: string;
-    address: string;
-  };
-
-  company: {
-    name: string;
-  };
+  }[];
 }
 
 const mainContainerStyle = {
@@ -43,14 +44,14 @@ const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
 };
 
-function Users() {
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [users, setUsers] = useState<User[]>([]);
+function Warehouses() {
+  const { id } = useParams();
   const dispatch = useDispatch();
-
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   useEffect(() => {
-    clientApi.user
-      .getAll(jwt)
+    clientApi.warehouse
+      .getAllByCompanyId(id, jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -66,45 +67,54 @@ function Users() {
       })
       .then((response) => {
         dispatch(clearError());
-        setUsers(response.data.users);
+        setWarehouses(response.data.warehouses);
       });
   }, []);
 
   const navigate = useNavigate();
-  const routeCreateUser = () => {
-    navigate("/user/create");
+  const routeCreateWarehouse = () => {
+    navigate("create");
   };
-
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Users listing
+          Warehouses listing
         </Typography>
-        <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
-          Create new user
+        <Button
+          onClick={routeCreateWarehouse}
+          variant="contained"
+          sx={{ mb: 3 }}
+        >
+          Create new warehouse
         </Button>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
+          <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead>
               <TableRow sx={rowStyle}>
-                <TableCell>User name</TableCell>
+                <TableCell>Warehouse name</TableCell>
                 <TableCell align="right">Address</TableCell>
-                <TableCell align="right">Company</TableCell>
-                <TableCell align="right">E-mail</TableCell>
+                <TableCell align="right">Phone</TableCell>
+                <TableCell align="right">Admin</TableCell>
+                <TableCell align="right">Area</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((item) => (
-                <TableRow key={item.user.id}>
+              {warehouses.map((ware) => (
+                <TableRow key={ware.warehouse.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${item.user.id}`}>
-                      {item.user.first_name} {item.user.last_name}
+                    <Link to={`${ware.warehouse.id}`}>
+                      {ware.warehouse.name}
                     </Link>
                   </TableCell>
-                  <TableCell align="right">{item.user.address}</TableCell>
-                  <TableCell align="right">{item.company.name}</TableCell>
-                  <TableCell align="right">{item.user.email}</TableCell>
+                  <TableCell align="right">{ware.warehouse.address}</TableCell>
+                  <TableCell align="right">{ware.warehouse.phone}</TableCell>
+                  <TableCell align="right">
+                    <Link to={`/users/${ware.user[0].id}`}>
+                      {ware.user[0].first_name} {ware.user[0].last_name}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="right">{ware.warehouse.area}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -115,4 +125,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Warehouses;

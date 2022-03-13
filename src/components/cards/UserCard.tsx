@@ -6,8 +6,10 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserState } from "../../store/userSlice";
+import { RootState } from "../../store";
+import { clearError, setError } from "../../store/errorSlice";
 
 interface User {
   user: {
@@ -41,17 +43,33 @@ function UserCard() {
       name: "",
     },
   });
-
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const { id } = useParams();
-
-  useEffect(() => {
-    clientApi.user.getById(id).then((res) => {
-      setCurrentUser(res.data);
-    });
-  }, [id]);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    clientApi.user
+      .getById(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        setCurrentUser(res.data);
+      });
+  }, [id]);
+
   const routeUsersList = () => {
     navigate("/users");
   };
@@ -59,8 +77,6 @@ function UserCard() {
     navigate(`/users/${id}/edit`);
     dispatch(setUserState(currentUser));
   };
-
-  console.log(currentUser);
 
   return (
     <>

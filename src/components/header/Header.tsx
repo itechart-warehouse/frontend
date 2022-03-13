@@ -10,6 +10,7 @@ import { RootState } from "../../store";
 import CompanyButton from "./menu-items/CompanyButton";
 import UserButton from "./menu-items/UserButton";
 import { useNavigate } from "react-router-dom";
+import WarehouseButton from "./menu-items/WarehouseButton";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export default function Header() {
   const logout = () => {
     clientApi.userData
       .logout(jwt)
-      .then((res) => {
+      .then(() => {
         dispatch(logoutUser());
       })
       .catch((err) => alert(err));
@@ -49,6 +50,7 @@ export default function Header() {
               </Button>
               <CompanyButton />
               <UserButton />
+              {/*<WarehouseButton />*/}
             </Grid>
             <Grid item xs={1}>
               <Button onClick={logout} color="info" variant="contained">
