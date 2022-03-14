@@ -50,6 +50,19 @@ interface userEditData {
   userRoleId: number;
 }
 
+interface warehouseFullData {
+  userEmail: string;
+  userPassword: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  address: string;
+  warehouseName: string;
+  warehouseAddress: string;
+  warehousePhone: string;
+  area: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -163,6 +176,27 @@ function initClientApi() {
     warehouse: {
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios.get(`${baseUrl}/companies/${company_id}/warehouses`, {
+          headers: { authorization: jwt },
+        }),
+      create: (warehouseCredentials: warehouseFullData, id: any, jwt: string) =>
+        axios.post(`${baseUrl}/warehouse/create`, {
+          warehouse: {
+            area: warehouseCredentials.area,
+            name: warehouseCredentials.warehouseName,
+            address: warehouseCredentials.address,
+            phone: warehouseCredentials.warehousePhone,
+          },
+          user: {
+            email: warehouseCredentials.userEmail,
+            password: warehouseCredentials.userPassword,
+            first_name: warehouseCredentials.firstName,
+            last_name: warehouseCredentials.lastName,
+            birth_date: warehouseCredentials.birthDate,
+            address: warehouseCredentials.address,
+          },
+          company: {
+            id: id,
+          },
           headers: { authorization: jwt },
         }),
     },
