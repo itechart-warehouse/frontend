@@ -31,6 +31,13 @@ interface Warehouse {
     last_name: string;
   }[];
 }
+interface Company {
+  name: string;
+}
+
+const CompanyState = {
+  name: '',
+}
 
 const mainContainerStyle = {
   pt: 3,
@@ -49,6 +56,7 @@ function Warehouses() {
   const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [company, setCompany] = useState<Company>(CompanyState);
   useEffect(() => {
     clientApi.warehouse
       .getAllByCompanyId(id, jwt)
@@ -68,6 +76,7 @@ function Warehouses() {
       .then((response) => {
         dispatch(clearError());
         setWarehouses(response.data.warehouses);
+        setCompany(response.data.company);
       });
   }, []);
 
@@ -79,7 +88,7 @@ function Warehouses() {
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Warehouses listing
+          Warehouses listing of company {company.name}
         </Typography>
         <Button
           onClick={routeCreateWarehouse}
