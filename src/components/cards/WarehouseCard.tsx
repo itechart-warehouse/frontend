@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserState } from "../../store/userSlice";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 
@@ -74,16 +73,13 @@ function WarehouseCard() {
   }, [id]);
 
   const routeWarehouseList = () => {
-    //go back
+    //go back action
     navigate(-1);
   };
   const routeWarehouseEdit = () => {
     navigate(`/warehouse/${id}/edit`);
   };
 
-  // const routeSectionsShow = () => {
-  //   navigate(`/warehouse/${id}/sections`);
-  // };
   return (
     <>
       <CardContent>
