@@ -17,6 +17,7 @@ import UserShowPage from "./pages/user/show-user/UserShowPage";
 import WarehousesPage from "./pages/warehouse/all-warehouses/WarehousesPage";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
 import CreateWarehousePage from "./pages/warehouse/create-warehouse/CreateWarehousePage";
+import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -48,6 +49,7 @@ function App() {
                 path="companies/:id/warehouses/create"
                 element={<CreateWarehousePage />}
               />
+              <Route path="warehouse/:id" element={<WarehouseShowPage />} />
             </Route>
           </>
         ) : (
