@@ -36,8 +36,8 @@ interface Company {
 }
 
 const CompanyState = {
-  name: '',
-}
+  name: "",
+};
 
 const mainContainerStyle = {
   pt: 3,
@@ -112,7 +112,7 @@ function Warehouses() {
               {warehouses.map((ware) => (
                 <TableRow key={ware.warehouse.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${ware.warehouse.id}`}>
+                    <Link to={`/warehouse/${ware.warehouse.id}`}>
                       {ware.warehouse.name}
                     </Link>
                   </TableCell>
