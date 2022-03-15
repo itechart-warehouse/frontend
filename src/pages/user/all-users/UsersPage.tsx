@@ -75,7 +75,6 @@ function Users() {
       .then((response) => {
         dispatch(clearError());
         setUsers(response.data.users);
-        console.log("response", response.data.users);
       });
   }, []);
 

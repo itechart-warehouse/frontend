@@ -48,6 +48,7 @@ interface userEditData {
   birthDate: string;
   address: string;
   userRoleId: number;
+  active: boolean;
 }
 
 interface warehouseFullData {
@@ -166,6 +167,7 @@ function initClientApi() {
               birth_date: credentials.birthDate,
               address: credentials.address,
               user_role_id: credentials.userRoleId,
+              active: credentials.active,
             },
           },
           { headers: { authorization: jwt } }
