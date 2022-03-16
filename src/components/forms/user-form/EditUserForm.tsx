@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
 import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
+    Button,
+    FormControl, FormControlLabel,
+    InputLabel,
+    MenuItem,
+    Select, Switch,
+    TextField,
 } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
@@ -21,6 +21,7 @@ interface Values {
   address: string;
   birthDate: string;
   userRoleId: number;
+    active: boolean;
 }
 
 interface Roles {
@@ -33,6 +34,7 @@ const validationSchema = yup.object({
   lastName: yup.string().required("Last name is required"),
   address: yup.string().required("Address is required"),
   birthDate: yup.string().required("Birth date is required"),
+    active: yup.boolean().required("Active is required"),
 });
 
 function EditUserForm() {
@@ -49,6 +51,7 @@ function EditUserForm() {
       address: user.user.address,
       birthDate: user.user.birth_date,
       userRoleId: user.user.user_role_id,
+      active: user.user.active,
     },
 
     validationSchema: validationSchema,
@@ -159,6 +162,18 @@ function EditUserForm() {
         helperText={formik.touched.birthDate && formik.errors.birthDate}
         sx={{ mb: 3 }}
       />
+        <FormControlLabel
+            sx={{ mb: 3 }}
+            control={
+                <Switch
+                    id="active"
+                    name="active"
+                    checked={formik.values.active}
+                    onChange={formik.handleChange}
+                />
+            }
+            label="Active?"
+        />
 
       <Button
         color="primary"
