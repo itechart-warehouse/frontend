@@ -16,6 +16,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import {clearError, setError} from "../../../store/errorSlice";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface User {
   user: {
@@ -24,12 +26,18 @@ interface User {
     last_name: string;
     email: string;
     address: string;
+    active: boolean;
   };
 
   company: {
     name: string;
   };
 }
+const twinkleBlue = '#e9ecef';
+
+const headStyle = {
+  backgroundColor: twinkleBlue,
+};
 
 const mainContainerStyle = {
   pt: 3,
@@ -86,12 +94,13 @@ function Users() {
         </Button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
-            <TableHead>
+            <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
                 <TableCell>User name</TableCell>
                 <TableCell align="right">Address</TableCell>
                 <TableCell align="right">Company</TableCell>
                 <TableCell align="right">E-mail</TableCell>
+                <TableCell align="center">Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -105,6 +114,7 @@ function Users() {
                   <TableCell align="right">{item.user.address}</TableCell>
                   <TableCell align="right">{item.company.name}</TableCell>
                   <TableCell align="right">{item.user.email}</TableCell>
+                  <TableCell align="center">{item.user.active ? <CheckIcon/> : <CloseIcon/>}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
