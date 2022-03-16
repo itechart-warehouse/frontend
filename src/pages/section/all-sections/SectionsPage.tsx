@@ -21,6 +21,7 @@ interface Section {
   id: number;
   name: string;
   area: string;
+  reserved: string;
 }
 interface Warehouse {
   name: string;
@@ -103,7 +104,11 @@ function Sections() {
                   <TableCell component="th" scope="row">
                     {sec.name}
                   </TableCell>
-                  <TableCell align="center">{sec.area}</TableCell>
+                  <TableCell align="center">
+                    {sec.reserved}
+                    {"/"}
+                    {sec.area}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
