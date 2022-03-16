@@ -84,6 +84,11 @@ function Warehouses() {
   const routeCreateWarehouse = () => {
     navigate("create");
   };
+  const twinkleBlue = "#e9ecef";
+
+  const headStyle = {
+    backgroundColor: twinkleBlue,
+  };
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -99,13 +104,14 @@ function Warehouses() {
         </Button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
-            <TableHead>
+            <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
                 <TableCell>Section name</TableCell>
                 <TableCell align="right">Address</TableCell>
                 <TableCell align="right">Phone</TableCell>
                 <TableCell align="right">Admin</TableCell>
                 <TableCell align="right">Area</TableCell>
+                <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -124,7 +130,7 @@ function Warehouses() {
                     </Link>
                   </TableCell>
                   <TableCell align="right">{ware.warehouse.area}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">
                     <Button
                       variant="outlined"
                       href={`/warehouses/${ware.warehouse.id}/sections`}
