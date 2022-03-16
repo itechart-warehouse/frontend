@@ -103,7 +103,7 @@ function WarehouseCard() {
           Area*
         </Typography>
         <Typography color="text.secondary">
-          <Link to={`/warehouse/${id}/sections`}>
+          <Link to={`/warehouses/${id}/sections`}>
             {warehouse.warehouse.area}
           </Link>
         </Typography>

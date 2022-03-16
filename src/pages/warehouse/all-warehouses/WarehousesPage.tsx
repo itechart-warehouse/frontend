@@ -101,7 +101,7 @@ function Warehouses() {
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead>
               <TableRow sx={rowStyle}>
-                <TableCell>Warehouse name</TableCell>
+                <TableCell>Section name</TableCell>
                 <TableCell align="right">Address</TableCell>
                 <TableCell align="right">Phone</TableCell>
                 <TableCell align="right">Admin</TableCell>
@@ -124,6 +124,14 @@ function Warehouses() {
                     </Link>
                   </TableCell>
                   <TableCell align="right">{ware.warehouse.area}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="outlined"
+                      href={`/warehouses/${ware.warehouse.id}/sections`}
+                    >
+                      Sections
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
