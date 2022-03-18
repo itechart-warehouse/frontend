@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
+import { setWarehouseState } from "../../store/warehouseSlice";
 
 interface Warehouse {
   warehouse: {
@@ -18,6 +19,7 @@ interface Warehouse {
     area: string;
   };
   company: {
+    id: any,
     name: string;
   };
   user: {
@@ -36,6 +38,7 @@ function WarehouseCard() {
       area: "",
     },
     company: {
+      id: "",
       name: "",
     },
     user: {
@@ -68,16 +71,16 @@ function WarehouseCard() {
       .then((res) => {
         dispatch(clearError());
         setWarehouse(res.data);
-        console.log(res.data);
       });
   }, [id]);
 
   const routeWarehouseList = () => {
-    //go back action
-    navigate(-1);
+    console.log(warehouse.company.id)
+    navigate(`/companies/${warehouse.company.id}/warehouses`);
   };
   const routeWarehouseEdit = () => {
     navigate(`/warehouse/${id}/edit`);
+    dispatch(setWarehouseState(warehouse.warehouse));
   };
 
   return (
