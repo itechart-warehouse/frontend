@@ -5,6 +5,7 @@ export interface WarehouseState {
     name: string;
     address: string;
     phone: string;
+    active: boolean;
   };
 }
 
@@ -13,6 +14,7 @@ const initialState: WarehouseState = {
     name: "",
     address: "",
     phone: "",
+    active: false,
   },
 };
 

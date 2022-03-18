@@ -16,6 +16,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Warehouse {
   warehouse: {
@@ -24,6 +26,7 @@ interface Warehouse {
     address: string;
     phone: string;
     area: string;
+    active: boolean;
   };
   user: {
     id: number;
@@ -106,11 +109,12 @@ function Warehouses() {
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
-                <TableCell>Section name</TableCell>
+                <TableCell>Warehouse name</TableCell>
                 <TableCell align="right">Address</TableCell>
                 <TableCell align="right">Phone</TableCell>
                 <TableCell align="right">Admin</TableCell>
                 <TableCell align="right">Area</TableCell>
+                <TableCell align="center">Status</TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
@@ -130,6 +134,7 @@ function Warehouses() {
                     </Link>
                   </TableCell>
                   <TableCell align="right">{ware.warehouse.area}</TableCell>
+                  <TableCell align="center">{ware.warehouse.active ? <CheckIcon/> : <CloseIcon/>}</TableCell>
                   <TableCell align="center">
                     <Button
                       variant="outlined"
