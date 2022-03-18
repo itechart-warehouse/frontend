@@ -17,25 +17,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 
-interface Warehouse {
-  warehouse: {
-    id: number;
-    name: string;
-    address: string;
-    phone: string;
-    area: string;
-  };
-  user: {
-    id: number;
-    first_name: string;
-    last_name: string;
-  }[];
+interface Section {
+  id: number;
+  name: string;
+  area: string;
+  reserved: string;
 }
-interface Company {
+interface Warehouse {
   name: string;
 }
 
-const CompanyState = {
+const WarehouseState = {
   name: "",
 };
 
@@ -51,15 +43,15 @@ const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
 };
 
-function Warehouses() {
+function Sections() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
-  const [company, setCompany] = useState<Company>(CompanyState);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [warehouse, setWarehouse] = useState<Warehouse>(WarehouseState);
   useEffect(() => {
-    clientApi.warehouse
-      .getAllByCompanyId(id, jwt)
+    clientApi.section
+      .getAllByWarehouseId(id, jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -75,14 +67,14 @@ function Warehouses() {
       })
       .then((response) => {
         dispatch(clearError());
-        setWarehouses(response.data.warehouses);
-        setCompany(response.data.company);
+        setSections(response.data.sections);
+        setWarehouse(response.data.warehouse);
       });
   }, []);
-
+  console.log("out", sections);
   const navigate = useNavigate();
-  const routeCreateWarehouse = () => {
-    navigate("create");
+  const routeEditSections = () => {
+    navigate("edit");
   };
   const twinkleBlue = "#e9ecef";
 
@@ -93,50 +85,29 @@ function Warehouses() {
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Warehouses listing of company {company.name}
+          Sections listing of warehouse {warehouse.name}
         </Typography>
-        <Button
-          onClick={routeCreateWarehouse}
-          variant="contained"
-          sx={{ mb: 3 }}
-        >
-          Create new warehouse
+        <Button onClick={routeEditSections} variant="contained" sx={{ mb: 3 }}>
+          Change sections
         </Button>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
+        <TableContainer sx={{ width: 400 }} component={Paper}>
+          <Table aria-label="companiesPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
                 <TableCell>Section name</TableCell>
-                <TableCell align="right">Address</TableCell>
-                <TableCell align="right">Phone</TableCell>
-                <TableCell align="right">Admin</TableCell>
-                <TableCell align="right">Area</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="center">Area</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {warehouses.map((ware) => (
-                <TableRow key={ware.warehouse.id}>
+              {sections.map((sec) => (
+                <TableRow key={sec.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`/warehouse/${ware.warehouse.id}`}>
-                      {ware.warehouse.name}
-                    </Link>
+                    {sec.name}
                   </TableCell>
-                  <TableCell align="right">{ware.warehouse.address}</TableCell>
-                  <TableCell align="right">{ware.warehouse.phone}</TableCell>
-                  <TableCell align="right">
-                    <Link to={`/users/${ware.user[0].id}`}>
-                      {ware.user[0].first_name} {ware.user[0].last_name}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="right">{ware.warehouse.area}</TableCell>
                   <TableCell align="center">
-                    <Button
-                      variant="outlined"
-                      href={`/warehouses/${ware.warehouse.id}/sections`}
-                    >
-                      Sections
-                    </Button>
+                    {sec.reserved}
+                    {"/"}
+                    {sec.area}
                   </TableCell>
                 </TableRow>
               ))}
@@ -148,4 +119,4 @@ function Warehouses() {
   );
 }
 
-export default Warehouses;
+export default Sections;

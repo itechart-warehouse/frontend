@@ -18,6 +18,7 @@ import WarehousesPage from "./pages/warehouse/all-warehouses/WarehousesPage";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
 import CreateWarehousePage from "./pages/warehouse/create-warehouse/CreateWarehousePage";
 import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPage";
+import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 
 function App() {
@@ -51,6 +52,10 @@ function App() {
                 element={<CreateWarehousePage />}
               />
               <Route path="warehouse/:id" element={<WarehouseShowPage />} />
+              <Route
+                path="warehouses/:id/sections"
+                element={<SectionsPage />}
+               />
               <Route
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}

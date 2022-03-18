@@ -225,6 +225,12 @@ function initClientApi() {
           headers: { authorization: jwt },
         }),
     },
+    section: {
+      getAllByWarehouseId: (warehouse_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/warehouses/${warehouse_id}/sections`, {
+          headers: { authorization: jwt },
+        }),
+    },
   };
 }
 
