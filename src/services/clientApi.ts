@@ -64,6 +64,12 @@ interface warehouseFullData {
   area: string;
 }
 
+interface warehouseEditData {
+    warehouseName: string;
+    warehouseAddress: string;
+    warehousePhone: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -203,6 +209,19 @@ function initClientApi() {
         }),
       getById: (id: any, jwt: string) =>
         axios.get(`${baseUrl}/warehouse/${id}`, {
+          headers: { authorization: jwt },
+        }),
+      editWarehouseById: (
+        id: any,
+        credentials: warehouseEditData,
+        jwt: string
+      ) =>
+        axios.post(`${baseUrl}/warehouses/update/${id}`, {
+          warehouse: {
+            name: credentials.warehouseName,
+            address: credentials.warehouseAddress,
+            phone: credentials.warehousePhone,
+          },
           headers: { authorization: jwt },
         }),
     },

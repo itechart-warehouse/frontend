@@ -14,6 +14,7 @@ import storage from "redux-persist/lib/storage";
 import userSlice from "./userSlice";
 import companySlice from "./companySlice";
 import errorSlice from "./errorSlice";
+import warehouseSlice from "./warehouseSlice";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   userCard: userSlice,
   company: companySlice,
   error: errorSlice,
+  warehouse: warehouseSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
