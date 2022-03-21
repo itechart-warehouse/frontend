@@ -62,12 +62,14 @@ interface warehouseFullData {
   warehouseAddress: string;
   warehousePhone: string;
   area: string;
+  active: boolean;
 }
 
 interface warehouseEditData {
     warehouseName: string;
     warehouseAddress: string;
     warehousePhone: string;
+    active: boolean;
 }
 
 function initClientApi() {
@@ -221,6 +223,7 @@ function initClientApi() {
             name: credentials.warehouseName,
             address: credentials.warehouseAddress,
             phone: credentials.warehousePhone,
+            active: credentials.active,
           },
           headers: { authorization: jwt },
         }),

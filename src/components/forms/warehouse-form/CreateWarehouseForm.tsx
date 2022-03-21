@@ -19,6 +19,7 @@ interface Values {
   warehouseAddress: string;
   warehousePhone: string;
   area: string;
+  active: boolean;
 }
 
 const validationSchema = yup.object({
@@ -61,6 +62,7 @@ function CreateWarehouseForm() {
       warehouseAddress: "",
       warehousePhone: "",
       area: "",
+      active: true,
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {

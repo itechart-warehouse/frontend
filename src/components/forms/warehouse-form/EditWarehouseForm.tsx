@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { Button, TextField } from "@mui/material";
+import {Button, FormControlLabel, Switch, TextField} from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,11 +7,13 @@ import { clearError, setError } from "../../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearWarehouseState } from "../../../store/warehouseSlice";
+import React from "react";
 
 interface Values {
   warehouseName: string;
   warehouseAddress: string;
   warehousePhone: string;
+  active: boolean;
 }
 
 const validationSchema = yup.object({
@@ -34,6 +36,7 @@ function EditWarehouseForm() {
       warehouseName: warehouse.name,
       warehouseAddress: warehouse.address,
       warehousePhone: warehouse.phone,
+      active: warehouse.active,
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
@@ -111,6 +114,18 @@ function EditWarehouseForm() {
         }
         sx={{ mb: 3 }}
       />
+        <FormControlLabel
+            sx={{ mb: 3 }}
+            control={
+                <Switch
+                    id="active"
+                    name="active"
+                    checked={formik.values.active}
+                    onChange={formik.handleChange}
+                />
+            }
+            label="Active?"
+        />
       <Button
         color="primary"
         variant="contained"
