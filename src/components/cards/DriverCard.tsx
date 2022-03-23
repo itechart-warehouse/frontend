@@ -88,9 +88,9 @@ function UserCard() {
         <Typography variant="h6" component="div">
           Contractor
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {driver.contractor.name}
-        </Typography>
+        {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
+        {/*  {driver.contractor.name}*/}
+        {/*</Typography>*/}
         <CardActions>
           <Button onClick={routeDriversList}>Cancel</Button>
         </CardActions>

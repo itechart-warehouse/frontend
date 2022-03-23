@@ -16,6 +16,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
+import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
+import Header from "../../../components/header/Header";
 
 interface Driver {
   id: string;
@@ -71,15 +73,20 @@ function Drivers() {
 
   return (
     <>
+      {/*TODO need to fix header*/}
+      <Header />
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
         </Typography>
-        <TableContainer sx={{ width: 400 }} component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
+        <TableContainer sx={{ width: 500 }} component={Paper}>
+          <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
-                <TableCell>Driver name</TableCell>
+                <TableCell>
+                  <Typography variant="h5">Driver</Typography>
+                </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -89,6 +96,9 @@ function Drivers() {
                     <Link to={`${driver.id}`}>
                       {driver.first_name} {driver.last_name}
                     </Link>
+                  </TableCell>
+                  <TableCell>
+                    <DirectionsCarFilledTwoToneIcon />
                   </TableCell>
                 </TableRow>
               ))}

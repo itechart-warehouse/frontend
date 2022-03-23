@@ -1,4 +1,3 @@
-import UserCard from "../../../components/cards/UserCard";
 import { Box, Card, Grid, Typography } from "@mui/material";
 import DriverCard from "../../../components/cards/DriverCard";
 

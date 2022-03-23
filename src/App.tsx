@@ -21,6 +21,7 @@ import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPag
 import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import DriversPage from "./pages/driver/all-drivers/DriversPage";
+import DriverShowPage from "./pages/driver/show-driver/DriverShowPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -62,6 +63,8 @@ function App() {
                 element={<EditWarehousePage />}
               />
             </Route>
+            <Route path="drivers" element={<DriversPage />} />
+            <Route path="drivers/:id" element={<DriverShowPage />} />
           </>
         ) : (
           <>
@@ -69,8 +72,6 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<LoginPage />} />
             </Route>
-            <Route path="drivers" element={<DriversPage />} />
-            <Route path="drivers/:id" element={<CompanyShowPage />} />
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
         )}
