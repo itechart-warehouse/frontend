@@ -20,6 +20,7 @@ import CreateWarehousePage from "./pages/warehouse/create-warehouse/CreateWareho
 import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPage";
 import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
+import DriversPage from "./pages/driver/all-drivers/DriversPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -55,7 +56,7 @@ function App() {
               <Route
                 path="warehouses/:id/sections"
                 element={<SectionsPage />}
-               />
+              />
               <Route
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}
@@ -68,6 +69,8 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<LoginPage />} />
             </Route>
+            <Route path="drivers" element={<DriversPage />} />
+            <Route path="drivers/:id" element={<CompanyShowPage />} />
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
         )}
