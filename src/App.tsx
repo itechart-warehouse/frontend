@@ -62,9 +62,9 @@ function App() {
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}
               />
+              <Route path="drivers" element={<DriversPage />} />
+              <Route path="drivers/:id" element={<DriverShowPage />} />
             </Route>
-            <Route path="drivers" element={<DriversPage />} />
-            <Route path="drivers/:id" element={<DriverShowPage />} />
           </>
         ) : (
           <>

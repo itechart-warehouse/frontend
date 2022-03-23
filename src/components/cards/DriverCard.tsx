@@ -59,6 +59,7 @@ function UserCard() {
       .then((res) => {
         dispatch(clearError());
         setDriver(res.data);
+        console.log(jwt);
       });
   }, [id]);
 

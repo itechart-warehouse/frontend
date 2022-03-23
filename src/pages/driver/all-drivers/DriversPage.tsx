@@ -73,8 +73,6 @@ function Drivers() {
 
   return (
     <>
-      {/*TODO need to fix header*/}
-      <Header />
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
