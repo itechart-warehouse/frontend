@@ -84,7 +84,7 @@ function Drivers() {
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
                 <TableCell>
-                  <Typography variant="h5">Driver</Typography>
+                  <Typography variant="h6">Driver</Typography>
                 </TableCell>
                 <TableCell></TableCell>
               </TableRow>
