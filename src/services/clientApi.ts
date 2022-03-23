@@ -66,10 +66,10 @@ interface warehouseFullData {
 }
 
 interface warehouseEditData {
-    warehouseName: string;
-    warehouseAddress: string;
-    warehousePhone: string;
-    active: boolean;
+  warehouseName: string;
+  warehouseAddress: string;
+  warehousePhone: string;
+  active: boolean;
 }
 
 function initClientApi() {
@@ -231,6 +231,12 @@ function initClientApi() {
     section: {
       getAllByWarehouseId: (warehouse_id: any, jwt: string) =>
         axios.get(`${baseUrl}/warehouses/${warehouse_id}/sections`, {
+          headers: { authorization: jwt },
+        }),
+    },
+    transport: {
+      getById: (transport_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/transport/${transport_id}`, {
           headers: { authorization: jwt },
         }),
     },
