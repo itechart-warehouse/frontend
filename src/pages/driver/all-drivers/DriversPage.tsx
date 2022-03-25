@@ -16,8 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
-import Header from "../../../components/header/Header";
+import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 
 interface Driver {
   id: string;
@@ -85,6 +84,7 @@ function Drivers() {
                   <Typography variant="h6">Driver</Typography>
                 </TableCell>
                 <TableCell></TableCell>
+                <TableCell>Contractor</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -95,8 +95,11 @@ function Drivers() {
                       {driver.first_name} {driver.last_name}
                     </Link>
                   </TableCell>
+                  <TableCell component="th" scope="row">
+                    {/*{driver.contaractor.name}*/}
+                  </TableCell>
                   <TableCell>
-                    <DirectionsCarFilledTwoToneIcon />
+                    <AirlineSeatReclineNormalIcon />
                   </TableCell>
                 </TableRow>
               ))}

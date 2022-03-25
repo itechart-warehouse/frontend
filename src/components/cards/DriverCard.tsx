@@ -75,17 +75,11 @@ function UserCard() {
         </Typography>
         <br />
         <Typography variant="h6" component="div">
-          Passport number
+          Passport
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {driver.driver.passport_number}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Passport info
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {driver.driver.passport_info}
-        </Typography>
+        {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
+        {/*  {driver.driver.passport}*/}
+        {/*</Typography>*/}
         <Typography variant="h6" component="div">
           Contractor
         </Typography>
