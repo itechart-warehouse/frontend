@@ -234,12 +234,6 @@ function initClientApi() {
           headers: { authorization: jwt },
         }),
     },
-    transport: {
-      getById: (transport_id: any, jwt: string) =>
-        axios.get(`${baseUrl}/transport/${transport_id}`, {
-          headers: { authorization: jwt },
-        }),
-    },
   };
 }
 

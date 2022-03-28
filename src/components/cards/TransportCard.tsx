@@ -4,30 +4,23 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../store/errorSlice";
 
 interface Transport {
-  brand: string;
-  car_number: string;
+  truck_number: string;
 }
 
 export default function TransportCard() {
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  //TODO Add contractor
   const [transport, setTransport] = useState<Transport>({
-    brand: "",
-    car_number: "",
+    truck_number: "",
   });
 
   const { id } = useParams();
 
   useEffect(() => {
-    clientApi.transport
-      .getById(id, jwt)
+    fetch("/transport/:trId")
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -43,7 +36,10 @@ export default function TransportCard() {
       })
       .then((res) => {
         dispatch(clearError());
-        setTransport(res.data.transport);
+        return res.json();
+      })
+      .then((data) => {
+        setTransport(data.transport);
       });
   }, [id]);
 
@@ -56,15 +52,11 @@ export default function TransportCard() {
   return (
     <React.Fragment>
       <CardContent>
-        <Typography variant="h4" component="div">
-          {transport.brand}
-        </Typography>
-        <br />
         <Typography variant="h6" component="div">
           Car number
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {transport.car_number}
+          {transport.truck_number}
         </Typography>
         <Typography variant="h6" component="div">
           Contractor

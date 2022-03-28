@@ -21,6 +21,7 @@ import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPag
 import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import TransportShowPage from "./pages/transport/show-transport/TransportShowPage";
+import AllTransportPage from "./pages/transport/all-transport/AllTransportPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -62,6 +63,7 @@ function App() {
                 element={<EditWarehousePage />}
               />
               <Route path="transport/:id" element={<TransportShowPage />} />
+              <Route path="transports" element={<AllTransportPage />} />
             </Route>
           </>
         ) : (
