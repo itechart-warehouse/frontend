@@ -21,6 +21,7 @@ import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPag
 import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import ConsignmentsPage from "./pages/consignment/all-consignments/ConsignmentsPage";
+import ConsignmentShowPage from "./pages/consignment/show-consignment/ConsignmentShowPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -62,6 +63,7 @@ function App() {
                 element={<EditWarehousePage />}
               />
               <Route path="consignments" element={<ConsignmentsPage />} />
+              <Route path="consignments/:id" element={<ConsignmentShowPage />} />
             </Route>
           </>
         ) : (

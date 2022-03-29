@@ -39,6 +39,9 @@ interface Consignments{
     role:{
       role_name: string;
     }
+    company:{
+      name: string;
+    }
   }
 }
 
@@ -111,6 +114,9 @@ function Consignments() {
                 <TableCell>
                   <Typography variant="h6">Status</Typography>
                 </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Contractor</Typography>
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -133,6 +139,9 @@ function Consignments() {
                   </TableCell>
                   <TableCell align="left" component="th" scope="row">
                     {consignments.status}
+                  </TableCell>
+                  <TableCell align="left" component="th" scope="row">
+                    {consignments.driver.company.name}
                   </TableCell>
                 </TableRow>
               ))}

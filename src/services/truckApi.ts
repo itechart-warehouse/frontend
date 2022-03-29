@@ -13,7 +13,11 @@ function initTruckApi() {
     },
     consignment:{
       getAll:() =>
-      axios.get(`${baseUrl}/consignments.json`, {
+      axios.get(`${baseUrl}/consignments`, {
+        headers: { authorization: token },
+      }),
+      getById: (id: any, jwt: string) =>
+      axios.get(`${baseUrl}/consignments/${id}`, {
         headers: { authorization: token },
       }),
     }
