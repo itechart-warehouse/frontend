@@ -17,13 +17,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import { truckApi } from "../../../services/truckApi";
 
 interface Driver {
   id: string;
   first_name: string;
-  last_name: string;
-  email: string;
+  second_name: string;
+  company: {
+    name: string;
+  };
 }
+
 const twinkleBlue = "#e9ecef";
 
 const headStyle = {
@@ -43,13 +47,12 @@ const rowStyle = {
 };
 
 function Drivers() {
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.driver
-      .getAll(jwt)
+    truckApi.driver
+      .getAll()
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -65,8 +68,8 @@ function Drivers() {
       })
       .then((response) => {
         dispatch(clearError());
-        setDrivers(response.data.drivers);
-        console.log(response.data.drivers);
+        setDrivers(response.data);
+        console.log(response.data);
       });
   }, []);
 
@@ -83,8 +86,11 @@ function Drivers() {
                 <TableCell>
                   <Typography variant="h6">Driver</Typography>
                 </TableCell>
+                <TableCell>
+                  {" "}
+                  <Typography variant="h6">Contractor</Typography>
+                </TableCell>
                 <TableCell></TableCell>
-                <TableCell>Contractor</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -92,11 +98,11 @@ function Drivers() {
                 <TableRow key={driver.id}>
                   <TableCell component="th" scope="row">
                     <Link to={`${driver.id}`}>
-                      {driver.first_name} {driver.last_name}
+                      {driver.first_name} {driver.second_name}
                     </Link>
                   </TableCell>
-                  <TableCell component="th" scope="row">
-                    {/*{driver.contaractor.name}*/}
+                  <TableCell align="left" component="th" scope="row">
+                    {driver.company.name}
                   </TableCell>
                   <TableCell>
                     <AirlineSeatReclineNormalIcon />

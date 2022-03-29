@@ -71,7 +71,8 @@ function UserCard() {
     <>
       <CardContent>
         <Typography variant="h4" component="div">
-          {driver.driver.first_name} {driver.driver.last_name}
+          {/*{driver.driver.first_name} {driver.driver.last_name}*/}
+          Name
         </Typography>
         <br />
         <Typography variant="h6" component="div">
@@ -80,12 +81,14 @@ function UserCard() {
         {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
         {/*  {driver.driver.passport}*/}
         {/*</Typography>*/}
+        Passport info
         <Typography variant="h6" component="div">
           Contractor
         </Typography>
         {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
         {/*  {driver.contractor.name}*/}
         {/*</Typography>*/}
+        Contractor name
         <CardActions>
           <Button onClick={routeDriversList}>Cancel</Button>
         </CardActions>
