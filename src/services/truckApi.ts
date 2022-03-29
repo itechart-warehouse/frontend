@@ -11,9 +11,9 @@ function initTruckApi() {
           headers: { authorization: token },
         }),
     },
-    consigment:{
+    consignment:{
       getAll:() =>
-      axios.get(`${baseUrl}/consigments.json`, {
+      axios.get(`${baseUrl}/consignments.json`, {
         headers: { authorization: token },
       }),
     }
