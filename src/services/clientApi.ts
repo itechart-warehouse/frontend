@@ -72,6 +72,13 @@ interface warehouseEditData {
   active: boolean;
 }
 
+interface driverFullData {
+  firstName: string;
+  lastName: string;
+  password_number: string;
+  password_info: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -231,6 +238,14 @@ function initClientApi() {
     section: {
       getAllByWarehouseId: (warehouse_id: any, jwt: string) =>
         axios.get(`${baseUrl}/warehouses/${warehouse_id}/sections`, {
+          headers: { authorization: jwt },
+        }),
+    },
+    driver: {
+      getAll: (jwt: string) =>
+        axios.get(`${baseUrl}/drivers`, { headers: { authorization: jwt } }),
+      getById: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/drivers/${id}`, {
           headers: { authorization: jwt },
         }),
     },

@@ -5,12 +5,18 @@ const token = "Basic c3lzYWRtaW5AZXhhbXBsZS5jb206c3lzYWRtaW4xMjM=";
 
 function initTruckApi() {
   return {
-    transports: {
+    driver: {
       getAll: () =>
-        axios.get(`${baseUrl}/trucks.json`, {
+        axios.get(`${baseUrl}/drivers.json`, {
           headers: { authorization: token },
         }),
     },
+      transports: {
+        getAll: () =>
+              axios.get(`${baseUrl}/trucks.json`, {
+                  headers: { authorization: token },
+              }),
+      },
   };
 }
 

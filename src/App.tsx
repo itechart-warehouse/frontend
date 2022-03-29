@@ -20,6 +20,8 @@ import CreateWarehousePage from "./pages/warehouse/create-warehouse/CreateWareho
 import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPage";
 import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
+import DriversPage from "./pages/driver/all-drivers/DriversPage";
+import DriverShowPage from "./pages/driver/show-driver/DriverShowPage";
 import TransportShowPage from "./pages/transport/show-transport/TransportShowPage";
 import AllTransportPage from "./pages/transport/all-transport/AllTransportPage";
 
@@ -57,11 +59,13 @@ function App() {
               <Route
                 path="warehouses/:id/sections"
                 element={<SectionsPage />}
-              />
+               />
               <Route
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}
               />
+              <Route path="drivers" element={<DriversPage />} />
+              <Route path="drivers/:id" element={<DriverShowPage />} />
               <Route path="transport/:id" element={<TransportShowPage />} />
               <Route path="transports" element={<AllTransportPage />} />
             </Route>
