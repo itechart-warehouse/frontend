@@ -11,12 +11,12 @@ function initTruckApi() {
           headers: { authorization: token },
         }),
     },
-      transports: {
-        getAll: () =>
-              axios.get(`${baseUrl}/trucks.json`, {
-                  headers: { authorization: token },
-              }),
-      },
+    transports: {
+      getAll: () =>
+        axios.get(`${baseUrl}/trucks.json`, {
+          headers: { authorization: token },
+        }),
+    },
   };
 }
 

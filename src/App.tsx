@@ -59,7 +59,7 @@ function App() {
               <Route
                 path="warehouses/:id/sections"
                 element={<SectionsPage />}
-               />
+              />
               <Route
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}
