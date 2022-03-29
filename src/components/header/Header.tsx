@@ -11,6 +11,7 @@ import CompanyButton from "./menu-items/CompanyButton";
 import UserButton from "./menu-items/UserButton";
 import { useNavigate } from "react-router-dom";
 import WarehouseButton from "./menu-items/WarehouseButton";
+import TransportButton from "./menu-items/TransportButton";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ export default function Header() {
               </Button>
               <CompanyButton />
               <UserButton />
+              <TransportButton />
               {/*<WarehouseButton />*/}
             </Grid>
             <Grid item xs={1}>

@@ -28,33 +28,33 @@ export const handlers = [
   //         )
   //     )
   // })
-  rest.get("/transports", (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        transports: [
-          {
-            id: 1,
-            truck_number: "MERCEDES 1234 ME-5",
-          },
-          {
-            id: 2,
-            truck_number: "SCANIA 4590-CT-2",
-          },
-        ],
-      })
-    );
-  }),
-  rest.get("/transport/:trId", (req, res, ctx) => {
-    const { trId } = req.params;
-    return res(
-      ctx.status(200),
-      ctx.json({
-        transport: {
-          id: 1,
-          truck_number: "TEST",
-        },
-      })
-    );
-  }),
+  // rest.get("/transports", (req, res, ctx) => {
+  //   return res(
+  //     ctx.status(200),
+  //     ctx.json({
+  //       transports: [
+  //         {
+  //           id: 1,
+  //           truck_number: "MERCEDES 1234 ME-5",
+  //         },
+  //         {
+  //           id: 2,
+  //           truck_number: "SCANIA 4590-CT-2",
+  //         },
+  //       ],
+  //     })
+  //   );
+  // }),
+  // rest.get("/transport/:trId", (req, res, ctx) => {
+  //   const { trId } = req.params;
+  //   return res(
+  //     ctx.status(200),
+  //     ctx.json({
+  //       transport: {
+  //         id: 1,
+  //         truck_number: "TEST",
+  //       },
+  //     })
+  //   );
+  // }),
 ];

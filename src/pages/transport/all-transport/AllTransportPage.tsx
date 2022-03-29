@@ -14,10 +14,14 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
 import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
+import { truckApi } from "../../../services/truckApi";
 
 interface Transport {
   id: number;
   truck_number: string;
+  company: {
+    name: string;
+  };
 }
 const twinkleBlue = "#e9ecef";
 
@@ -42,7 +46,8 @@ function Transports() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("/transports")
+    truckApi.transports
+      .getAll()
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -58,10 +63,7 @@ function Transports() {
       })
       .then((response) => {
         dispatch(clearError());
-        return response.json();
-      })
-      .then((data) => {
-        setTransports(data.transports);
+        setTransports(response.data);
       });
   }, []);
 
@@ -90,7 +92,7 @@ function Transports() {
                   <TableCell component="th" scope="row">
                     <Link to={`/transport/${tr.id}`}>{tr.truck_number}</Link>
                   </TableCell>
-                  <TableCell>N/A</TableCell>
+                  <TableCell>{tr.company.name}</TableCell>
                   <TableCell>
                     <DirectionsCarFilledTwoToneIcon />
                   </TableCell>
