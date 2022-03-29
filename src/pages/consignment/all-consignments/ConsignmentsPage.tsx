@@ -92,7 +92,7 @@ function Consignments() {
         <Typography variant="h2" sx={titleStyle}>
           Consignments listing
         </Typography>
-        <TableContainer sx={{ width: 500 }} component={Paper}>
+        <TableContainer sx={{ width: 700 }} component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
@@ -107,6 +107,9 @@ function Consignments() {
                 </TableCell>
                 <TableCell>
                   <Typography variant="h6">Bundle</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Status</Typography>
                 </TableCell>
                 <TableCell></TableCell>
               </TableRow>
@@ -127,6 +130,9 @@ function Consignments() {
                   </TableCell>
                   <TableCell align="left" component="th" scope="row">
                     {consignments.bundle_seria} {consignments.bundle_number}
+                  </TableCell>
+                  <TableCell align="left" component="th" scope="row">
+                    {consignments.status}
                   </TableCell>
                 </TableRow>
               ))}
