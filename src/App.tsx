@@ -22,6 +22,8 @@ import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import DriversPage from "./pages/driver/all-drivers/DriversPage";
 import DriverShowPage from "./pages/driver/show-driver/DriverShowPage";
+import TransportShowPage from "./pages/transport/show-transport/TransportShowPage";
+import AllTransportPage from "./pages/transport/all-transport/AllTransportPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -64,6 +66,8 @@ function App() {
               />
               <Route path="drivers" element={<DriversPage />} />
               <Route path="drivers/:id" element={<DriverShowPage />} />
+              <Route path="transport/:id" element={<TransportShowPage />} />
+              <Route path="transports" element={<AllTransportPage />} />
             </Route>
           </>
         ) : (
