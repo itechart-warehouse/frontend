@@ -6,8 +6,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setConsignmentState } from "../../store/consignmentSlice";
+import { useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import {clearError, setError} from "../../store/errorSlice";
 
@@ -40,7 +39,6 @@ interface Consignment {
 }
 
 export default function ConsignmentCard() {
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [consignment, setConsignment] = useState<Consignment>({
     id: 0,
     status: "",
@@ -72,7 +70,7 @@ export default function ConsignmentCard() {
 
   useEffect(() => {
     truckApi.consignment
-      .getById(id, jwt)
+      .getById(id)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -87,35 +85,59 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
+        setConsignment(res.data);
         dispatch(clearError());
-        setConsignment(res.data.consignment);
       });
-  }, [id]);
+  },[]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const routeConsignmentList = () => {
     navigate("/consignments");
+    console.log(id)
   };
 
   return (
     <React.Fragment>
       <CardContent>
         <Typography variant="h4" component="div">
-
         </Typography>
         <br />
         <Typography variant="h6" component="div">
-
+        Series and number
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-
+        {consignment.consignment_seria}{consignment.consignment_number}
         </Typography>
         <Typography variant="h6" component="div">
-
+        Status
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-
+        {consignment.status}
+        </Typography>
+        <Typography variant="h6" component="div">
+        Contractor
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        {consignment.driver.company.name}
+        </Typography>
+        <Typography variant="h6" component="div">
+        Bundle
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        {consignment.bundle_seria}{consignment.bundle_number}
+        </Typography>
+        <Typography variant="h6" component="div">
+        Driver
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        {consignment.driver.first_name} {consignment.driver.second_name} {consignment.driver.middle_name}
+        </Typography>
+        <Typography variant="h6" component="div">
+        Truck
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        {consignment.truck.truck_number}
         </Typography>
         <Typography variant="h6" component="div">
 

@@ -7,14 +7,12 @@ import {
     TableRow,
     TableCell,
     TableBody,
-    Button, Icon,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import {truckApi} from "../../../services/truckApi";
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../store";
+import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import {clearError, setError} from "../../../store/errorSlice";
 
 interface Consignments{
@@ -87,7 +85,7 @@ function Consignments() {
         setConsignments(response.data);
         console.log(response.data);
       });
-  }, []);
+  },);
 
   return (
     <>

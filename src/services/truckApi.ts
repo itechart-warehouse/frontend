@@ -16,7 +16,7 @@ function initTruckApi() {
       axios.get(`${baseUrl}/consignments`, {
         headers: { authorization: token },
       }),
-      getById: (id: any, jwt: string) =>
+      getById: (id: any) =>
       axios.get(`${baseUrl}/consignments/${id}`, {
         headers: { authorization: token },
       }),
