@@ -40,28 +40,28 @@ function UserCard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    clientApi.driver
-      .getById(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        setDriver(res.data);
-        console.log(jwt);
-      });
-  }, [id]);
+  // useEffect(() => {
+  //   clientApi.driver
+  //     .getById(id, jwt)
+  //     .catch((err) => {
+  //       if (err.response) {
+  //         dispatch(setError([err.response.statusText]));
+  //         console.log("response", err.response.statusText);
+  //       } else if (err.request) {
+  //         dispatch(setError(["Server is not working"]));
+  //         console.log("request", err.request);
+  //       } else {
+  //         dispatch(setError([err.message]));
+  //         console.log("message", err.message);
+  //       }
+  //       return Promise.reject(err);
+  //     })
+  //     .then((res) => {
+  //       dispatch(clearError());
+  //       setDriver(res.data);
+  //       console.log(jwt);
+  //     });
+  // }, [id]);
 
   const routeDriversList = () => {
     navigate("/drivers");
@@ -76,19 +76,29 @@ function UserCard() {
         </Typography>
         <br />
         <Typography variant="h6" component="div">
+          Birth date
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Date
+        </Typography>
+        <Typography variant="h6" component="div">
           Passport
         </Typography>
         {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
         {/*  {driver.driver.passport}*/}
         {/*</Typography>*/}
-        Passport info
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Passport info
+        </Typography>
         <Typography variant="h6" component="div">
           Contractor
         </Typography>
         {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
         {/*  {driver.contractor.name}*/}
         {/*</Typography>*/}
-        Contractor name
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Contractor info
+        </Typography>
         <CardActions>
           <Button onClick={routeDriversList}>Cancel</Button>
         </CardActions>
