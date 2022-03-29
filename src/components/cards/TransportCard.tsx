@@ -13,35 +13,36 @@ interface Transport {
 }
 
 export default function TransportCard() {
-  const [transport, setTransport] = useState<Transport>({
-    truck_number: "",
-  });
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    fetch("/transport/:trId")
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        return res.json();
-      })
-      .then((data) => {
-        setTransport(data.transport);
-      });
-  }, [id]);
+  // TODO Add truck api - getById
+  // const [transport, setTransport] = useState<Transport>({
+  //   truck_number: "",
+  // });
+  //
+  // const { id } = useParams();
+  //
+  // useEffect(() => {
+  //   fetch("/transport/:trId")
+  //     .catch((err) => {
+  //       if (err.response) {
+  //         dispatch(setError([err.response.statusText]));
+  //         console.log("response", err.response.statusText);
+  //       } else if (err.request) {
+  //         dispatch(setError(["Server is not working"]));
+  //         console.log("request", err.request);
+  //       } else {
+  //         dispatch(setError([err.message]));
+  //         console.log("message", err.message);
+  //       }
+  //       return Promise.reject(err);
+  //     })
+  //     .then((res) => {
+  //       dispatch(clearError());
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setTransport(data.transport);
+  //     });
+  // }, [id]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ export default function TransportCard() {
           Car number
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {transport.truck_number}
+          N/A
         </Typography>
         <Typography variant="h6" component="div">
           Contractor
