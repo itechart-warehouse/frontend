@@ -94,8 +94,12 @@ function Sections() {
           <Table aria-label="companiesPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
-                <TableCell>Section name</TableCell>
-                <TableCell align="center">Area</TableCell>
+                <TableCell>
+                  <Typography variant="h6">Section name</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="h6">Area</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

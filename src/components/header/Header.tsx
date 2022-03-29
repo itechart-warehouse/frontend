@@ -11,6 +11,7 @@ import CompanyButton from "./menu-items/CompanyButton";
 import UserButton from "./menu-items/UserButton";
 import { useNavigate } from "react-router-dom";
 import WarehouseButton from "./menu-items/WarehouseButton";
+import DriverButton from "./menu-items/DriverButton";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ export default function Header() {
               <CompanyButton />
               <UserButton />
               {/*<WarehouseButton />*/}
+              <DriverButton />
             </Grid>
             <Grid item xs={1}>
               <Button onClick={logout} color="info" variant="contained">

@@ -80,6 +80,7 @@ function Warehouses() {
         dispatch(clearError());
         setWarehouses(response.data.warehouses);
         setCompany(response.data.company);
+        console.log(response.data);
       });
   }, []);
 
@@ -109,12 +110,24 @@ function Warehouses() {
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
-                <TableCell>Warehouse name</TableCell>
-                <TableCell align="right">Address</TableCell>
-                <TableCell align="right">Phone</TableCell>
-                <TableCell align="right">Admin</TableCell>
-                <TableCell align="right">Area</TableCell>
-                <TableCell align="center">Status</TableCell>
+                <TableCell>
+                  <Typography variant="h6">Warehouse name</Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography variant="h6">Address</Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography variant="h6">Phone</Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography variant="h6">Admin</Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography variant="h6">Area</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="h6">Status</Typography>
+                </TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
@@ -134,7 +147,9 @@ function Warehouses() {
                     </Link>
                   </TableCell>
                   <TableCell align="right">{ware.warehouse.area}</TableCell>
-                  <TableCell align="center">{ware.warehouse.active ? <CheckIcon/> : <CloseIcon/>}</TableCell>
+                  <TableCell align="center">
+                    {ware.warehouse.active ? <CheckIcon /> : <CloseIcon />}
+                  </TableCell>
                   <TableCell align="center">
                     <Button
                       variant="outlined"
