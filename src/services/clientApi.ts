@@ -80,30 +80,39 @@ interface driverFullData {
 }
 
 interface consignmentFullData {
-  consignment_status: string;
+  id: number;
+  status: string;
   bundle_seria: string;
-  bundle_number: number;
-  consignment_seria: number;
+  bundle_number: string;
+  consignment_seria: string;
   consignment_number: string;
-  truck_number: string;
-  first_name: string;
-  second_name: string;
-  passport: string;
-  contractor_name: string;
 
-  goods_status: string;
-  good_name: string;
-  quantity: number;
-  unit_of_measurement: string;
+  truck: {
+    truck_number: string;
+    truck_type: {
+      truck_type_name: string;
+    };
+  };
+  driver: {
+    first_name: string;
+    second_name: string;
+    middle_name: string;
+    birthday: string;
+    passport: string;
+
+    role: {
+      role_name: string;
+    };
+    company: {
+      name: string;
+    };
+  };
 }
 
 interface goodsFullData {
-  status: string;
-  bundle_seria: string;
-  bundle_number: number;
+  good_status: string;
   good_name: string;
   quantity: number;
-  unit_of_measurement: string;
 }
 
 function initClientApi() {
@@ -277,26 +286,28 @@ function initClientApi() {
         }),
     },
     consignment: {
-      create: (credentials: consignmentFullData, jwt: string) =>
+      create: (
+        consignmentCredentials: consignmentFullData,
+        goodsCredentials: goodsFullData,
+        jwt: string
+      ) =>
         axios.post(`${baseUrl}/consignments/create`, {
           consignment: {
-            status: credentials.consignment_status,
-            bundle_seria: credentials.bundle_seria,
-            bundle_number: credentials.bundle_number,
-            consignment_seria: credentials.consignment_seria,
-            consignment_number: credentials.consignment_number,
-            truck_number: credentials.truck_number,
-            first_name: credentials.first_name,
-            second_name: credentials.second_name,
-            passport: credentials.passport,
-            contractor_name: credentials.contractor_name,
+            status: consignmentCredentials.status,
+            bundle_seria: consignmentCredentials.bundle_seria,
+            bundle_number: consignmentCredentials.bundle_number,
+            consignment_seria: consignmentCredentials.consignment_seria,
+            consignment_number: consignmentCredentials.consignment_number,
+            truck_number: consignmentCredentials.truck.truck_number,
+            first_name: consignmentCredentials.driver.first_name,
+            second_name: consignmentCredentials.driver.second_name,
+            passport: consignmentCredentials.driver.passport,
+            contractor_name: consignmentCredentials.driver.company.name,
           },
           goods: {
-            status: credentials.goods_status,
-            bundle_seria: credentials.bundle_seria,
-            bundle_number: credentials.bundle_number,
-            good_name: credentials.good_name,
-            quantity: credentials.quantity,
+            status: goodsCredentials.good_status,
+            good_name: goodsCredentials.good_name,
+            quantity: goodsCredentials.quantity,
           },
           headers: { authorization: jwt },
         }),

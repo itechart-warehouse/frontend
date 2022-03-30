@@ -29,7 +29,7 @@ function initTruckApi() {
     },
     goods: {
       getByConsignmentId: (id: any) =>
-        axios.get(`${baseUrl}/consignments/${id}/consignments_goods`, {
+        axios.get(`${baseUrl}/consignments/${id}/consignment_goods`, {
           headers: { authorization: token },
         }),
     },
