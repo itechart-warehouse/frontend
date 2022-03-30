@@ -232,26 +232,29 @@ function initClientApi() {
           headers: { authorization: jwt },
         }),
       create: (warehouseCredentials: warehouseFullData, id: any, jwt: string) =>
-        axios.post(`${baseUrl}/warehouse/create`, {
-          warehouse: {
-            area: warehouseCredentials.area,
-            name: warehouseCredentials.warehouseName,
-            address: warehouseCredentials.address,
-            phone: warehouseCredentials.warehousePhone,
+        axios.post(
+          `${baseUrl}/warehouse/create`,
+          {
+            warehouse: {
+              area: warehouseCredentials.area,
+              name: warehouseCredentials.warehouseName,
+              address: warehouseCredentials.address,
+              phone: warehouseCredentials.warehousePhone,
+            },
+            user: {
+              email: warehouseCredentials.userEmail,
+              password: warehouseCredentials.userPassword,
+              first_name: warehouseCredentials.firstName,
+              last_name: warehouseCredentials.lastName,
+              birth_date: warehouseCredentials.birthDate,
+              address: warehouseCredentials.address,
+            },
+            company: {
+              id: id,
+            },
           },
-          user: {
-            email: warehouseCredentials.userEmail,
-            password: warehouseCredentials.userPassword,
-            first_name: warehouseCredentials.firstName,
-            last_name: warehouseCredentials.lastName,
-            birth_date: warehouseCredentials.birthDate,
-            address: warehouseCredentials.address,
-          },
-          company: {
-            id: id,
-          },
-          headers: { authorization: jwt },
-        }),
+          { headers: { authorization: jwt } }
+        ),
       getById: (id: any, jwt: string) =>
         axios.get(`${baseUrl}/warehouse/${id}`, {
           headers: { authorization: jwt },
@@ -261,15 +264,18 @@ function initClientApi() {
         credentials: warehouseEditData,
         jwt: string
       ) =>
-        axios.post(`${baseUrl}/warehouses/update/${id}`, {
-          warehouse: {
-            name: credentials.warehouseName,
-            address: credentials.warehouseAddress,
-            phone: credentials.warehousePhone,
-            active: credentials.active,
+        axios.post(
+          `${baseUrl}/warehouses/update/${id}`,
+          {
+            warehouse: {
+              name: credentials.warehouseName,
+              address: credentials.warehouseAddress,
+              phone: credentials.warehousePhone,
+              active: credentials.active,
+            },
           },
-          headers: { authorization: jwt },
-        }),
+          { headers: { authorization: jwt } }
+        ),
     },
     section: {
       getAllByWarehouseId: (warehouse_id: any, jwt: string) =>
@@ -291,22 +297,25 @@ function initClientApi() {
         goodsCredentials: goodsFullData,
         jwt: string
       ) =>
-        axios.post(`${baseUrl}/consignments/create`, {
-          consignment: {
-            status: consignmentCredentials.status,
-            bundle_seria: consignmentCredentials.bundle_seria,
-            bundle_number: consignmentCredentials.bundle_number,
-            consignment_seria: consignmentCredentials.consignment_seria,
-            consignment_number: consignmentCredentials.consignment_number,
-            truck_number: consignmentCredentials.truck.truck_number,
-            first_name: consignmentCredentials.driver.first_name,
-            second_name: consignmentCredentials.driver.second_name,
-            passport: consignmentCredentials.driver.passport,
-            contractor_name: consignmentCredentials.driver.company.name,
+        axios.post(
+          `${baseUrl}/consignments/create`,
+          {
+            consignment: {
+              status: consignmentCredentials.status,
+              bundle_seria: consignmentCredentials.bundle_seria,
+              bundle_number: consignmentCredentials.bundle_number,
+              consignment_seria: consignmentCredentials.consignment_seria,
+              consignment_number: consignmentCredentials.consignment_number,
+              truck_number: consignmentCredentials.truck.truck_number,
+              first_name: consignmentCredentials.driver.first_name,
+              second_name: consignmentCredentials.driver.second_name,
+              passport: consignmentCredentials.driver.passport,
+              contractor_name: consignmentCredentials.driver.company.name,
+            },
+            goods: goodsCredentials,
           },
-          goods: goodsCredentials,
-          headers: { authorization: jwt },
-        }),
+          { headers: { authorization: jwt } }
+        ),
     },
   };
 }
