@@ -11,6 +11,16 @@ function initTruckApi() {
           headers: { authorization: token },
         }),
     },
+    consignment:{
+      getAll:() =>
+      axios.get(`${baseUrl}/consignments`, {
+        headers: { authorization: token },
+      }),
+      getById: (id: any) =>
+      axios.get(`${baseUrl}/consignments/${id}`, {
+        headers: { authorization: token },
+      }),
+    },
     transports: {
       getAll: () =>
         axios.get(`${baseUrl}/trucks.json`, {
