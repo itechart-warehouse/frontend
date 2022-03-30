@@ -80,7 +80,7 @@ interface driverFullData {
 }
 
 interface consignmentFullData {
-  status: string;
+  consignment_status: string;
   bundle_seria: string;
   bundle_number: number;
   consignment_seria: number;
@@ -90,6 +90,11 @@ interface consignmentFullData {
   second_name: string;
   passport: string;
   contractor_name: string;
+
+  goods_status: string;
+  good_name: string;
+  quantity: number;
+  unit_of_measurement: string;
 }
 
 interface goodsFullData {
@@ -275,7 +280,7 @@ function initClientApi() {
       create: (credentials: consignmentFullData, jwt: string) =>
         axios.post(`${baseUrl}/consignments/create`, {
           consignment: {
-            status: credentials.status,
+            status: credentials.consignment_status,
             bundle_seria: credentials.bundle_seria,
             bundle_number: credentials.bundle_number,
             consignment_seria: credentials.consignment_seria,
@@ -286,14 +291,8 @@ function initClientApi() {
             passport: credentials.passport,
             contractor_name: credentials.contractor_name,
           },
-          headers: { authorization: jwt },
-        }),
-    },
-    goods: {
-      create: (credentials: goodsFullData, jwt: string) =>
-        axios.post(`${baseUrl}/goods/create`, {
           goods: {
-            status: credentials.status,
+            status: credentials.goods_status,
             bundle_seria: credentials.bundle_seria,
             bundle_number: credentials.bundle_number,
             good_name: credentials.good_name,
