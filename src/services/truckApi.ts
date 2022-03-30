@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseUrl = " https://trucking-logistics.herokuapp.com/api/v1";
-const token = "Basic c3lzYWRtaW5AZXhhbXBsZS5jb206c3lzYWRtaW4xMjM=";
+const token = "Basic c2hvcHBpbmdjZW50ZXJvd25lckBleGFtcGxlLmNvbTpzaG9wcGluZ2NlbnRlcm93bmVyMTIz";
 
 function initTruckApi() {
   return {
