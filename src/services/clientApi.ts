@@ -297,7 +297,6 @@ function initClientApi() {
             bundle_number: credentials.bundle_number,
             good_name: credentials.good_name,
             quantity: credentials.quantity,
-            unit_of_measurement: credentials.unit_of_measurement,
           },
           headers: { authorization: jwt },
         }),
