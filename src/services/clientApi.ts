@@ -304,11 +304,7 @@ function initClientApi() {
             passport: consignmentCredentials.driver.passport,
             contractor_name: consignmentCredentials.driver.company.name,
           },
-          goods: {
-            status: goodsCredentials.good_status,
-            good_name: goodsCredentials.good_name,
-            quantity: goodsCredentials.quantity,
-          },
+          goods: goodsCredentials,
           headers: { authorization: jwt },
         }),
     },

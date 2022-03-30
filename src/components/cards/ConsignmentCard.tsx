@@ -155,7 +155,7 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        console.log("res", res);
+        console.log("goods", goods);
         dispatch(clearError());
       });
   };
