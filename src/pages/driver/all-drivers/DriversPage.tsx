@@ -102,7 +102,7 @@ function Drivers() {
                     </Link>
                   </TableCell>
                   <TableCell align="left" component="th" scope="row">
-                    {driver.company.name}
+                  {driver.company ? driver.company.name : 'N/A'}
                   </TableCell>
                   <TableCell>
                     <AirlineSeatReclineNormalIcon />
