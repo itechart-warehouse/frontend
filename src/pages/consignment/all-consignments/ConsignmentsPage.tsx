@@ -85,7 +85,7 @@ function Consignments() {
         setConsignments(response.data);
         console.log(response.data);
       });
-  },);
+  },[]);
 
   return (
     <>
