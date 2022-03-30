@@ -10,11 +10,9 @@ import {
   Button,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 import { truckApi } from "../../../services/truckApi";

@@ -79,6 +79,28 @@ interface driverFullData {
   password_info: string;
 }
 
+interface consignmentFullData {
+  status: string;
+  bundle_seria: string;
+  bundle_number: number;
+  consignment_seria: number;
+  consignment_number: string;
+  truck_number: string;
+  first_name: string;
+  second_name: string;
+  passport: string;
+  contractor_name: string;
+}
+
+interface goodsFullData {
+  status: string;
+  bundle_seria: string;
+  bundle_number: number;
+  good_name: string;
+  quantity: number;
+  unit_of_measurement: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -249,7 +271,38 @@ function initClientApi() {
           headers: { authorization: jwt },
         }),
     },
+    consignment: {
+      create: (credentials: consignmentFullData, jwt: string) =>
+        axios.post(`${baseUrl}/consignments/create`, {
+          consignment: {
+            status: credentials.status,
+            bundle_seria: credentials.bundle_seria,
+            bundle_number: credentials.bundle_number,
+            consignment_seria: credentials.consignment_seria,
+            consignment_number: credentials.consignment_number,
+            truck_number: credentials.truck_number,
+            first_name: credentials.first_name,
+            second_name: credentials.second_name,
+            passport: credentials.passport,
+            contractor_name: credentials.contractor_name,
+          },
+          headers: { authorization: jwt },
+        }),
+    },
+    goods: {
+      create: (credentials: goodsFullData, jwt: string) =>
+        axios.post(`${baseUrl}/goods/create`, {
+          goods: {
+            status: credentials.status,
+            bundle_seria: credentials.bundle_seria,
+            bundle_number: credentials.bundle_number,
+            good_name: credentials.good_name,
+            quantity: credentials.quantity,
+            unit_of_measurement: credentials.unit_of_measurement,
+          },
+          headers: { authorization: jwt },
+        }),
+    },
   };
 }
-
 export const clientApi = initClientApi();
