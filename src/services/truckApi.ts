@@ -20,18 +20,18 @@ function initTruckApi() {
         axios.get(`${baseUrl}/consignments/${id}`, {
           headers: { authorization: token },
         }),
-      transports: {
-        getAll: () =>
-          axios.get(`${baseUrl}/trucks.json`, {
-            headers: { authorization: token },
-          }),
-      },
-      goods: {
-        getByConsignmentId: (id: any) =>
-          axios.get(`${baseUrl}/consignments/${id}/consignments_goods`, {
-            headers: { authorization: token },
-          }),
-      },
+    },
+    transports: {
+      getAll: () =>
+        axios.get(`${baseUrl}/trucks.json`, {
+          headers: { authorization: token },
+        }),
+    },
+    goods: {
+      getByConsignmentId: (id: any) =>
+        axios.get(`${baseUrl}/consignments/${id}/consignments_goods`, {
+          headers: { authorization: token },
+        }),
     },
   };
 }
