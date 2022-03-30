@@ -20,7 +20,13 @@ function initTruckApi() {
       axios.get(`${baseUrl}/consignments/${id}`, {
         headers: { authorization: token },
       }),
-    }
+    },
+    transports: {
+      getAll: () =>
+        axios.get(`${baseUrl}/trucks.json`, {
+          headers: { authorization: token },
+        }),
+    },
   };
 }
 

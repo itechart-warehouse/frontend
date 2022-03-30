@@ -16,23 +16,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import { truckApi } from "../../../services/truckApi";
 
-interface User {
-  user: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    address: string;
-    active: boolean;
-  };
-
+interface Driver {
+  id: string;
+  first_name: string;
+  second_name: string;
   company: {
     name: string;
   };
 }
+
 const twinkleBlue = "#e9ecef";
 
 const headStyle = {
@@ -51,14 +46,13 @@ const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
 };
 
-function Users() {
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [users, setUsers] = useState<User[]>([]);
+function Drivers() {
+  const [drivers, setDrivers] = useState<Driver[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.user
-      .getAll(jwt)
+    truckApi.driver
+      .getAll()
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -74,58 +68,44 @@ function Users() {
       })
       .then((response) => {
         dispatch(clearError());
-        setUsers(response.data.users);
+        setDrivers(response.data);
+        console.log(response.data);
       });
   }, []);
-
-  const navigate = useNavigate();
-  const routeCreateUser = () => {
-    navigate("/user/create");
-  };
 
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Users listing
+          Drivers listing
         </Typography>
-        <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
-          Create new user
-        </Button>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
+        <TableContainer sx={{ width: 500 }} component={Paper}>
+          <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
                 <TableCell>
-                  <Typography variant="h6">User name</Typography>
+                  <Typography variant="h6">Driver</Typography>
                 </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">Address</Typography>
+                <TableCell>
+                  {" "}
+                  <Typography variant="h6">Contractor</Typography>
                 </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">Company</Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">E-mail</Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="h6">Status</Typography>
-                </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((item) => (
-                <TableRow key={item.user.id}>
+              {drivers.map((driver) => (
+                <TableRow key={driver.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${item.user.id}`}>
-                      {item.user.first_name} {item.user.last_name}
+                    <Link to={`${driver.id}`}>
+                      {driver.first_name} {driver.second_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="right">{item.user.address}</TableCell>
-                  <TableCell align="right">{item.company.name}</TableCell>
-                  <TableCell align="right">{item.user.email}</TableCell>
-                  <TableCell align="center">
-                    {item.user.active ? <CheckIcon /> : <CloseIcon />}
+                  <TableCell align="left" component="th" scope="row">
+                    {driver.company.name}
+                  </TableCell>
+                  <TableCell>
+                    <AirlineSeatReclineNormalIcon />
                   </TableCell>
                 </TableRow>
               ))}
@@ -137,4 +117,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Drivers;

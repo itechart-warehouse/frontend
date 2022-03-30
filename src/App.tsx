@@ -22,6 +22,10 @@ import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import ConsignmentsPage from "./pages/consignment/all-consignments/ConsignmentsPage";
 import ConsignmentShowPage from "./pages/consignment/show-consignment/ConsignmentShowPage";
+import DriversPage from "./pages/driver/all-drivers/DriversPage";
+import DriverShowPage from "./pages/driver/show-driver/DriverShowPage";
+import TransportShowPage from "./pages/transport/show-transport/TransportShowPage";
+import AllTransportPage from "./pages/transport/all-transport/AllTransportPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -57,13 +61,17 @@ function App() {
               <Route
                 path="warehouses/:id/sections"
                 element={<SectionsPage />}
-               />
+              />
               <Route
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}
               />
               <Route path="consignments" element={<ConsignmentsPage />} />
               <Route path="consignments/:id" element={<ConsignmentShowPage />} />
+              <Route path="drivers" element={<DriversPage />} />
+              <Route path="drivers/:id" element={<DriverShowPage />} />
+              <Route path="transport/:id" element={<TransportShowPage />} />
+              <Route path="transports" element={<AllTransportPage />} />
             </Route>
           </>
         ) : (
