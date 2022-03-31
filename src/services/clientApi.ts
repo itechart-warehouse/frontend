@@ -69,6 +69,7 @@ interface warehouseEditData {
   warehouseName: string;
   warehouseAddress: string;
   warehousePhone: string;
+  warehouseArea: string;
   active: boolean;
 }
 
@@ -271,6 +272,7 @@ function initClientApi() {
               name: credentials.warehouseName,
               address: credentials.warehouseAddress,
               phone: credentials.warehousePhone,
+              area: credentials.warehouseArea,
               active: credentials.active,
             },
           },

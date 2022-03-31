@@ -13,6 +13,7 @@ interface Values {
   warehouseName: string;
   warehouseAddress: string;
   warehousePhone: string;
+  warehouseArea: string;
   active: boolean;
 }
 
@@ -36,6 +37,7 @@ function EditWarehouseForm() {
       warehouseName: warehouse.name,
       warehouseAddress: warehouse.address,
       warehousePhone: warehouse.phone,
+      warehouseArea: warehouse.area,
       active: warehouse.active,
     },
     validationSchema: validationSchema,
@@ -111,6 +113,22 @@ function EditWarehouseForm() {
         }
         helperText={
           formik.touched.warehouseAddress && formik.errors.warehouseAddress
+        }
+        sx={{ mb: 3 }}
+      />
+      <TextField
+        fullWidth
+        id="warehouseArea"
+        name="warehouseArea"
+        label="Warehouse Area"
+        value={formik.values.warehouseArea}
+        onChange={formik.handleChange}
+        error={
+          formik.touched.warehouseArea &&
+          Boolean(formik.errors.warehouseArea)
+        }
+        helperText={
+          formik.touched.warehouseArea && formik.errors.warehouseArea
         }
         sx={{ mb: 3 }}
       />

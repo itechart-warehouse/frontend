@@ -2,18 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface WarehouseState {
   warehouse: {
+    reserved: string;
     name: string;
     address: string;
     phone: string;
+    area: string;
     active: boolean;
   };
 }
 
 const initialState: WarehouseState = {
   warehouse: {
+    reserved: "",
     name: "",
     address: "",
     phone: "",
+    area: "",
     active: false,
   },
 };
