@@ -26,6 +26,7 @@ import DriversPage from "./pages/driver/all-drivers/DriversPage";
 import DriverShowPage from "./pages/driver/show-driver/DriverShowPage";
 import TransportShowPage from "./pages/transport/show-transport/TransportShowPage";
 import AllTransportPage from "./pages/transport/all-transport/AllTransportPage";
+import WarehouseConsignmentShowPage from "./pages/consignment/warehouse-all-consignment/WarehouseConsignmentShowPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -67,7 +68,14 @@ function App() {
                 element={<EditWarehousePage />}
               />
               <Route path="consignments" element={<ConsignmentsPage />} />
-              <Route path="consignments/:id" element={<ConsignmentShowPage />} />
+              <Route
+                path="consignments/:id"
+                element={<ConsignmentShowPage />}
+              />
+              <Route
+                path="warehouse-consignments/:id"
+                element={<WarehouseConsignmentShowPage />}
+              />
               <Route path="drivers" element={<DriversPage />} />
               <Route path="drivers/:id" element={<DriverShowPage />} />
               <Route path="transport/:id" element={<TransportShowPage />} />

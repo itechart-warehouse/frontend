@@ -20,7 +20,7 @@ function ConsignmentShowPage() {
             color="primary"
             align="center"
           >
-            Consignment info
+            Incoming consignment info
           </Typography>
           <Box sx={{ minWidth: 500 }}>
             <Card variant="outlined">

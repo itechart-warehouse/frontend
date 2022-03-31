@@ -316,6 +316,10 @@ function initClientApi() {
           },
           { headers: { authorization: jwt } }
         ),
+      getById: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/warehouse-consignments/${id}`, {
+          headers: { authorization: jwt },
+        }),
     },
   };
 }
