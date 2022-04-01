@@ -17,6 +17,7 @@ interface Warehouse {
     address: string;
     phone: string;
     area: string;
+    reserved: string;
   };
   company: {
     id: any,
@@ -36,6 +37,7 @@ function WarehouseCard() {
       address: "",
       phone: "",
       area: "",
+      reserved: "",
     },
     company: {
       id: "",
@@ -103,21 +105,10 @@ function WarehouseCard() {
           {warehouse.warehouse.phone}
         </Typography>
         <Typography variant="h6" component="div">
-          Area*
+          Area
         </Typography>
         <Typography color="text.secondary">
-          <Link to={`/warehouses/${id}/sections`}>
-            {warehouse.warehouse.area}
-          </Link>
-        </Typography>
-        <Typography
-          variant="caption"
-          display="block"
-          gutterBottom
-          color="text.secondary"
-          sx={{ mb: 1.5 }}
-        >
-          * - press to see information about sections
+            {warehouse.warehouse.reserved}/{warehouse.warehouse.area}
         </Typography>
         <Typography variant="h6" component="div">
           Company name

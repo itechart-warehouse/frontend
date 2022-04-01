@@ -1,7 +1,7 @@
-import { Box, Card, Grid, Typography } from "@mui/material";
-import ConsignmentCard from "../../../components/cards/ConsignmentCard";
+import { Alert, Box, Card, Grid, Typography } from "@mui/material";
+import WarehouseConsignmentCard from "../../../components/cards/WarehouseConsignmentCard";
 
-function ConsignmentShowPage() {
+function WarehouseConsignmentShowPage() {
   return (
     <>
       <Grid
@@ -20,11 +20,14 @@ function ConsignmentShowPage() {
             color="primary"
             align="center"
           >
-            Incoming consignment info
+            Warehouse consignment info
           </Typography>
+          <Alert severity="success">
+            This consignment was registered in the warehouse.
+          </Alert>
           <Box sx={{ minWidth: 500 }}>
             <Card variant="outlined">
-              <ConsignmentCard />
+              <WarehouseConsignmentCard />
             </Card>
           </Box>
         </Grid>
@@ -33,4 +36,4 @@ function ConsignmentShowPage() {
   );
 }
 
-export default ConsignmentShowPage;
+export default WarehouseConsignmentShowPage;

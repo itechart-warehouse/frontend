@@ -18,7 +18,7 @@ import WarehousesPage from "./pages/warehouse/all-warehouses/WarehousesPage";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
 import CreateWarehousePage from "./pages/warehouse/create-warehouse/CreateWarehousePage";
 import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPage";
-import SectionsPage from "./pages/section/all-sections/SectionsPage";
+// import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import ConsignmentsPage from "./pages/consignment/all-consignments/ConsignmentsPage";
 import ConsignmentShowPage from "./pages/consignment/show-consignment/ConsignmentShowPage";
@@ -26,6 +26,8 @@ import DriversPage from "./pages/driver/all-drivers/DriversPage";
 import DriverShowPage from "./pages/driver/show-driver/DriverShowPage";
 import TransportShowPage from "./pages/transport/show-transport/TransportShowPage";
 import AllTransportPage from "./pages/transport/all-transport/AllTransportPage";
+import WarehouseConsignmentShowPage from "./pages/consignment/warehouse-show-consignment/WarehouseConsignmentShowPage";
+import WarehouseConsignmentsPage from "./pages/consignment/warehouse-all-consignment/WarehouseConsignmentsPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -59,15 +61,22 @@ function App() {
               />
               <Route path="warehouse/:id" element={<WarehouseShowPage />} />
               <Route
-                path="warehouses/:id/sections"
-                element={<SectionsPage />}
-              />
-              <Route
                 path="warehouse/:id/edit"
                 element={<EditWarehousePage />}
               />
               <Route path="consignments" element={<ConsignmentsPage />} />
-              <Route path="consignments/:id" element={<ConsignmentShowPage />} />
+              <Route
+                path="consignments/:id"
+                element={<ConsignmentShowPage />}
+              />
+              <Route
+                path="warehouse-consignments"
+                element={<WarehouseConsignmentsPage />}
+              />
+              <Route
+                path="warehouse-consignments/:id"
+                element={<WarehouseConsignmentShowPage />}
+              />
               <Route path="drivers" element={<DriversPage />} />
               <Route path="drivers/:id" element={<DriverShowPage />} />
               <Route path="transport/:id" element={<TransportShowPage />} />

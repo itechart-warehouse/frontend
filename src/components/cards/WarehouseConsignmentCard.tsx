@@ -4,7 +4,6 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -18,36 +17,28 @@ interface Consignment {
   bundle_number: string;
   consignment_seria: string;
   consignment_number: string;
+  first_name: string;
+  second_name: string;
+  passport: string;
+  contractor_name: string;
+  truck_number: string;
+  date: string;
+}
 
-  truck: {
-    truck_number: string;
-    truck_type: {
-      truck_type_name: string;
-    };
-  };
-  driver: {
+interface UserInfo {
+  user: {
     first_name: string;
-    second_name: string;
-    middle_name: string;
-    birthday: string;
-    passport: string;
-
-    role: {
-      role_name: string;
-    };
-    company: {
-      name: string;
-    };
+    last_name: string;
   };
 }
-
-interface Goods {
-  good_status: string;
-  good_name: string;
-  quantity: number;
-}
-
-export default function ConsignmentCard() {
+export default function WarehouseConsignmentCard() {
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const [userActions, setUserActions] = useState<UserInfo>({
+    user: {
+      first_name: "",
+      last_name: "",
+    },
+  });
   const [consignment, setConsignment] = useState<Consignment>({
     id: 0,
     status: "",
@@ -55,38 +46,19 @@ export default function ConsignmentCard() {
     bundle_number: "",
     consignment_seria: "",
     consignment_number: "",
-    truck: {
-      truck_number: "",
-      truck_type: {
-        truck_type_name: "",
-      },
-    },
-    driver: {
-      first_name: "",
-      second_name: "",
-      middle_name: "",
-      birthday: "",
-      passport: "",
-      role: {
-        role_name: "",
-      },
-      company: {
-        name: "",
-      },
-    },
-  });
-
-  const [goods, setGoods] = useState<Goods>({
-    good_status: "",
-    good_name: "",
-    quantity: 0,
+    first_name: "",
+    second_name: "",
+    passport: "",
+    contractor_name: "",
+    truck_number: "",
+    date: "",
   });
 
   const { id } = useParams();
 
   useEffect(() => {
-    truckApi.consignment
-      .getById(id)
+    clientApi.consignment
+      .getById(id, jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -101,65 +73,19 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        setConsignment(res.data);
-        console.log("consignment", res.data);
+        setConsignment(res.data.consignment);
+        setUserActions(res.data.actions);
+        console.log("consignment", res.data.consignment);
+        console.log("user_actions", res.data.actions);
         dispatch(clearError());
       });
   }, []);
 
-  useEffect(() => {
-    truckApi.goods
-      .getByConsignmentId(id)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        setGoods(res.data);
-        dispatch(clearError());
-      });
-  }, []);
-
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const routeConsignmentList = () => {
-    navigate("/consignments");
-  };
-
-  const routeRegisteredConsignment = (warehouse_consignment_id: number) => {
-    navigate(`/warehouse-consignments/${warehouse_consignment_id}`);
-  };
-
-  const registration = () => {
-    clientApi.consignment
-      .create(consignment, goods, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        routeRegisteredConsignment(res.data.consignment.id);
-      });
+    navigate("/warehouse-consignments");
+    console.log(id);
   };
 
   return (
@@ -178,13 +104,14 @@ export default function ConsignmentCard() {
           Status
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.status}
+          {consignment.status} by {userActions.user.first_name}{" "}
+          {userActions.user.last_name} at {consignment.date}
         </Typography>
         <Typography variant="h6" component="div">
           Contractor
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.driver.company.name}
+          {consignment.contractor_name}
         </Typography>
         <Typography variant="h6" component="div">
           Bundle
@@ -197,21 +124,22 @@ export default function ConsignmentCard() {
           Driver
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.driver.first_name} {consignment.driver.second_name}{" "}
-          {consignment.driver.middle_name}
+          {consignment.first_name} {consignment.second_name}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {consignment.passport}
         </Typography>
         <Typography variant="h6" component="div">
           Truck
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.truck.truck_number}
+          {consignment.truck_number}
         </Typography>
         <Typography variant="h6" component="div"></Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={routeConsignmentList}>Cancel</Button>
-        <Button onClick={registration}>Registration</Button>
+        <Button onClick={routeConsignmentList}>Warehouse consignments list</Button>
       </CardActions>
     </React.Fragment>
   );

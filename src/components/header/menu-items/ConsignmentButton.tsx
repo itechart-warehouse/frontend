@@ -14,8 +14,12 @@ export default function ConsignmentButton() {
   };
 
   const navigate = useNavigate();
-  const consignmentsRoute = () => {
+  const truckConsignmentsRoute = () => {
     navigate("/consignments");
+  };
+
+  const warehouseConsignmentsRoute = () => {
+    navigate("/warehouse-consignments");
   };
 
   return (
@@ -42,10 +46,18 @@ export default function ConsignmentButton() {
         <MenuItem
           onClick={() => {
             handleClose();
-            consignmentsRoute();
+            truckConsignmentsRoute();
           }}
         >
-          Listing
+          Incoming listing
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            warehouseConsignmentsRoute();
+          }}
+        >
+          Warehouse listing
         </MenuItem>
       </Menu>
     </>
