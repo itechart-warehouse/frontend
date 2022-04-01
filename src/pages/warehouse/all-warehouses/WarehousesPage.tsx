@@ -80,7 +80,7 @@ function Warehouses() {
         dispatch(clearError());
         setWarehouses(response.data.warehouses);
         setCompany(response.data.company);
-        console.log(response.data);
+        console.log(jwt);
       });
   }, []);
 

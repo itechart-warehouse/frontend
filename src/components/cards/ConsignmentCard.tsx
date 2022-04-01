@@ -125,7 +125,6 @@ export default function ConsignmentCard() {
       })
       .then((res) => {
         setGoods(res.data);
-        console.log("goods", res.data);
         dispatch(clearError());
       });
   }, []);
@@ -135,7 +134,10 @@ export default function ConsignmentCard() {
   const dispatch = useDispatch();
   const routeConsignmentList = () => {
     navigate("/consignments");
-    console.log(id);
+  };
+
+  const routeRegisteredConsignment = (warehouse_consignment_id: number) => {
+    navigate(`/warehouse-consignments/${warehouse_consignment_id}`);
   };
 
   const registration = () => {
@@ -155,8 +157,8 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        console.log("goods", goods);
         dispatch(clearError());
+        routeRegisteredConsignment(res.data.consignment.id);
       });
   };
 
