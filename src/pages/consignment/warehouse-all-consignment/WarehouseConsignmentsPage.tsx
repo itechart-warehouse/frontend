@@ -7,15 +7,21 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Box,
+  Tab,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
-import {clientApi} from "../../../services/clientApi";
-import {RootState} from "../../../store";
-
+import { clientApi } from "../../../services/clientApi";
+import { RootState } from "../../../store";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import ConsignmentCard from "../../../components/cards/ConsignmentCard";
+import RegistartedWarehouseConsignments from "../../../components/lists/RegistartedWarehouseConsignments";
+import CheckedWarehouseConsignments from "../../../components/lists/CheckedWarehouseConsignments";
+import PlacedWarehouseConsignments from "../../../components/lists/PlacedWarehouseConsignments";
 
 interface Consignments {
   id: number;
@@ -53,7 +59,7 @@ function WarehouseConsignmentsPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      clientApi.consignment
+    clientApi.consignment
       .getAll(jwt)
       .catch((err) => {
         if (err.response) {
@@ -74,67 +80,37 @@ function WarehouseConsignmentsPage() {
         console.log(response.data.consignments);
       });
   }, []);
+
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Warehouse consignments listing
         </Typography>
-        <TableContainer sx={{ width: 700 }} component={Paper}>
-          <Table aria-label="usersPage table">
-            <TableHead sx={headStyle}>
-              <TableRow sx={rowStyle}>
-                <TableCell>
-                  <Typography variant="h6">Consignments</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Driver</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Car</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Bundle</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Status</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Contractor</Typography>
-                </TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {consignments.map((consignments) => (
-                <TableRow key={consignments.id}>
-                  <TableCell component="th" scope="row">
-                    <Link to={`${consignments.id}`}>
-                      {consignments.consignment_seria}{" "}
-                      {consignments.consignment_number}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    {consignments.first_name}{" "}
-                    {consignments.second_name}{" "}
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    {consignments.truck_number}
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    {consignments.bundle_seria} {consignments.bundle_number}
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    {consignments.status}
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    {consignments.contractor_name}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Registered" value="1" />
+              <Tab label="Checked" value="2" />
+              <Tab label="Placed" value="3" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <RegistartedWarehouseConsignments />
+          </TabPanel>
+          <TabPanel value="2">
+            <CheckedWarehouseConsignments />
+          </TabPanel>
+          <TabPanel value="3">
+            <PlacedWarehouseConsignments />
+          </TabPanel>
+        </TabContext>
       </Container>
     </>
   );
