@@ -84,7 +84,7 @@ export default function WarehouseConsignmentCard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const routeConsignmentList = () => {
-    navigate("/consignments");
+    navigate("/warehouse-consignments");
     console.log(id);
   };
 
@@ -139,7 +139,7 @@ export default function WarehouseConsignmentCard() {
         <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={routeConsignmentList}>Cancel</Button>
+        <Button onClick={routeConsignmentList}>Warehouse consignments list</Button>
       </CardActions>
     </React.Fragment>
   );
