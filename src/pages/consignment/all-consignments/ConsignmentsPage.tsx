@@ -7,10 +7,11 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { truckApi } from "../../../services/truckApi";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
@@ -63,6 +64,14 @@ const rowStyle = {
 function Consignments() {
   const [consignments, setConsignments] = useState<Consignments[]>([]);
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     truckApi.consignment
@@ -81,9 +90,11 @@ function Consignments() {
         return Promise.reject(err);
       })
       .then((response) => {
-        dispatch(clearError());
-        setConsignments(response.data);
-        console.log(response.data);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setConsignments(response.data);
+          console.log(response.data);
+        }
       });
   }, []);
 
@@ -119,7 +130,7 @@ function Consignments() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {consignments.map((consignments) => {
+              {consignments.length ? (consignments.map((consignments) => {
                 if (consignments.status === "registered")
                   return (
                     <TableRow key={consignments.id}>
@@ -148,7 +159,12 @@ function Consignments() {
                       </TableCell>
                     </TableRow>
                   );
-              })}
+              })) : (
+                  <TableRow>
+                    <TableCell>
+                      <CircularProgress />
+                    </TableCell>
+                  </TableRow>)}
             </TableBody>
           </Table>
         </TableContainer>
