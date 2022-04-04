@@ -8,9 +8,10 @@ import {
   TableCell,
   TableBody,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
@@ -47,6 +48,14 @@ const rowStyle = {
 function Drivers() {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     truckApi.driver
@@ -65,9 +74,11 @@ function Drivers() {
         return Promise.reject(err);
       })
       .then((response) => {
-        dispatch(clearError());
-        setDrivers(response.data);
-        console.log(response.data);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setDrivers(response.data);
+          console.log(response.data);
+        }
       });
   }, []);
 
@@ -92,21 +103,29 @@ function Drivers() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {drivers.map((driver) => (
-                <TableRow key={driver.id}>
-                  <TableCell component="th" scope="row">
-                    <Link to={`${driver.id}`}>
-                      {driver.first_name} {driver.second_name}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                  {driver.company ? driver.company.name : 'N/A'}
-                  </TableCell>
+              {drivers.length ? (
+                drivers.map((driver) => (
+                  <TableRow key={driver.id}>
+                    <TableCell component="th" scope="row">
+                      <Link to={`${driver.id}`}>
+                        {driver.first_name} {driver.second_name}
+                      </Link>
+                    </TableCell>
+                    <TableCell align="left" component="th" scope="row">
+                      {driver.company ? driver.company.name : "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      <AirlineSeatReclineNormalIcon />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
                   <TableCell>
-                    <AirlineSeatReclineNormalIcon />
+                    <CircularProgress />
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
