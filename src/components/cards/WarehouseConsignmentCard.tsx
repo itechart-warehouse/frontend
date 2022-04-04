@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
+import { Alert } from "@mui/material";
 
 interface Consignment {
   id: number;
@@ -81,15 +82,143 @@ export default function WarehouseConsignmentCard() {
       });
   }, []);
 
+  const check = () => {
+    clientApi.warehouseConsignment
+      .check(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        routeConsignmentList();
+      });
+  };
+
+  const place = () => {
+    clientApi.warehouseConsignment
+      .place(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        routeConsignmentList();
+      });
+  };
+
+  const recheck = () => {
+    clientApi.warehouseConsignment
+      .recheck(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        routeConsignmentList();
+      });
+  };
+
+  const shipp = () => {
+    clientApi.warehouseConsignment
+      .shipp(id, jwt)
+      .catch((err) => {
+        if (err.response) {
+          dispatch(setError([err.response.statusText]));
+          console.log("response", err.response.statusText);
+        } else if (err.request) {
+          dispatch(setError(["Server is not working"]));
+          console.log("request", err.request);
+        } else {
+          dispatch(setError([err.message]));
+          console.log("message", err.message);
+        }
+        return Promise.reject(err);
+      })
+      .then((res) => {
+        dispatch(clearError());
+        routeConsignmentList();
+      });
+  };
+
+  const statusAlert = () => {
+    if (consignment.status === "Registered") {
+      return (
+        <Alert severity="success">
+          This consignment was registered in the warehouse.
+        </Alert>
+      );
+    } else if (consignment.status === "Checked") {
+      return <Alert severity="success">This consignment was checked.</Alert>;
+    } else if (consignment.status === "Placed") {
+      return (
+        <Alert severity="success">
+          This consignment was placed in the warehouse.
+        </Alert>
+      );
+    } else if (consignment.status === "Checked before shipment") {
+      return (
+        <Alert severity="success">
+          This consignment was checked before shipment.
+        </Alert>
+      );
+    } else {
+      return <Alert severity="success">This consignment was shipped.</Alert>;
+    }
+  };
+
+  const statusAction = () => {
+    if (consignment.status === "Registered") {
+      return <Button onClick={check}>Check</Button>;
+    } else if (consignment.status === "Checked") {
+      return <Button onClick={place}>Place</Button>;
+    } else if (consignment.status === "Placed") {
+      return <Button onClick={recheck}>Recheck</Button>;
+    } else if (consignment.status === "Checked before shipment") {
+      return <Button onClick={shipp}>Shipp</Button>;
+    } else if (consignment.status === "Shipped") {
+      <Alert severity="success">This consignment was shipped.</Alert>;
+    }
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const routeConsignmentList = () => {
     navigate("/warehouse-consignments");
-    console.log(id);
   };
 
   return (
     <React.Fragment>
+      {statusAlert()}
       <CardContent>
         <Typography variant="h4" component="div"></Typography>
         <br />
@@ -139,7 +268,10 @@ export default function WarehouseConsignmentCard() {
         <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={routeConsignmentList}>Warehouse consignments list</Button>
+        <Button onClick={routeConsignmentList}>
+          Warehouse consignments list
+        </Button>
+        {statusAction()}
       </CardActions>
     </React.Fragment>
   );

@@ -22,9 +22,6 @@ function WarehouseConsignmentShowPage() {
           >
             Warehouse consignment info
           </Typography>
-          <Alert severity="success">
-            This consignment was registered in the warehouse.
-          </Alert>
           <Box sx={{ minWidth: 500 }}>
             <Card variant="outlined">
               <WarehouseConsignmentCard />
