@@ -22,6 +22,9 @@ import ConsignmentCard from "../../../components/cards/ConsignmentCard";
 import RegistartedWarehouseConsignments from "../../../components/lists/RegistartedWarehouseConsignments";
 import CheckedWarehouseConsignments from "../../../components/lists/CheckedWarehouseConsignments";
 import PlacedWarehouseConsignments from "../../../components/lists/PlacedWarehouseConsignments";
+import CheckedBeforeShipmentWarehouseConsignment from "../../../components/lists/CheckedBeforeShipmentWarehouseConsignments";
+import CheckedBeforeShipmentWarehouseConsignments from "../../../components/lists/CheckedBeforeShipmentWarehouseConsignments";
+import ShippedWarehouseConsignments from "../../../components/lists/ShippedWarehouseConsignments";
 
 interface Consignments {
   id: number;
@@ -99,6 +102,8 @@ function WarehouseConsignmentsPage() {
               <Tab label="Registered" value="1" />
               <Tab label="Checked" value="2" />
               <Tab label="Placed" value="3" />
+              <Tab label="Checked before shipment" value="4" />
+              <Tab label="Shipped" value="5" />
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -109,6 +114,12 @@ function WarehouseConsignmentsPage() {
           </TabPanel>
           <TabPanel value="3">
             <PlacedWarehouseConsignments />
+          </TabPanel>
+          <TabPanel value="4">
+            <CheckedBeforeShipmentWarehouseConsignments />
+          </TabPanel>
+          <TabPanel value="5">
+            <ShippedWarehouseConsignments />
           </TabPanel>
         </TabContext>
       </Container>
