@@ -11,7 +11,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
@@ -48,6 +48,14 @@ const rowStyle = {
 function Drivers() {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     truckApi.driver
@@ -66,9 +74,11 @@ function Drivers() {
         return Promise.reject(err);
       })
       .then((response) => {
-        dispatch(clearError());
-        setDrivers(response.data);
-        console.log(response.data);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setDrivers(response.data);
+          console.log(response.data);
+        }
       });
   }, []);
 
