@@ -8,6 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -92,21 +93,29 @@ function Drivers() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {drivers.map((driver) => (
-                <TableRow key={driver.id}>
-                  <TableCell component="th" scope="row">
-                    <Link to={`${driver.id}`}>
-                      {driver.first_name} {driver.second_name}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                  {driver.company ? driver.company.name : 'N/A'}
-                  </TableCell>
+              {drivers.length ? (
+                drivers.map((driver) => (
+                  <TableRow key={driver.id}>
+                    <TableCell component="th" scope="row">
+                      <Link to={`${driver.id}`}>
+                        {driver.first_name} {driver.second_name}
+                      </Link>
+                    </TableCell>
+                    <TableCell align="left" component="th" scope="row">
+                      {driver.company ? driver.company.name : "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      <AirlineSeatReclineNormalIcon />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
                   <TableCell>
-                    <AirlineSeatReclineNormalIcon />
+                    <CircularProgress />
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
