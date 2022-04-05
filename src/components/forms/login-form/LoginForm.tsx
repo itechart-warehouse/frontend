@@ -49,6 +49,7 @@ function LoginForm() {
         })
         .then((res) => {
           dispatch(loginUser(res.headers.authorization));
+          console.log(res);
         });
     },
   });
