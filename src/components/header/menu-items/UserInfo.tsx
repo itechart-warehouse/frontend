@@ -34,6 +34,12 @@ export default function UserInfo() {
   const role = useSelector(
     (state: RootState) => state.user.userRole.name
   );
+  const firstName = useSelector(
+    (state: RootState) => state.user.user.firstName
+  );
+  const lastName = useSelector(
+    (state: RootState) => state.user.user.lastName
+  );
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -66,6 +72,7 @@ export default function UserInfo() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      {firstName} {lastName}
         <Tooltip title="Account info">
           <IconButton
             onClick={handleClick}
