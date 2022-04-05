@@ -12,6 +12,9 @@ export interface LoginState {
   userWarehouse: {
     name: string;
   };
+  userRole:{
+    name: string;
+  }
 }
 
 const initialState: LoginState = {
@@ -26,6 +29,9 @@ const initialState: LoginState = {
   userWarehouse: {
     name: "",
   },
+  userRole: {
+    name: "",
+  },
 };
 
 const loginSlice = createSlice({
@@ -38,6 +44,7 @@ const loginSlice = createSlice({
       state.user.email = actions.payload.data.resource.email;
       state.userCompany.name = actions.payload.data.company.name;
       state.userWarehouse.name = actions.payload.data.warehouse.name;
+      state.userRole.name= actions.payload.data.role.name;
     },
     logoutUser: (state) => {
       state.user.isLoggedIn = false;
@@ -45,6 +52,7 @@ const loginSlice = createSlice({
       state.user.email = "";
       state.userCompany.name = "";
       state.userWarehouse.name = "";
+      state.userRole.name= "";
     },
   },
 });

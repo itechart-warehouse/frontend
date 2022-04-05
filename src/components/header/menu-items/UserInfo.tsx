@@ -13,6 +13,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
 import PersonIcon from "@mui/icons-material/Person";
 import BusinessIcon from "@mui/icons-material/Business";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
@@ -29,6 +30,9 @@ export default function UserInfo() {
   );
   const warehouse = useSelector(
     (state: RootState) => state.user.userWarehouse.name
+  );
+  const role = useSelector(
+    (state: RootState) => state.user.userRole.name
   );
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -115,6 +119,12 @@ export default function UserInfo() {
           {user}
         </MenuItem>
         <Divider />
+        <MenuItem>
+          <ListItemIcon>
+            <AssignmentIndTwoToneIcon />
+          </ListItemIcon>
+          {role}
+        </MenuItem>
         <MenuItem>
           <ListItemIcon>
             <BusinessIcon fontSize="small" />
