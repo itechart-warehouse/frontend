@@ -327,6 +327,32 @@ function initClientApi() {
           headers: { authorization: jwt },
         }),
     },
+    warehouseConsignment: {
+      check: (id: any, jwt: string) =>
+        axios.post(
+          `${baseUrl}/warehouse-consignments/${id}/check`,
+          {},
+          { headers: { authorization: jwt } }
+        ),
+      place: (id: any, jwt: string) =>
+        axios.post(
+          `${baseUrl}/warehouse-consignments/${id}/place`,
+          {},
+          { headers: { authorization: jwt } }
+        ),
+      recheck: (id: any, jwt: string) =>
+        axios.post(
+          `${baseUrl}/warehouse-consignments/${id}/recheck`,
+          {},
+          { headers: { authorization: jwt } }
+        ),
+      shipp: (id: any, jwt: string) =>
+        axios.post(
+          `${baseUrl}/warehouse-consignments/${id}/shipp`,
+          {},
+          { headers: { authorization: jwt } }
+        ),
+    },
   };
 }
 export const clientApi = initClientApi();

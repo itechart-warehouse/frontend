@@ -7,14 +7,14 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  CircularProgress,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import { truckApi } from "../../../services/truckApi";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { clearError, setError } from "../../../store/errorSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearError, setError } from "../../store/errorSlice";
+import { clientApi } from "../../services/clientApi";
+import { RootState } from "../../store";
 
 interface Consignments {
   id: number;
@@ -23,25 +23,10 @@ interface Consignments {
   bundle_number: string;
   consignment_seria: string;
   consignment_number: string;
-  truck: {
-    truck_number: string;
-    truck_type: {
-      truck_type_name: string;
-    };
-  };
-  driver: {
-    first_name: string;
-    second_name: string;
-    middle_name: string;
-    birthday: string;
-    passport: string;
-    role: {
-      role_name: string;
-    };
-    company: {
-      name: string;
-    };
-  };
+  first_name: string;
+  second_name: string;
+  contractor_name: string;
+  truck_number: string;
 }
 
 const mainContainerStyle = {
@@ -61,21 +46,14 @@ const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
 };
 
-function Consignments() {
+function CheckedWarehouseConsignments() {
   const [consignments, setConsignments] = useState<Consignments[]>([]);
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    truckApi.consignment
-      .getAll()
+    clientApi.consignment
+      .getAll(jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -90,20 +68,14 @@ function Consignments() {
         return Promise.reject(err);
       })
       .then((response) => {
-        if (isMounted.current) {
-          dispatch(clearError());
-          setConsignments(response.data);
-          console.log(response.data);
-        }
+        dispatch(clearError());
+        setConsignments(response.data.consignments);
+        console.log(response.data.consignments);
       });
   }, []);
-
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
-        <Typography variant="h2" sx={titleStyle}>
-          Consignments listing
-        </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>
@@ -130,8 +102,8 @@ function Consignments() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {consignments.length ? (consignments.map((consignments) => {
-                if (consignments.status === "registered")
+              {consignments.map((consignments) => {
+                if (consignments.status === "Checked before shipment")
                   return (
                     <TableRow key={consignments.id}>
                       <TableCell component="th" scope="row">
@@ -141,12 +113,10 @@ function Consignments() {
                         </Link>
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.driver.first_name}{" "}
-                        {consignments.driver.second_name}{" "}
-                        {consignments.driver.middle_name}
+                        {consignments.first_name} {consignments.second_name}{" "}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.truck.truck_number}
+                        {consignments.truck_number}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
                         {consignments.bundle_seria} {consignments.bundle_number}
@@ -155,16 +125,11 @@ function Consignments() {
                         {consignments.status}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.driver.company.name}
+                        {consignments.contractor_name}
                       </TableCell>
                     </TableRow>
                   );
-              })) : (
-                  <TableRow>
-                    <TableCell>
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>)}
+              })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -173,4 +138,4 @@ function Consignments() {
   );
 }
 
-export default Consignments;
+export default CheckedWarehouseConsignments;
