@@ -24,10 +24,16 @@ interface Goods {
   bundle_number: string;
   quantity: string;
   placed_date: string;
+  warehouse_id: string,
+  status: string,
 }
 interface Consignment {
   bundle_seria: string;
   bundle_number: string;
+}
+
+interface Warehouse {
+  name: string,
 }
 const mainContainerStyle = {
   pt: 3,
@@ -52,6 +58,9 @@ function ConsignmentGoods() {
     bundle_seria: "",
     bundle_number: "",
   });
+  const [warehouse, setWarehouse] = useState<Warehouse>({
+    name: '',
+  })
   const dispatch = useDispatch();
   const isMounted = useRef(false);
 
@@ -86,6 +95,7 @@ function ConsignmentGoods() {
           dispatch(clearError());
           setGoods(response.data.goods);
           setConsignment(response.data.consignment);
+          setWarehouse(response.data.warehouse);
           console.log(response.data.goods);
           console.log(response.data.consignment);
         }
@@ -110,10 +120,16 @@ function ConsignmentGoods() {
                   <Typography variant="h6">Name</Typography>
                 </TableCell>
                 <TableCell>
+                  <Typography variant="h6">Status</Typography>
+                </TableCell>
+                <TableCell>
                   <Typography variant="h6">Quantity</Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="h6">Placed</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Warehouse</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -130,10 +146,16 @@ function ConsignmentGoods() {
                       {good.name}
                     </TableCell>
                     <TableCell align="left" component="th" scope="row">
+                      {good.status}
+                    </TableCell>
+                    <TableCell align="left" component="th" scope="row">
                       {good.quantity}
                     </TableCell>
                     <TableCell align="left" component="th" scope="row">
                       {good.placed_date ? good.placed_date : "NA"}
+                    </TableCell>
+                    <TableCell align="left" component="th" scope="row">
+                      {good.warehouse_id ? warehouse.name : "NA"}
                     </TableCell>
                   </TableRow>
                 ))
