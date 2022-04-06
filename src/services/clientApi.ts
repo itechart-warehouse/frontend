@@ -353,6 +353,12 @@ function initClientApi() {
           { headers: { authorization: jwt } }
         ),
     },
+    goods: {
+      getByConsignmentId: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/warehouse-consignments/${id}/goods`, {
+          headers: { authorization: jwt },
+        }),
+    },
   };
 }
 export const clientApi = initClientApi();

@@ -87,8 +87,8 @@ export default function WarehouseConsignmentCard() {
       .check(id, jwt)
       .catch((err) => {
         if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
+          dispatch(setError([err.response.data.error]));
+          console.log("response", err.response.data.error);
         } else if (err.request) {
           dispatch(setError(["Server is not working"]));
           console.log("request", err.request);
@@ -109,8 +109,8 @@ export default function WarehouseConsignmentCard() {
       .place(id, jwt)
       .catch((err) => {
         if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
+          dispatch(setError([err.response.data.error]));
+          console.log("response", err.response.data.error);
         } else if (err.request) {
           dispatch(setError(["Server is not working"]));
           console.log("request", err.request);
@@ -131,8 +131,8 @@ export default function WarehouseConsignmentCard() {
       .recheck(id, jwt)
       .catch((err) => {
         if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
+          dispatch(setError([err.response.data.error]));
+          console.log("response", err.response.data.error);
         } else if (err.request) {
           dispatch(setError(["Server is not working"]));
           console.log("request", err.request);
@@ -153,8 +153,8 @@ export default function WarehouseConsignmentCard() {
       .shipp(id, jwt)
       .catch((err) => {
         if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
+          dispatch(setError([err.response.data.error]));
+          console.log("response", err.response.data.error);
         } else if (err.request) {
           dispatch(setError(["Server is not working"]));
           console.log("request", err.request);
@@ -272,6 +272,11 @@ export default function WarehouseConsignmentCard() {
           Warehouse consignments list
         </Button>
         {statusAction()}
+        <Button
+          href={`${consignment.id}/goods`}
+        >
+          Goods
+        </Button>
       </CardActions>
     </React.Fragment>
   );
