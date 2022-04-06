@@ -48,8 +48,7 @@ function LoginForm() {
           return Promise.reject(err);
         })
         .then((res) => {
-          dispatch(loginUser(res.headers.authorization));
-          console.log(res);
+          dispatch(loginUser(res));
         });
     },
   });
