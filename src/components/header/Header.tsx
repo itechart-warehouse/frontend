@@ -14,6 +14,7 @@ import WarehouseButton from "./menu-items/WarehouseButton";
 import DriverButton from "./menu-items/DriverButton";
 import TransportButton from "./menu-items/TransportButton";
 import ConsignmentButton from "./menu-items/ConsignmentButton";
+import UserInfo from "./menu-items/UserInfo";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -58,10 +59,8 @@ export default function Header() {
               <DriverButton />
               <ConsignmentButton />
             </Grid>
-            <Grid item xs={1}>
-              <Button onClick={logout} color="info" variant="contained">
-                Logout
-              </Button>
+            <Grid item xs={1} justifyContent="flex-end">
+              <UserInfo />
             </Grid>
           </Grid>
         </Toolbar>
