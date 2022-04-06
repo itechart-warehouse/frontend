@@ -41,7 +41,7 @@ export default function Header() {
           <Grid container spacing={2}>
             <Grid
               item
-              xs={11}
+              xs={10}
               display="flex"
               alignItems="center"
               justifyContent="flex-start"
@@ -59,7 +59,7 @@ export default function Header() {
               <DriverButton />
               <ConsignmentButton />
             </Grid>
-            <Grid item xs={1} justifyContent="flex-end">
+            <Grid item xs={2} justifyContent="flex-end">
               <UserInfo />
             </Grid>
           </Grid>
