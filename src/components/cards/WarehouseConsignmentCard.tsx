@@ -272,6 +272,11 @@ export default function WarehouseConsignmentCard() {
           Warehouse consignments list
         </Button>
         {statusAction()}
+        <Button
+          href={`${consignment.id}/goods`}
+        >
+          Goods
+        </Button>
       </CardActions>
     </React.Fragment>
   );

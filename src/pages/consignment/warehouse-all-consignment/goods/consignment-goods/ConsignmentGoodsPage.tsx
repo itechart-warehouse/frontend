@@ -24,16 +24,17 @@ interface Goods {
   bundle_number: string;
   quantity: string;
   placed_date: string;
-  warehouse_id: string,
-  status: string,
+  warehouse_id: string;
+  status: string;
 }
 interface Consignment {
+  id: number;
   bundle_seria: string;
   bundle_number: string;
 }
 
 interface Warehouse {
-  name: string,
+  name: string;
 }
 const mainContainerStyle = {
   pt: 3,
@@ -55,12 +56,13 @@ const rowStyle = {
 function ConsignmentGoods() {
   const [goods, setGoods] = useState<Goods[]>([]);
   const [consignment, setConsignment] = useState<Consignment>({
+    id: 0,
     bundle_seria: "",
     bundle_number: "",
   });
   const [warehouse, setWarehouse] = useState<Warehouse>({
-    name: '',
-  })
+    name: "",
+  });
   const dispatch = useDispatch();
   const isMounted = useRef(false);
 
@@ -106,8 +108,10 @@ function ConsignmentGoods() {
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Goods listing of consignment {consignment.bundle_seria}{" "}
-          {consignment.bundle_number}
+          Goods listing of consignment {" "}
+          <Link to={`/warehouse-consignments/${consignment.id}`}>
+            {consignment.bundle_seria} {consignment.bundle_number}
+          </Link>
         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
@@ -138,9 +142,7 @@ function ConsignmentGoods() {
                 goods.map((good) => (
                   <TableRow key={good.id}>
                     <TableCell component="th" scope="row">
-                      <Link to={`${good.id}`}>
-                        {good.bundle_seria} {good.bundle_number}
-                      </Link>
+                      {good.bundle_seria} {good.bundle_number}
                     </TableCell>
                     <TableCell align="left" component="th" scope="row">
                       {good.name}
