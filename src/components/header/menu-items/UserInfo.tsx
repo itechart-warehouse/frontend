@@ -72,7 +72,7 @@ export default function UserInfo() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-      {firstName} {lastName}
+      <Typography>{firstName} {lastName} </Typography>
         <Tooltip title="Account info">
           <IconButton
             onClick={handleClick}
