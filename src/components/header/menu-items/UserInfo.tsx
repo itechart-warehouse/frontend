@@ -13,13 +13,15 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
+import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone";
 import PersonIcon from "@mui/icons-material/Person";
 import BusinessIcon from "@mui/icons-material/Business";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import { clientApi } from "../../../services/clientApi";
 import { logoutUser } from "../../../store/loginSlice";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { ListItem, TextField } from "@mui/material";
 
 export default function UserInfo() {
   const dispatch = useDispatch();
@@ -31,15 +33,19 @@ export default function UserInfo() {
   const warehouse = useSelector(
     (state: RootState) => state.user.userWarehouse.name
   );
-  const role = useSelector(
-    (state: RootState) => state.user.userRole.name
-  );
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const firstName = useSelector(
     (state: RootState) => state.user.user.firstName
   );
-  const lastName = useSelector(
-    (state: RootState) => state.user.user.lastName
+  const lastName = useSelector((state: RootState) => state.user.user.lastName);
+  const companyId = useSelector(
+    (state: RootState) => state.user.userCompany.id
   );
+  const warehouseId = useSelector(
+    (state: RootState) => state.user.userWarehouse.id
+  );
+  const userId = useSelector((state: RootState) => state.user.user.id);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -56,10 +62,21 @@ export default function UserInfo() {
       })
       .catch((err) => alert(err));
   };
+
+  const navigate = useNavigate();
+  const routeUserCompany = () => {
+    navigate(`/companies/${companyId}`);
+  };
+  const routeUserWarehouse = () => {
+    navigate(`/warehouse/${warehouseId}`);
+  };
+  const routeUserCard = () => {
+    navigate(`/users/${userId}`);
+  };
   const checkWarehouse = () => {
     if (warehouse) {
       return (
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={routeUserWarehouse}>
           <ListItemIcon>
             <WarehouseIcon />
           </ListItemIcon>
@@ -72,7 +89,9 @@ export default function UserInfo() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-      <Typography>{firstName} {lastName} </Typography>
+        <Typography>
+          {firstName} {lastName}{" "}
+        </Typography>
         <Tooltip title="Account info">
           <IconButton
             onClick={handleClick}
@@ -121,18 +140,18 @@ export default function UserInfo() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem onClick={routeUserCard}>
           <Avatar />
           {user}
         </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
+        <ListItem>
+          <ListItemIcon sx={{ minWidth: "36px" }}>
             <AssignmentIndTwoToneIcon />
           </ListItemIcon>
-          {role}
-        </MenuItem>
-        <MenuItem>
+          <Typography sx={{ color: "text.secondary" }}>{role}</Typography>
+        </ListItem>
+        <Divider />
+        <MenuItem onClick={routeUserCompany}>
           <ListItemIcon>
             <BusinessIcon fontSize="small" />
           </ListItemIcon>
