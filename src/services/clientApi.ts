@@ -367,7 +367,7 @@ function initClientApi() {
     report: {
       create: (consignmentId: any, jwt: string, reportData: report) =>
         axios.post(
-          `${baseUrl}warehouse-consignments/${consignmentId}/reports/create)`,
+          `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create)`,
           {
             report: {
               description: reportData.description,
@@ -378,6 +378,10 @@ function initClientApi() {
             headers: { authorization: jwt },
           }
         ),
+      getListOfTypes: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/warehouse-consignments/${id}/reports/create`, {
+          headers: { authorization: jwt },
+        }),
     },
   };
 }

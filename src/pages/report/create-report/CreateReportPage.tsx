@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Typography, Box } from "@mui/material";
+import CreateReportForm from "../../../components/forms/report-form/CreateReportForm";
 
 const CreateReportPage = () => {
     return (
@@ -22,7 +23,7 @@ const CreateReportPage = () => {
                     Create report
                 </Typography>
                 <Box sx={{ maxWidth: 500 }}>
-                    Form is here
+                    <CreateReportForm />
                 </Box>
             </Grid>
         </Grid>
