@@ -15,18 +15,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Consignments {
-  id: number;
-  status: string;
-  bundle_seria: string;
-  bundle_number: string;
-  consignment_seria: string;
-  consignment_number: string;
-  first_name: string;
-  second_name: string;
-  contractor_name: string;
-  truck_number: string;
+  consignments: {
+    id: number;
+    status: string;
+    bundle_seria: string;
+    bundle_number: string;
+    consignment_seria: string;
+    consignment_number: string;
+    first_name: string;
+    second_name: string;
+    contractor_name: string;
+    truck_number: string;
+  };
+  reports: {
+    description: string;
+  };
 }
 
 const mainContainerStyle = {
@@ -103,29 +110,40 @@ function CheckedWarehouseConsignments() {
             </TableHead>
             <TableBody>
               {consignments.map((consignments) => {
-                if (consignments.status === "Checked before shipment")
+                if (
+                  consignments.consignments.status === "Checked before shipment"
+                )
                   return (
-                    <TableRow key={consignments.id}>
+                    <TableRow key={consignments.consignments.id}>
                       <TableCell component="th" scope="row">
-                        <Link to={`${consignments.id}`}>
-                          {consignments.consignment_seria}{" "}
-                          {consignments.consignment_number}
+                        <Link to={`${consignments.consignments.id}`}>
+                          {consignments.consignments.consignment_seria}{" "}
+                          {consignments.consignments.consignment_number}
                         </Link>
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.first_name} {consignments.second_name}{" "}
+                        {consignments.consignments.first_name}{" "}
+                        {consignments.consignments.second_name}{" "}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.truck_number}
+                        {consignments.consignments.truck_number}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.bundle_seria} {consignments.bundle_number}
+                        {consignments.consignments.bundle_seria}{" "}
+                        {consignments.consignments.bundle_number}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.status}
+                        {consignments.consignments.status}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.contractor_name}
+                        {consignments.consignments.contractor_name}
+                      </TableCell>
+                      <TableCell align="center">
+                        {consignments.reports.description.length ? (
+                          <CheckIcon />
+                        ) : (
+                          <CloseIcon />
+                        )}
                       </TableCell>
                     </TableRow>
                   );
