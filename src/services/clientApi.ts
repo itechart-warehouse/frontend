@@ -118,7 +118,7 @@ interface goodsFullData {
 
 interface report {
   description: string;
-  report_type_id: number;
+  report_type_id: string;
 }
 
 function initClientApi() {

@@ -15,10 +15,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
+import { response } from "msw";
 
 interface Values {
   description: string;
   report_type_id: string;
+}
+
+interface Type {
+  id: number;
+  name: string;
 }
 
 const validationSchema = yup.object({
@@ -36,6 +42,36 @@ function CreateReportForm() {
   const [reportTypes, setReportTypes] = useState([]);
   const { id } = useParams();
 
+  const formik = useFormik({
+    initialValues: {
+      description: "",
+      report_type_id: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (data: Values) => {
+      console.log(data);
+      // clientApi.report
+      //     .create(id, jwt, data)
+      //     .catch((err) => {
+      //         if (err.response) {
+      //             err.response.status === 500
+      //                 ? dispatch(setError([err.response.statusText]))
+      //                 : dispatch(setError([...err.response.data.user_errors]));
+      //         } else if (err.request) {
+      //             dispatch(setError(["Server is not working"]));
+      //             console.log("request", err.request);
+      //         } else {
+      //             dispatch(setError([err.message]));
+      //             console.log("message", err.message);
+      //         }
+      //         return Promise.reject(err);
+      //     })
+      //     .then((response) => {
+      //         console.log(response);
+      //     })
+    },
+  });
+
   useEffect(() => {
     clientApi.report
       .getListOfTypes(id, jwt)
@@ -50,9 +86,48 @@ function CreateReportForm() {
       });
   }, [id]);
 
-  console.log(reportTypes);
-
-  return <Typography>Form is here</Typography>;
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <TextField
+        fullWidth
+        id="description"
+        name="description"
+        label="description"
+        value={formik.values.description}
+        onChange={formik.handleChange}
+        error={formik.touched.description && Boolean(formik.errors.description)}
+        helperText={formik.touched.description && formik.errors.description}
+        sx={{ mb: 3 }}
+      />
+      <FormControl fullWidth>
+        <InputLabel id="report_type_id">Type</InputLabel>
+        <Select
+          id="report_type_id"
+          value={formik.values.report_type_id}
+          label="report_type_id"
+          name="report_type_id"
+          onChange={formik.handleChange}
+          sx={{ mb: 3 }}
+        >
+          {reportTypes.length &&
+            reportTypes.map((type: Type) => (
+              <MenuItem key={type.id} value={type.id}>
+                {type.name}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        type="submit"
+        style={{ margin: "0 0 10px 0" }}
+      >
+        Submit
+      </Button>
+    </form>
+  );
 }
 
 export default CreateReportForm;
