@@ -367,7 +367,7 @@ function initClientApi() {
     report: {
       create: (consignmentId: any, jwt: string, reportData: report) =>
         axios.post(
-          `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create)`,
+          `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create`,
           {
             report: {
               description: reportData.description,

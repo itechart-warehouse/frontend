@@ -200,14 +200,9 @@ export default function WarehouseConsignmentCard() {
   const statusAction = () => {
     if (consignment.status === "Registered") {
       return (
-        <Box>
-          <Button color="error" onClick={routeReportCreate}>
-            Check with report
-          </Button>
-          <Button color="success" onClick={check}>
-            Check
-          </Button>{" "}
-        </Box>
+        <Button color="success" onClick={check}>
+          Check
+        </Button>
       );
     } else if (consignment.status === "Checked") {
       return <Button onClick={place}>Place</Button>;
@@ -287,6 +282,9 @@ export default function WarehouseConsignmentCard() {
         </Button>
         {statusAction()}
         <Button href={`${consignment.id}/goods`}>Goods</Button>
+        <Button color="error" onClick={routeReportCreate}>
+          Report
+        </Button>
       </CardActions>
     </React.Fragment>
   );
