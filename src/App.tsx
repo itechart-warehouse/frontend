@@ -84,7 +84,7 @@ function App() {
                 element={<ConsignmentGoodsPage />}
               />
               <Route
-                path="warehouse-consignments/:id/report/create"
+                path="warehouse-consignments/:id/reports/create"
                 element={<CreateReportPage />}
               />
               <Route path="drivers" element={<DriversPage />} />

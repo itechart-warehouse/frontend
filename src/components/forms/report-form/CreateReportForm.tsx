@@ -50,25 +50,25 @@ function CreateReportForm() {
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       console.log(data);
-      // clientApi.report
-      //     .create(id, jwt, data)
-      //     .catch((err) => {
-      //         if (err.response) {
-      //             err.response.status === 500
-      //                 ? dispatch(setError([err.response.statusText]))
-      //                 : dispatch(setError([...err.response.data.user_errors]));
-      //         } else if (err.request) {
-      //             dispatch(setError(["Server is not working"]));
-      //             console.log("request", err.request);
-      //         } else {
-      //             dispatch(setError([err.message]));
-      //             console.log("message", err.message);
-      //         }
-      //         return Promise.reject(err);
-      //     })
-      //     .then((response) => {
-      //         console.log(response);
-      //     })
+      clientApi.report
+          .create(id, jwt, data)
+          .catch((err) => {
+              if (err.response) {
+                  err.response.status === 500
+                      ? dispatch(setError([err.response.statusText]))
+                      : dispatch(setError([...err.response.data.user_errors]));
+              } else if (err.request) {
+                  dispatch(setError(["Server is not working"]));
+                  console.log("request", err.request);
+              } else {
+                  dispatch(setError([err.message]));
+                  console.log("message", err.message);
+              }
+              return Promise.reject(err);
+          })
+          .then((response) => {
+              console.log(response);
+          })
     },
   });
 

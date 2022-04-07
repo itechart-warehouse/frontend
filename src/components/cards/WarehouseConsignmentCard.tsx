@@ -227,7 +227,7 @@ export default function WarehouseConsignmentCard() {
   };
 
   const routeReportCreate = () => {
-    navigate("report/create");
+    navigate("reports/create");
   };
 
   return (
