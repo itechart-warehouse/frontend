@@ -3,6 +3,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -198,7 +199,11 @@ export default function WarehouseConsignmentCard() {
 
   const statusAction = () => {
     if (consignment.status === "Registered") {
-      return <Button onClick={check}>Check</Button>;
+      return (
+        <Button color="success" onClick={check}>
+          Check
+        </Button>
+      );
     } else if (consignment.status === "Checked") {
       return <Button onClick={place}>Place</Button>;
     } else if (consignment.status === "Placed") {
@@ -214,6 +219,10 @@ export default function WarehouseConsignmentCard() {
   const dispatch = useDispatch();
   const routeConsignmentList = () => {
     navigate("/warehouse-consignments");
+  };
+
+  const routeReportCreate = () => {
+    navigate("reports/create");
   };
 
   return (
@@ -272,10 +281,9 @@ export default function WarehouseConsignmentCard() {
           Warehouse consignments list
         </Button>
         {statusAction()}
-        <Button
-          href={`${consignment.id}/goods`}
-        >
-          Goods
+        <Button href={`${consignment.id}/goods`}>Goods</Button>
+        <Button color="error" onClick={routeReportCreate}>
+          Report
         </Button>
       </CardActions>
     </React.Fragment>

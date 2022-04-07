@@ -116,6 +116,11 @@ interface goodsFullData {
   quantity: number;
 }
 
+interface report {
+  description: string;
+  report_type_id: string;
+}
+
 function initClientApi() {
   return {
     userData: {
@@ -356,6 +361,25 @@ function initClientApi() {
     goods: {
       getByConsignmentId: (id: any, jwt: string) =>
         axios.get(`${baseUrl}/warehouse-consignments/${id}/goods`, {
+          headers: { authorization: jwt },
+        }),
+    },
+    report: {
+      create: (consignmentId: any, jwt: string, reportData: report) =>
+        axios.post(
+          `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create`,
+          {
+            report: {
+              description: reportData.description,
+              report_type_id: reportData.report_type_id,
+            },
+          },
+          {
+            headers: { authorization: jwt },
+          }
+        ),
+      getListOfTypes: (id: any, jwt: string) =>
+        axios.get(`${baseUrl}/warehouse-consignments/${id}/reports/create`, {
           headers: { authorization: jwt },
         }),
     },
