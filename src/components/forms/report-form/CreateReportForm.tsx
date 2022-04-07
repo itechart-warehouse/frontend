@@ -92,17 +92,6 @@ function CreateReportForm() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <TextField
-        fullWidth
-        id="description"
-        name="description"
-        label="description"
-        value={formik.values.description}
-        onChange={formik.handleChange}
-        error={formik.touched.description && Boolean(formik.errors.description)}
-        helperText={formik.touched.description && formik.errors.description}
-        sx={{ mb: 3 }}
-      />
       <FormControl fullWidth>
         <InputLabel id="report_type_id">Type</InputLabel>
         <Select
@@ -121,6 +110,19 @@ function CreateReportForm() {
             ))}
         </Select>
       </FormControl>
+      <TextField
+        fullWidth
+        id="description"
+        name="description"
+        label="Description"
+        multiline
+        rows={4}
+        value={formik.values.description}
+        onChange={formik.handleChange}
+        error={formik.touched.description && Boolean(formik.errors.description)}
+        helperText={formik.touched.description && formik.errors.description}
+        sx={{ mb: 3 }}
+      />
       <Button
         color="primary"
         variant="contained"
