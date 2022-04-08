@@ -19,6 +19,7 @@ import UserInfo from "./menu-items/UserInfo";
 export default function Header() {
   const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
 
   const logout = () => {
     clientApi.userData
@@ -52,8 +53,17 @@ export default function Header() {
               <Button onClick={rootRoute} color="inherit">
                 Home
               </Button>
-              <CompanyButton />
-              <UserButton />
+              {role === "System admin" ||
+              role === "Company admin" ||
+              role === "Company owner" ||
+              role === "Warehouse admin" ? (
+                <>
+                  <CompanyButton />
+                  <UserButton />
+                </>
+              ) : (
+                ""
+              )}
               <TransportButton />
               {/*<WarehouseButton />*/}
               <DriverButton />

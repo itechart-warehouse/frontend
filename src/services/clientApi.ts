@@ -198,9 +198,9 @@ function initClientApi() {
               address: userCredentials.address,
               user_role_id: userCredentials.role_id,
             },
-            company: {
-              id: userCredentials.company_id,
-            },
+            // company: {
+            //   id: userCredentials.company_id,
+            // },
           },
           { headers: { authorization: jwt } }
         ),

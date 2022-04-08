@@ -26,13 +26,13 @@ interface Values {
   role_id: string;
 }
 
-interface Company {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-}
+// interface Company {
+//   id: number;
+//   name: string;
+//   address: string;
+//   phone: string;
+//   email: string;
+// }
 
 interface Roles {
   id: number;
@@ -52,14 +52,14 @@ const validationSchema = yup.object({
   lastName: yup.string().required("Last name is required"),
   birthDate: yup.string().required("Birth date is required"),
   address: yup.string().required("Address is required"),
-  company_id: yup.string().required("Company name is required"),
+  // company_id: yup.string().required("Company name is required"),
   role_id: yup.string().required("Company address is required"),
 });
 
 function CreateUserForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
-  const [companies, setCompanies] = useState<Company[]>([]);
+  // const [companies, setCompanies] = useState<Company[]>([]);
   const [roles, setRoles] = useState<Roles[]>([]);
   const dispatch = useDispatch();
 
@@ -73,7 +73,7 @@ function CreateUserForm() {
       })
       .then((response) => {
         dispatch(clearError());
-        setCompanies(response.data.companies);
+        // setCompanies(response.data.companies);
         setRoles(response.data.roles);
       });
   }, []);
@@ -99,7 +99,7 @@ function CreateUserForm() {
         .create(data, jwt)
         .catch((err) => {
           if (err.response) {
-            err.response.status === 500
+            err.response.status === 500 || err.response.status === 401
               ? dispatch(setError([err.response.statusText]))
               : dispatch(setError([...err.response.data.user_errors]));
           } else if (err.request) {
@@ -189,24 +189,24 @@ function CreateUserForm() {
         sx={{ mb: 3 }}
       />
 
-      <FormControl fullWidth>
-        <InputLabel id="Company">Company</InputLabel>
-        <Select
-          id="companyId"
-          value={formik.values.company_id}
-          label="Company"
-          name="company_id"
-          onChange={formik.handleChange}
-          sx={{ mb: 3 }}
-        >
-          {companies.length &&
-            companies.map((company) => (
-              <MenuItem key={company.id} value={company.id}>
-                {company.name}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
+      {/*<FormControl fullWidth>*/}
+      {/*  <InputLabel id="Company">Company</InputLabel>*/}
+      {/*  <Select*/}
+      {/*    id="companyId"*/}
+      {/*    value={formik.values.company_id}*/}
+      {/*    label="Company"*/}
+      {/*    name="company_id"*/}
+      {/*    onChange={formik.handleChange}*/}
+      {/*    sx={{ mb: 3 }}*/}
+      {/*  >*/}
+      {/*    {companies.length &&*/}
+      {/*      companies.map((company) => (*/}
+      {/*        <MenuItem key={company.id} value={company.id}>*/}
+      {/*          {company.name}*/}
+      {/*        </MenuItem>*/}
+      {/*      ))}*/}
+      {/*  </Select>*/}
+      {/*</FormControl>*/}
 
       <FormControl fullWidth>
         <InputLabel id="Role">Role</InputLabel>

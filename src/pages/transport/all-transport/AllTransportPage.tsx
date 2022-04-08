@@ -7,6 +7,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -87,17 +88,25 @@ function Transports() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {transports.map((tr) => (
-                <TableRow key={tr.id}>
-                  <TableCell component="th" scope="row">
-                    <Link to={`/transport/${tr.id}`}>{tr.truck_number}</Link>
-                  </TableCell>
-                  <TableCell>{tr.company.name}</TableCell>
+              {transports.length ? (
+                transports.map((tr) => (
+                  <TableRow key={tr.id}>
+                    <TableCell component="th" scope="row">
+                      <Link to={`/transport/${tr.id}`}>{tr.truck_number}</Link>
+                    </TableCell>
+                    <TableCell>{tr.company.name}</TableCell>
+                    <TableCell>
+                      <DirectionsCarFilledTwoToneIcon />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
                   <TableCell>
-                    <DirectionsCarFilledTwoToneIcon />
+                    <CircularProgress />
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
