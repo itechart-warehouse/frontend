@@ -32,7 +32,10 @@ interface User {
   company: {
     name: string;
   };
+
+  role: string;
 }
+
 const twinkleBlue = "#e9ecef";
 
 const headStyle = {
@@ -106,6 +109,9 @@ function Users() {
                   <Typography variant="h6">Company</Typography>
                 </TableCell>
                 <TableCell align="right">
+                  <Typography variant="h6">Role</Typography>
+                </TableCell>
+                <TableCell align="right">
                   <Typography variant="h6">E-mail</Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -123,6 +129,7 @@ function Users() {
                   </TableCell>
                   <TableCell align="right">{item.user.address}</TableCell>
                   <TableCell align="right">{item.company.name}</TableCell>
+                  <TableCell align="right">{item.role}</TableCell>
                   <TableCell align="right">{item.user.email}</TableCell>
                   <TableCell align="center">
                     {item.user.active ? <CheckIcon /> : <CloseIcon />}
