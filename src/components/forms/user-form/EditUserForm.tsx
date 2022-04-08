@@ -24,11 +24,6 @@ interface Values {
     active: boolean;
 }
 
-interface Roles {
-  id: number;
-  name: string;
-}
-
 const validationSchema = yup.object({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
@@ -39,7 +34,6 @@ const validationSchema = yup.object({
 
 function EditUserForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [roles, setRoles] = useState<Roles[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -81,19 +75,6 @@ function EditUserForm() {
     },
   });
 
-  useEffect(() => {
-    clientApi.user
-      .getAllRoles(jwt)
-      .catch((err) => {
-        console.log(err.response);
-        dispatch(setError([err.response.statusText]));
-        return Promise.reject(err);
-      })
-      .then((response) => {
-        setRoles(response.data.roles);
-      });
-  }, []);
-
   const routeUsersList = () => {
     navigate("/users");
   };
@@ -122,24 +103,6 @@ function EditUserForm() {
         helperText={formik.touched.lastName && formik.errors.lastName}
         sx={{ mb: 3 }}
       />
-      <FormControl fullWidth>
-        <InputLabel id="role">Role</InputLabel>
-        <Select
-          labelId="role"
-          id="userRoleId"
-          name="userRoleId"
-          value={formik.values.userRoleId}
-          label="Role"
-          onChange={formik.handleChange}
-          sx={{ mb: 3 }}
-        >
-          {roles.map((role) => (
-            <MenuItem key={role.id} value={role.id}>
-              {role.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
       <TextField
         fullWidth
         id="address"
