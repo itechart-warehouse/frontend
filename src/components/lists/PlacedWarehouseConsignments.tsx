@@ -7,6 +7,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Button,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -134,7 +135,13 @@ function PlacedWarehouseConsignments() {
                         {consignment.contractor_name}
                       </TableCell>
                       <TableCell align="center">
-                        {consignment.reported ? <ErrorOutlineIcon /> : null}
+                        {consignment.reported ? (
+                          <Button
+                            href={`warehouse-consignments/${consignment.id}/reports`}
+                          >
+                            <ErrorOutlineIcon />
+                          </Button>
+                        ) : null}
                       </TableCell>
                     </TableRow>
                   );

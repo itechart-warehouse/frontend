@@ -7,6 +7,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Button,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import { RootState } from "../../store";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 interface Consignments {
   id: number;
@@ -137,7 +139,13 @@ function CheckedWarehouseConsignments() {
                         {consignment.contractor_name}
                       </TableCell>
                       <TableCell align="center">
-                        {consignment.reported ? <ErrorTwoToneIcon /> : null}
+                        {consignment.reported ? (
+                          <Button
+                            href={`warehouse-consignments/${consignment.id}/reports`}
+                          >
+                            <ErrorOutlineIcon />
+                          </Button>
+                        ) : null}
                       </TableCell>
                     </TableRow>
                   );
