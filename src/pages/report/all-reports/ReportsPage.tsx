@@ -76,11 +76,9 @@ function Reports() {
       .then((response) => {
         dispatch(clearError());
         setReports(response.data.reports);
-        console.log("in state", response.data.reports);
       });
   }, []);
-  // console.log(reports[0].consignment.consignment_seria);
-  console.log("after", reports);
+
   const twinkleBlue = "#e9ecef";
 
   const headStyle = {
