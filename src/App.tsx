@@ -30,6 +30,7 @@ import WarehouseConsignmentShowPage from "./pages/consignment/warehouse-show-con
 import WarehouseConsignmentsPage from "./pages/consignment/warehouse-all-consignment/WarehouseConsignmentsPage";
 import ConsignmentGoodsPage from "./pages/consignment/warehouse-all-consignment/goods/consignment-goods/ConsignmentGoodsPage";
 import CreateReportPage from "./pages/report/create-report/CreateReportPage";
+import ReportsPage from "./pages/report/all-reports/ReportsPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -91,6 +92,10 @@ function App() {
               <Route path="drivers/:id" element={<DriverShowPage />} />
               <Route path="transport/:id" element={<TransportShowPage />} />
               <Route path="transports" element={<AllTransportPage />} />
+              <Route
+                path="warehouse-consignments/:id/reports"
+                element={<ReportsPage />}
+              />
             </Route>
           </>
         ) : (

@@ -7,6 +7,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Button,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { BabyChangingStation } from "@mui/icons-material";
 
 interface Consignments {
   id: number;
@@ -134,7 +136,13 @@ function RegistartedWarehouseConsignments() {
                         {consignment.contractor_name}
                       </TableCell>
                       <TableCell align="center">
-                        {consignment.reported ? <ErrorOutlineIcon /> : null}
+                        {consignment.reported ? (
+                          <Button
+                            href={`warehouse-consignments/${consignment.id}/reports`}
+                          >
+                            <ErrorOutlineIcon />
+                          </Button>
+                        ) : null}
                       </TableCell>
                     </TableRow>
                   );
