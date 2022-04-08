@@ -17,23 +17,20 @@ import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone";
 
 interface Consignments {
-  consignments: {
-    id: number;
-    status: string;
-    bundle_seria: string;
-    bundle_number: string;
-    consignment_seria: string;
-    consignment_number: string;
-    first_name: string;
-    second_name: string;
-    contractor_name: string;
-    truck_number: string;
-  };
-  reports: {
-    description: string;
-  };
+  id: number;
+  status: string;
+  bundle_seria: string;
+  bundle_number: string;
+  consignment_seria: string;
+  consignment_number: string;
+  first_name: string;
+  second_name: string;
+  contractor_name: string;
+  truck_number: string;
+  reported: boolean;
 }
 
 const mainContainerStyle = {
@@ -77,9 +74,10 @@ function CheckedWarehouseConsignments() {
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);
-        console.log(response.data.consignments);
       });
   }, []);
+  console.log(consignments);
+
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -105,45 +103,41 @@ function CheckedWarehouseConsignments() {
                 <TableCell>
                   <Typography variant="h6">Contractor</Typography>
                 </TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <Typography align="center" variant="h6">
+                    Reports
+                  </Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {consignments.map((consignments) => {
-                if (
-                  consignments.consignments.status === "Checked before shipment"
-                )
+              {consignments.map((consignment) => {
+                if (consignment.status === "Checked before shipment")
                   return (
-                    <TableRow key={consignments.consignments.id}>
+                    <TableRow key={consignment.id}>
                       <TableCell component="th" scope="row">
-                        <Link to={`${consignments.consignments.id}`}>
-                          {consignments.consignments.consignment_seria}{" "}
-                          {consignments.consignments.consignment_number}
+                        <Link to={`${consignment.id}`}>
+                          {consignment.consignment_seria}{" "}
+                          {consignment.consignment_number}
                         </Link>
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.consignments.first_name}{" "}
-                        {consignments.consignments.second_name}{" "}
+                        {consignment.first_name} {consignment.second_name}{" "}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.consignments.truck_number}
+                        {consignment.truck_number}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.consignments.bundle_seria}{" "}
-                        {consignments.consignments.bundle_number}
+                        {consignment.bundle_seria} {consignment.bundle_number}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.consignments.status}
+                        {consignment.status}
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {consignments.consignments.contractor_name}
+                        {consignment.contractor_name}
                       </TableCell>
                       <TableCell align="center">
-                        {consignments.reports.description.length ? (
-                          <CheckIcon />
-                        ) : (
-                          <CloseIcon />
-                        )}
+                        {consignment.reported ? <ErrorTwoToneIcon /> : null}
                       </TableCell>
                     </TableRow>
                   );
