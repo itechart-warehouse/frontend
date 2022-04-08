@@ -2,8 +2,11 @@ import * as React from "react";
 import { Menu, MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 export default function UserButton() {
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -49,14 +52,18 @@ export default function UserButton() {
         >
           Listing
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            userCreate();
-          }}
-        >
-          Create user
-        </MenuItem>
+        {role === "Warehouse admin" ? (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              userCreate();
+            }}
+          >
+            Create user
+          </MenuItem>
+        ) : (
+          ""
+        )}
       </Menu>
     </>
   );
