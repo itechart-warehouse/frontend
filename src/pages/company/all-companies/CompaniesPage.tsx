@@ -48,6 +48,7 @@ const rowStyle = {
 
 function Companies() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const [companies, setCompanies] = useState<Company[]>([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,9 +84,17 @@ function Companies() {
         <Typography variant="h2" sx={titleStyle}>
           Companies listing
         </Typography>
-        <Button onClick={routeCreateCompany} variant="contained" sx={{ mb: 3 }}>
-          Create new company
-        </Button>
+        {role === "System admin" ? (
+          <Button
+            onClick={routeCreateCompany}
+            variant="contained"
+            sx={{ mb: 3 }}
+          >
+            Create new company
+          </Button>
+        ) : (
+          ""
+        )}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>
