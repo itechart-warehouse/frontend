@@ -48,7 +48,7 @@ function EditCompanyForm() {
         .editCompanyById(id, data, jwt)
         .catch((err) => {
           if (err.response) {
-            err.response.status === 500
+            err.response.status === 500 || err.response.status === 401
               ? dispatch(setError([err.response.statusText]))
               : dispatch(setError([...err.response.data.company_errors]));
           } else if (err.request) {

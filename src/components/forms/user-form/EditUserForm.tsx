@@ -61,7 +61,7 @@ function EditUserForm() {
         .catch((err) => {
           console.log(err.request);
           if (err.response) {
-            err.response.status === 500
+            err.response.status === 500 || err.response.status === 401
               ? dispatch(setError([err.response.statusText]))
               : dispatch(setError([...err.response.data.user_errors]));
           } else if (err.request) {
