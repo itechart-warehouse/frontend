@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
 
 interface userData {
   email: string;
