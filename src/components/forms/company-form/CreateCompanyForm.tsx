@@ -222,6 +222,10 @@ function CreateCompanyForm() {
         id="birthDate"
         name="birthDate"
         label="Birth Date"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        type="date"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}

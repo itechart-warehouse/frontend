@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
 import {
-    Button,
-    FormControl, FormControlLabel,
-    InputLabel,
-    MenuItem,
-    Select, Switch,
-    TextField,
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  TextField,
 } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
@@ -21,7 +23,7 @@ interface Values {
   address: string;
   birthDate: string;
   userRoleId: number;
-    active: boolean;
+  active: boolean;
 }
 
 const validationSchema = yup.object({
@@ -29,7 +31,7 @@ const validationSchema = yup.object({
   lastName: yup.string().required("Last name is required"),
   address: yup.string().required("Address is required"),
   birthDate: yup.string().required("Birth date is required"),
-    active: yup.boolean().required("Active is required"),
+  active: yup.boolean().required("Active is required"),
 });
 
 function EditUserForm() {
@@ -119,24 +121,28 @@ function EditUserForm() {
         id="birthDate"
         name="birthDate"
         label="Birth Date"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        type="date"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
         helperText={formik.touched.birthDate && formik.errors.birthDate}
         sx={{ mb: 3 }}
       />
-        <FormControlLabel
-            sx={{ mb: 3 }}
-            control={
-                <Switch
-                    id="active"
-                    name="active"
-                    checked={formik.values.active}
-                    onChange={formik.handleChange}
-                />
-            }
-            label="Active?"
-        />
+      <FormControlLabel
+        sx={{ mb: 3 }}
+        control={
+          <Switch
+            id="active"
+            name="active"
+            checked={formik.values.active}
+            onChange={formik.handleChange}
+          />
+        }
+        label="Active?"
+      />
 
       <Button
         color="primary"
