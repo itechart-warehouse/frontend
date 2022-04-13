@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
+//TODO Test local url
+// const baseUrl = "http://localhost:3000";
 
 interface userData {
   email: string;
