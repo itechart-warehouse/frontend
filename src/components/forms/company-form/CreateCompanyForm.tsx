@@ -42,7 +42,7 @@ const validationSchema = yup.object({
     .string()
     .test("len", "Invalid", (val = "") => {
       const val_length_without_dashes = val.replace(/-|_/g, "").length;
-      return val_length_without_dashes === 13;
+      return val_length_without_dashes === 15;
     })
     .required("Company phone is required"),
   companyEmail: yup
