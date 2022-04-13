@@ -5,7 +5,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,6 +90,14 @@ export default function ConsignmentCard() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     truckApi.consignment
@@ -108,12 +116,14 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        setConsignment(res.data);
-        console.log("consignment", res.data);
-        dispatch(clearError());
-        setIsLoaded(true);
+        if (isMounted.current) {
+          setConsignment(res.data);
+          console.log("consignment", res.data);
+          dispatch(clearError());
+          setIsLoaded(true);
+        }
       });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     truckApi.goods
@@ -135,7 +145,7 @@ export default function ConsignmentCard() {
         setGoods(res.data);
         dispatch(clearError());
       });
-  }, []);
+  }, [id]);
 
   const routeConsignmentList = () => {
     navigate("/consignments");
@@ -218,7 +228,9 @@ export default function ConsignmentCard() {
           </CardContent>
           <CardActions>
             <Button onClick={routeConsignmentList}>Cancel</Button>
-            <Button onClick={registration} color="success">Registration</Button>
+            <Button onClick={registration} color="success">
+              Registration
+            </Button>
           </CardActions>
         </Card>
       ) : (

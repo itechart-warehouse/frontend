@@ -6,7 +6,7 @@ import {
   Button,
 } from "@mui/material";
 import { clientApi } from "../../services/clientApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserState } from "../../store/userSlice";
@@ -51,6 +51,14 @@ function UserCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     clientApi.user
@@ -69,9 +77,11 @@ function UserCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        dispatch(clearError());
-        setCurrentUser(res.data);
-        setIsLoaded(true);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setCurrentUser(res.data);
+          setIsLoaded(true);
+        }
       });
   }, [id]);
 

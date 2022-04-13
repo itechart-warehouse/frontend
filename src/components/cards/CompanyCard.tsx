@@ -5,7 +5,7 @@ import {
   Typography,
   CardActions,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +33,14 @@ export default function CompanyCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     clientApi.company
@@ -51,9 +59,11 @@ export default function CompanyCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        dispatch(clearError());
-        setCompany(res.data.company);
-        setIsLoaded(true);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setCompany(res.data.company);
+          setIsLoaded(true);
+        }
       });
   }, [id]);
 

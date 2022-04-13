@@ -5,7 +5,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -62,6 +62,14 @@ export default function WarehouseConsignmentCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     clientApi.consignment
@@ -80,14 +88,16 @@ export default function WarehouseConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        setConsignment(res.data.consignment);
-        setUserActions(res.data.actions);
-        console.log("consignment", res.data.consignment);
-        console.log("user_actions", res.data.actions);
-        dispatch(clearError());
-        setIsLoaded(true);
+        if (isMounted.current) {
+          setConsignment(res.data.consignment);
+          setUserActions(res.data.actions);
+          console.log("consignment", res.data.consignment);
+          console.log("user_actions", res.data.actions);
+          dispatch(clearError());
+          setIsLoaded(true);
+        }
       });
-  }, []);
+  }, [id]);
 
   const check = () => {
     clientApi.warehouseConsignment
