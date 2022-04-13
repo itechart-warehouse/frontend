@@ -1,15 +1,18 @@
-import * as React from "react";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  Button,
+  Typography,
+  CardActions,
+} from "@mui/material";
+import {useEffect, useRef, useState} from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompanyState } from "../../store/companySlice";
 import { RootState } from "../../store";
-import {clearError, setError} from "../../store/errorSlice";
+import { clearError, setError } from "../../store/errorSlice";
+import LoadingCard from "./LoadingCard";
 
 interface Company {
   name: string;
@@ -19,6 +22,7 @@ interface Company {
 }
 
 export default function CompanyCard() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [company, setCompany] = useState<Company>({
     address: "",
@@ -27,6 +31,16 @@ export default function CompanyCard() {
     phone: "",
   });
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     clientApi.company
@@ -45,13 +59,14 @@ export default function CompanyCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        dispatch(clearError());
-        setCompany(res.data.company);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setCompany(res.data.company);
+          setIsLoaded(true);
+        }
       });
   }, [id]);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const routeCompanyList = () => {
     navigate("/companies");
   };
@@ -61,35 +76,41 @@ export default function CompanyCard() {
   };
 
   return (
-    <React.Fragment>
-      <CardContent>
-        <Typography variant="h4" component="div">
-          {company.name}
-        </Typography>
-        <br />
-        <Typography variant="h6" component="div">
-          Phone Number
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {company.phone}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Address
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {company.address}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Email
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {company.email}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={routeCompanyEdit}>Edit</Button>
-        <Button onClick={routeCompanyList}>Cancel</Button>
-      </CardActions>
-    </React.Fragment>
+    <>
+      {isLoaded ? (
+        <Card>
+          <CardContent>
+            <Typography variant="h4" component="div">
+              {company.name}
+            </Typography>
+            <br />
+            <Typography variant="h6" component="div">
+              Phone Number
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {company.phone}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Address
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {company.address}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Email
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {company.email}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button onClick={routeCompanyEdit}>Edit</Button>
+            <Button onClick={routeCompanyList}>Cancel</Button>
+          </CardActions>
+        </Card>
+      ) : (
+        <LoadingCard />
+      )}
+    </>
   );
 }

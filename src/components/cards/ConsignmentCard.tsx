@@ -1,15 +1,18 @@
-import * as React from "react";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
+import LoadingCard from "./LoadingCard";
 
 interface Consignment {
   id: number;
@@ -48,6 +51,7 @@ interface Goods {
 }
 
 export default function ConsignmentCard() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [consignment, setConsignment] = useState<Consignment>({
     id: 0,
     status: "",
@@ -83,6 +87,17 @@ export default function ConsignmentCard() {
   });
 
   const { id } = useParams();
+  const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     truckApi.consignment
@@ -101,11 +116,14 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        setConsignment(res.data);
-        console.log("consignment", res.data);
-        dispatch(clearError());
+        if (isMounted.current) {
+          setConsignment(res.data);
+          console.log("consignment", res.data);
+          dispatch(clearError());
+          setIsLoaded(true);
+        }
       });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     truckApi.goods
@@ -127,11 +145,8 @@ export default function ConsignmentCard() {
         setGoods(res.data);
         dispatch(clearError());
       });
-  }, []);
+  }, [id]);
 
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const routeConsignmentList = () => {
     navigate("/consignments");
   };
@@ -163,56 +178,64 @@ export default function ConsignmentCard() {
   };
 
   return (
-    <React.Fragment>
-      <CardContent>
-        <Typography variant="h4" component="div"></Typography>
-        <br />
-        <Typography variant="h6" component="div">
-          Series and number
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.consignment_seria}
-          {consignment.consignment_number}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Status
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.status}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Contractor
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.driver.company.name}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Bundle
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.bundle_seria}
-          {consignment.bundle_number}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Driver
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.driver.first_name} {consignment.driver.second_name}{" "}
-          {consignment.driver.middle_name}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Truck
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.truck.truck_number}
-        </Typography>
-        <Typography variant="h6" component="div"></Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={routeConsignmentList}>Cancel</Button>
-        <Button onClick={registration}>Registration</Button>
-      </CardActions>
-    </React.Fragment>
+    <>
+      {isLoaded ? (
+        <Card>
+          <CardContent>
+            <Typography variant="h4" component="div"></Typography>
+            <br />
+            <Typography variant="h6" component="div">
+              Series and number
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.consignment_seria}
+              {consignment.consignment_number}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Status
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.status}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Contractor
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.driver.company.name}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Bundle
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.bundle_seria}
+              {consignment.bundle_number}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Driver
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.driver.first_name} {consignment.driver.second_name}{" "}
+              {consignment.driver.middle_name}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Truck
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.truck.truck_number}
+            </Typography>
+            <Typography variant="h6" component="div"></Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
+          </CardContent>
+          <CardActions>
+            <Button onClick={routeConsignmentList}>Cancel</Button>
+            <Button onClick={registration} color="success">
+              Registration
+            </Button>
+          </CardActions>
+        </Card>
+      ) : (
+        <LoadingCard />
+      )}
+    </>
   );
 }

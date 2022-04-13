@@ -1,15 +1,18 @@
+import {
+  Button,
+  CardContent,
+  Typography,
+  Card,
+  CardActions,
+} from "@mui/material";
 import { clientApi } from "../../services/clientApi";
-import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import { setWarehouseState } from "../../store/warehouseSlice";
+import LoadingCard from "./LoadingCard";
 
 interface Warehouse {
   warehouse: {
@@ -20,7 +23,7 @@ interface Warehouse {
     reserved: string;
   };
   company: {
-    id: any,
+    id: any;
     name: string;
   };
   user: {
@@ -31,6 +34,7 @@ interface Warehouse {
 }
 
 function WarehouseCard() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [warehouse, setWarehouse] = useState<Warehouse>({
     warehouse: {
       name: "",
@@ -53,6 +57,14 @@ function WarehouseCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     clientApi.warehouse
@@ -71,13 +83,16 @@ function WarehouseCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        dispatch(clearError());
-        setWarehouse(res.data);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setWarehouse(res.data);
+          setIsLoaded(true);
+        }
       });
   }, [id]);
 
   const routeWarehouseList = () => {
-    console.log(warehouse.company.id)
+    console.log(warehouse.company.id);
     navigate(`/companies/${warehouse.company.id}/warehouses`);
   };
   const routeWarehouseEdit = () => {
@@ -87,49 +102,55 @@ function WarehouseCard() {
 
   return (
     <>
-      <CardContent>
-        <Typography variant="h4" component="div">
-          {warehouse.warehouse.name}
-        </Typography>
-        <br />
-        <Typography variant="h6" component="div">
-          Address
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {warehouse.warehouse.address}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Phone
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {warehouse.warehouse.phone}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Area
-        </Typography>
-        <Typography color="text.secondary">
-            {warehouse.warehouse.reserved}/{warehouse.warehouse.area}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Company name
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {warehouse.company.name}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Admin
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          <Link to={`/users/${warehouse.user.id}`}>
-            {warehouse.user.first_name} {warehouse.user.last_name}
-          </Link>
-        </Typography>
+      {isLoaded ? (
+        <Card>
+          <CardContent>
+            <Typography variant="h4" component="div">
+              {warehouse.warehouse.name}
+            </Typography>
+            <br />
+            <Typography variant="h6" component="div">
+              Address
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {warehouse.warehouse.address}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Phone
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {warehouse.warehouse.phone}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Area
+            </Typography>
+            <Typography color="text.secondary">
+              {warehouse.warehouse.reserved}/{warehouse.warehouse.area}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Company name
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {warehouse.company.name}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Admin
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              <Link to={`/users/${warehouse.user.id}`}>
+                {warehouse.user.first_name} {warehouse.user.last_name}
+              </Link>
+            </Typography>
 
-        <CardActions>
-          <Button onClick={routeWarehouseEdit}>Edit</Button>
-          <Button onClick={routeWarehouseList}>Cancel</Button>
-        </CardActions>
-      </CardContent>
+            <CardActions>
+              <Button onClick={routeWarehouseEdit}>Edit</Button>
+              <Button onClick={routeWarehouseList}>Cancel</Button>
+            </CardActions>
+          </CardContent>
+        </Card>
+      ) : (
+        <LoadingCard />
+      )}
     </>
   );
 }

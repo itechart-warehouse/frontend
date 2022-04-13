@@ -1,16 +1,18 @@
-import * as React from "react";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { Alert } from "@mui/material";
+import LoadingCard from "./LoadingCard";
 
 interface Consignment {
   id: number;
@@ -34,6 +36,7 @@ interface UserInfo {
   };
 }
 export default function WarehouseConsignmentCard() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [userActions, setUserActions] = useState<UserInfo>({
     user: {
@@ -57,6 +60,16 @@ export default function WarehouseConsignmentCard() {
   });
 
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     clientApi.consignment
@@ -75,13 +88,16 @@ export default function WarehouseConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        setConsignment(res.data.consignment);
-        setUserActions(res.data.actions);
-        console.log("consignment", res.data.consignment);
-        console.log("user_actions", res.data.actions);
-        dispatch(clearError());
+        if (isMounted.current) {
+          setConsignment(res.data.consignment);
+          setUserActions(res.data.actions);
+          console.log("consignment", res.data.consignment);
+          console.log("user_actions", res.data.actions);
+          dispatch(clearError());
+          setIsLoaded(true);
+        }
       });
-  }, []);
+  }, [id]);
 
   const check = () => {
     clientApi.warehouseConsignment
@@ -215,8 +231,6 @@ export default function WarehouseConsignmentCard() {
     }
   };
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const routeConsignmentList = () => {
     navigate("/warehouse-consignments");
   };
@@ -226,66 +240,72 @@ export default function WarehouseConsignmentCard() {
   };
 
   return (
-    <React.Fragment>
-      {statusAlert()}
-      <CardContent>
-        <Typography variant="h4" component="div"></Typography>
-        <br />
-        <Typography variant="h6" component="div">
-          Series and number
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.consignment_seria}
-          {consignment.consignment_number}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Status
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.status} by {userActions.user.first_name}{" "}
-          {userActions.user.last_name} at {consignment.date}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Contractor
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.contractor_name}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Bundle
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.bundle_seria}
-          {consignment.bundle_number}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Driver
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.first_name} {consignment.second_name}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.passport}
-        </Typography>
-        <Typography variant="h6" component="div">
-          Truck
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {consignment.truck_number}
-        </Typography>
-        <Typography variant="h6" component="div"></Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={routeConsignmentList}>
-          Warehouse consignments list
-        </Button>
-        {statusAction()}
-        <Button href={`${consignment.id}/goods`}>Goods</Button>
-        <Button color="error" onClick={routeReportCreate}>
-          Report
-        </Button>
-      </CardActions>
-    </React.Fragment>
+    <>
+      {isLoaded ? (
+        <Card>
+          {statusAlert()}
+          <CardContent>
+            <Typography variant="h4" component="div"></Typography>
+            <br />
+            <Typography variant="h6" component="div">
+              Series and number
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.consignment_seria}
+              {consignment.consignment_number}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Status
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.status} by {userActions.user.first_name}{" "}
+              {userActions.user.last_name} at {consignment.date}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Contractor
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.contractor_name}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Bundle
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.bundle_seria}
+              {consignment.bundle_number}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Driver
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.first_name} {consignment.second_name}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.passport}
+            </Typography>
+            <Typography variant="h6" component="div">
+              Truck
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {consignment.truck_number}
+            </Typography>
+            <Typography variant="h6" component="div"></Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
+          </CardContent>
+          <CardActions>
+            <Button onClick={routeConsignmentList}>
+              Warehouse consignments list
+            </Button>
+            {statusAction()}
+            <Button href={`${consignment.id}/goods`}>Goods</Button>
+            <Button color="error" onClick={routeReportCreate}>
+              Report
+            </Button>
+          </CardActions>
+        </Card>
+      ) : (
+        <LoadingCard />
+      )}
+    </>
   );
 }
