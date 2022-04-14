@@ -9,7 +9,6 @@ import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
 
-
 interface Values {
   userEmail: string;
   userPassword: string;
@@ -154,19 +153,6 @@ function CreateCompanyForm() {
           />
         )}
       </InputMask>
-      {/*<TextField*/}
-      {/*  fullWidth*/}
-      {/*  id="companyPhone"*/}
-      {/*  name="companyPhone"*/}
-      {/*  label="Company Phone"*/}
-      {/*  value={formik.values.companyPhone}*/}
-      {/*  onChange={formik.handleChange}*/}
-      {/*  error={*/}
-      {/*    formik.touched.companyPhone && Boolean(formik.errors.companyPhone)*/}
-      {/*  }*/}
-      {/*  helperText={formik.touched.companyPhone && formik.errors.companyPhone}*/}
-      {/*  sx={{ mb: 3 }}*/}
-      {/*/>*/}
       <TextField
         fullWidth
         id="companyAddress"
