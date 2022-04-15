@@ -25,26 +25,11 @@ import { ListItem, TextField } from "@mui/material";
 
 export default function UserInfo() {
   const dispatch = useDispatch();
-  const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const user = useSelector((state: RootState) => state.user.user.email);
-  const company = useSelector(
-    (state: RootState) => state.user.userCompany.name
-  );
-  const warehouse = useSelector(
-    (state: RootState) => state.user.userWarehouse.name
-  );
+
+  const user = useSelector((state: RootState) => state.user.user);
+  const company = useSelector((state: RootState) => state.user.userCompany);
+  const warehouse = useSelector((state: RootState) => state.user.userWarehouse);
   const role = useSelector((state: RootState) => state.user.userRole.name);
-  const firstName = useSelector(
-    (state: RootState) => state.user.user.firstName
-  );
-  const lastName = useSelector((state: RootState) => state.user.user.lastName);
-  const companyId = useSelector(
-    (state: RootState) => state.user.userCompany.id
-  );
-  const warehouseId = useSelector(
-    (state: RootState) => state.user.userWarehouse.id
-  );
-  const userId = useSelector((state: RootState) => state.user.user.id);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -56,7 +41,7 @@ export default function UserInfo() {
   };
   const logout = () => {
     clientApi.userData
-      .logout(jwt)
+      .logout(user.jwt)
       .then(() => {
         dispatch(logoutUser());
       })
@@ -65,22 +50,22 @@ export default function UserInfo() {
 
   const navigate = useNavigate();
   const routeUserCompany = () => {
-    navigate(`/companies/${companyId}`);
+    navigate(`/companies/${company.id}`);
   };
   const routeUserWarehouse = () => {
-    navigate(`/warehouse/${warehouseId}`);
+    navigate(`/warehouse/${warehouse.id}`);
   };
   const routeUserCard = () => {
-    navigate(`/users/${userId}`);
+    navigate(`/users/${user.id}`);
   };
   const checkWarehouse = () => {
-    if (warehouse) {
+    if (warehouse.name) {
       return (
         <MenuItem onClick={routeUserWarehouse}>
           <ListItemIcon>
             <WarehouseIcon />
           </ListItemIcon>
-          <Typography variant="inherit">{warehouse}</Typography>
+          <Typography variant="inherit">{warehouse.name}</Typography>
         </MenuItem>
       );
     }
@@ -90,7 +75,7 @@ export default function UserInfo() {
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Typography>
-          {firstName} {lastName}{" "}
+          {user.firstName} {user.lastName}{" "}
         </Typography>
         <Tooltip title="Account info">
           <IconButton
@@ -142,7 +127,7 @@ export default function UserInfo() {
       >
         <MenuItem onClick={routeUserCard}>
           <Avatar />
-          {user}
+          {user.email}
         </MenuItem>
         <ListItem>
           <ListItemIcon sx={{ minWidth: "36px" }}>
@@ -155,7 +140,7 @@ export default function UserInfo() {
           <ListItemIcon>
             <BusinessIcon fontSize="small" />
           </ListItemIcon>
-          {company}
+          {company.name}
         </MenuItem>
         {checkWarehouse()}
         <MenuItem onClick={logout}>
