@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearError, setError } from "../../../../../store/errorSlice";
 import { clientApi } from "../../../../../services/clientApi";
 import { RootState } from "../../../../../store";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { linkStyle } from "../../../../../styles/linkStyle";
 
 interface Goods {
   id: number;
@@ -108,8 +110,14 @@ function ConsignmentGoods() {
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
-          Goods listing of consignment {" "}
-          <Link to={`/warehouse-consignments/${consignment.id}`}>
+          <Link
+            to={`/warehouse-consignments/${consignment.id}`}
+            style={linkStyle}
+          >
+            <ArrowBackIcon fontSize="large" />
+          </Link>
+          Goods listing of consignment{" "}
+          <Link to={`/warehouse-consignments/${consignment.id}`} style={linkStyle}>
             {consignment.bundle_seria} {consignment.bundle_number}
           </Link>
         </Typography>
