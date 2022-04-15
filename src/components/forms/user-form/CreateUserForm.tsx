@@ -50,7 +50,7 @@ const validationSchema = yup.object({
     .required("Password is required"),
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  birthDate: yup.string().required("Birth date is required"),
+  birthDate: yup.date().required("Birth date is required"),
   address: yup.string().required("Address is required"),
   // company_id: yup.string().required("Company name is required"),
   role_id: yup.string().required("Company address is required"),
@@ -62,6 +62,7 @@ function CreateUserForm() {
   // const [companies, setCompanies] = useState<Company[]>([]);
   const [roles, setRoles] = useState<Roles[]>([]);
   const dispatch = useDispatch();
+  const [value, setValue] = useState<Date | null>(null);
 
   useEffect(() => {
     clientApi.user
@@ -182,13 +183,16 @@ function CreateUserForm() {
         id="birthDate"
         name="birthDate"
         label="Birth Date"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        type="date"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
         helperText={formik.touched.birthDate && formik.errors.birthDate}
         sx={{ mb: 3 }}
       />
-
       {/*<FormControl fullWidth>*/}
       {/*  <InputLabel id="Company">Company</InputLabel>*/}
       {/*  <Select*/}

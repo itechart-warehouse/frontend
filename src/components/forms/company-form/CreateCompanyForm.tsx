@@ -7,6 +7,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
+import InputMask from "react-input-mask";
 
 interface Values {
   userEmail: string;
@@ -36,7 +37,13 @@ const validationSchema = yup.object({
   address: yup.string().required("Address is required"),
   companyName: yup.string().required("Company name is required"),
   companyAddress: yup.string().required("Company address is required"),
-  companyPhone: yup.string().required("Company phone is required"),
+  companyPhone: yup
+    .string()
+    .test("len", "Invalid", (val = "") => {
+      const val_length_without_dashes = val.replace(/-|_/g, "").length;
+      return val_length_without_dashes === 15;
+    })
+    .required("Company phone is required"),
   companyEmail: yup
     .string()
     .email("Enter a valid email")
@@ -122,19 +129,30 @@ function CreateCompanyForm() {
         helperText={formik.touched.companyEmail && formik.errors.companyEmail}
         sx={{ mb: 3 }}
       />
-      <TextField
-        fullWidth
-        id="companyPhone"
-        name="companyPhone"
-        label="Company Phone"
-        value={formik.values.companyPhone}
+      <InputMask
+        mask="+375-(99)-9999999"
+        onBlur={formik.handleBlur}
         onChange={formik.handleChange}
-        error={
-          formik.touched.companyPhone && Boolean(formik.errors.companyPhone)
-        }
-        helperText={formik.touched.companyPhone && formik.errors.companyPhone}
-        sx={{ mb: 3 }}
-      />
+        value={formik.values.companyPhone}
+      >
+        {() => (
+          <TextField
+            type="text"
+            label="Phone Number (Ex: +375-29-1234567)"
+            name="companyPhone"
+            fullWidth
+            variant="outlined"
+            onChange={formik.handleChange}
+            error={
+              formik.touched.companyPhone && Boolean(formik.errors.companyPhone)
+            }
+            helperText={
+              formik.touched.companyPhone && formik.errors.companyPhone
+            }
+            sx={{ mb: 3 }}
+          />
+        )}
+      </InputMask>
       <TextField
         fullWidth
         id="companyAddress"
@@ -222,6 +240,10 @@ function CreateCompanyForm() {
         id="birthDate"
         name="birthDate"
         label="Birth Date"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        type="date"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
