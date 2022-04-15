@@ -7,6 +7,7 @@ import React from "react";
 import { clearError, setError } from "../../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import InputMask from "react-input-mask";
 
 interface Values {
   userEmail: string;
@@ -37,7 +38,13 @@ const validationSchema = yup.object({
   address: yup.string().required("Address is required"),
   warehouseName: yup.string().required("Warehouse name is required"),
   warehouseAddress: yup.string().required("Warehouse address is required"),
-  warehousePhone: yup.string().required("Warehouse phone is required"),
+  warehousePhone: yup
+    .string()
+    .test("len", "Invalid", (val = "") => {
+      const val_length_without_dashes = val.replace(/-|_/g, "").length;
+      return val_length_without_dashes === 15;
+    })
+    .required("Warehouse phone is required"),
   area: yup.number().required("Area is required"),
 });
 
@@ -116,21 +123,31 @@ function CreateWarehouseForm() {
         helperText={formik.touched.area && formik.errors.area}
         sx={{ mb: 3 }}
       />
-      <TextField
-        fullWidth
-        id="warehousePhone"
-        name="warehousePhone"
-        label="Warehouse Phone"
-        value={formik.values.warehousePhone}
+      <InputMask
+        mask="+375-(99)-9999999"
+        onBlur={formik.handleBlur}
         onChange={formik.handleChange}
-        error={
-          formik.touched.warehousePhone && Boolean(formik.errors.warehousePhone)
-        }
-        helperText={
-          formik.touched.warehousePhone && formik.errors.warehousePhone
-        }
-        sx={{ mb: 3 }}
-      />
+        value={formik.values.warehousePhone}
+      >
+        {() => (
+          <TextField
+            type="text"
+            label="Phone Number (Ex: +375-29-1234567)"
+            name="warehousePhone"
+            fullWidth
+            variant="outlined"
+            onChange={formik.handleChange}
+            error={
+              formik.touched.warehousePhone &&
+              Boolean(formik.errors.warehousePhone)
+            }
+            helperText={
+              formik.touched.warehousePhone && formik.errors.warehousePhone
+            }
+            sx={{ mb: 3 }}
+          />
+        )}
+      </InputMask>
       <TextField
         fullWidth
         id="warehouseAddress"
@@ -219,6 +236,10 @@ function CreateWarehouseForm() {
         id="birthDate"
         name="birthDate"
         label="Birth Date"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        type="date"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
