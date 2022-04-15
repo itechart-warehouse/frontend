@@ -5,6 +5,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useEffect, useRef, useState } from "react";
 import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -88,6 +89,7 @@ export default function ConsignmentCard() {
 
   const { id } = useParams();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useRef(false);
@@ -226,11 +228,15 @@ export default function ConsignmentCard() {
             <Typography variant="h6" component="div"></Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
           </CardContent>
-          <CardActions>
-            <Button onClick={routeConsignmentList}>Cancel</Button>
-            <Button onClick={registration} color="success">
-              Registration
-            </Button>
+          <CardActions sx={{justifyContent: 'space-between'}}>
+            <Button onClick={routeConsignmentList}><ArrowBackIcon fontSize="large"/></Button>
+            {role === "Dispatcher" ? (
+              <Button onClick={registration} color="success">
+                Registration
+              </Button>
+            ) : (
+              ""
+            )}
           </CardActions>
         </Card>
       ) : (
