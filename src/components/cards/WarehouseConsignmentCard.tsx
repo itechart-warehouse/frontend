@@ -38,6 +38,7 @@ interface UserInfo {
 export default function WarehouseConsignmentCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const [userActions, setUserActions] = useState<UserInfo>({
     user: {
       first_name: "",
@@ -58,6 +59,8 @@ export default function WarehouseConsignmentCard() {
     truck_number: "",
     date: "",
   });
+
+  console.log(" ROLE", role);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -214,17 +217,17 @@ export default function WarehouseConsignmentCard() {
   };
 
   const statusAction = () => {
-    if (consignment.status === "Registered") {
+    if (consignment.status === "Registered" && role === 'Inspector') {
       return (
         <Button color="success" onClick={check}>
           Check
         </Button>
       );
-    } else if (consignment.status === "Checked") {
+    } else if (consignment.status === "Checked" && role === 'Warehouse Manager') {
       return <Button onClick={place}>Place</Button>;
-    } else if (consignment.status === "Placed") {
+    } else if (consignment.status === "Placed" && role === 'Inspector') {
       return <Button onClick={recheck}>Recheck</Button>;
-    } else if (consignment.status === "Checked before shipment") {
+    } else if (consignment.status === "Checked before shipment" && role === 'Dispatcher') {
       return <Button onClick={shipp}>Shipp</Button>;
     } else if (consignment.status === "Shipped") {
       <Alert severity="success">This consignment was shipped.</Alert>;

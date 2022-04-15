@@ -1,4 +1,5 @@
 import {
+  Box,
   Typography,
   Container,
   TableContainer,
@@ -18,6 +19,8 @@ import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { linkStyle } from "../../../styles/linkStyle";
 
 interface Report {
   report: {
@@ -45,7 +48,9 @@ const mainContainerStyle = {
 };
 
 const titleStyle = {
-  mb: 3,
+  display: 'flex',
+  alignItems: 'center',
+  mb: 3
 };
 
 const rowStyle = {
@@ -77,7 +82,7 @@ function Reports() {
         dispatch(clearError());
         setReports(response.data.reports);
       });
-  }, []);
+  }, [id]);
 
   const twinkleBlue = "#e9ecef";
 
@@ -88,10 +93,15 @@ function Reports() {
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         {reports.length ? (
-          <Typography variant="h2" sx={titleStyle}>
-            Reports of {reports[0].consignment.consignment_seria}{" "}
-            {reports[0].consignment.consignment_number}
-          </Typography>
+          <Box sx={titleStyle}>
+            <Link to={"/warehouse-consignments"} style={linkStyle}>
+              <ArrowBackIcon fontSize="large" />{" "}
+            </Link>
+            <Typography variant="h2">
+              Reports of {reports[0].consignment.consignment_seria}{" "}
+              {reports[0].consignment.consignment_number}
+            </Typography>
+          </Box>
         ) : null}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
