@@ -72,13 +72,16 @@ function CreateReportForm() {
     navigate(`/warehouse-consignments/${id}`);
   };
 
-  const initialValues = goods.reduce((a, it) => {
-    a[`${it.id}_${it.name}`] = '';
-    return a;
-  }, {
-    description: "",
-    report_type_id: "",
-  });
+  const initialValues = goods.reduce(
+    (a, it) => {
+      a[`${it.id}_${it.name}`] = "";
+      return a;
+    },
+    {
+      description: "",
+      report_type_id: "",
+    }
+  );
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -202,18 +205,25 @@ function CreateReportForm() {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody></TableBody>
+          <TableBody>
+            {goods.map((good) => (
+              <TableRow>
+                <TableCell>{good.name}</TableCell>
+                <TableCell>{good.quantity}</TableCell>
+                <TableCell>
+                  <TextField
+                    key={good.id}
+                    name={`${good.id}_${good.name}`}
+                    onChange={formik.handleChange}
+                    value={formik.values[`${good.id}_${good.name}`]}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
-      {goods.map((good) => (
-        <TextField
-          key={good.id}
-          name={`${good.id}_${good.name}`}
-          label={good.name}
-          onChange={formik.handleChange}
-          value={formik.values[`${good.id}_${good.name}`]}
-        />
-      ))}
+
       <Button
         color="primary"
         variant="contained"
