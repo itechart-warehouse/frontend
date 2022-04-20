@@ -23,7 +23,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-import { response } from "msw";
 
 interface Values {
   description: string;
@@ -73,34 +72,39 @@ function CreateReportForm() {
     navigate(`/warehouse-consignments/${id}`);
   };
 
+  const initialValues = goods.reduce((a, it) => {
+    a[`${it.id}_${it.name}`] = '';
+    return a;
+  }, {
+    description: "",
+    report_type_id: "",
+  });
+
   const formik = useFormik({
-    initialValues: {
-      description: "",
-      report_type_id: "",
-      reported_quantity: "",
-    },
+    initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.report
-        .create(id, jwt, data)
-        .catch((err) => {
-          if (err.response) {
-            err.response.status === 500 || err.response.status === 401
-              ? dispatch(setError([err.response.statusText]))
-              : dispatch(setError([...err.response.data.user_errors]));
-          } else if (err.request) {
-            dispatch(setError(["Server is not working"]));
-            console.log("request", err.request);
-          } else {
-            dispatch(setError([err.message]));
-            console.log("message", err.message);
-          }
-          return Promise.reject(err);
-        })
-        .then((response) => {
-          dispatch(clearError());
-          routeConsignmentCard();
-        });
+      // clientApi.report
+      //   .create(id, jwt, data)
+      //   .catch((err) => {
+      //     if (err.response) {
+      //       err.response.status === 500 || err.response.status === 401
+      //         ? dispatch(setError([err.response.statusText]))
+      //         : dispatch(setError([...err.response.data.user_errors]));
+      //     } else if (err.request) {
+      //       dispatch(setError(["Server is not working"]));
+      //       console.log("request", err.request);
+      //     } else {
+      //       dispatch(setError([err.message]));
+      //       console.log("message", err.message);
+      //     }
+      //     return Promise.reject(err);
+      //   })
+      //   .then((response) => {
+      //     dispatch(clearError());
+      //     routeConsignmentCard();
+      //   });
+      console.log(data);
     },
   });
 
@@ -198,41 +202,18 @@ function CreateReportForm() {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {goods.length ? (
-              goods.map((good) => (
-                <TableRow key={good.id}>
-                  <TableCell align="left" component="th" scope="row">
-                    {good.name}
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    {good.quantity}
-                  </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                  <TextField
-                    fullWidth
-                    id="reported_quantity"
-                    name="reported_quantity"
-                    label="Missed quantity"
-                    value={formik.values.reported_quantity}
-                    onChange={formik.handleChange}
-                    error={formik.touched.reported_quantity && Boolean(formik.errors.reported_quantity)}
-                    helperText={formik.touched.reported_quantity && formik.errors.reported_quantity}
-                    sx={{ mb: 3 }}
-                  />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell>
-                  <CircularProgress />
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          <TableBody></TableBody>
         </Table>
       </TableContainer>
+      {goods.map((good) => (
+        <TextField
+          key={good.id}
+          name={`${good.id}_${good.name}`}
+          label={good.name}
+          onChange={formik.handleChange}
+          value={formik.values[`${good.id}_${good.name}`]}
+        />
+      ))}
       <Button
         color="primary"
         variant="contained"
