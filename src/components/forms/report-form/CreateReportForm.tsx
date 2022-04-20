@@ -74,6 +74,7 @@ function CreateReportForm() {
 
   const initialValues = goods.reduce(
     (a, it) => {
+      // @ts-ignore
       a[`${it.id}_${it.name}`] = "";
       return a;
     },
@@ -206,20 +207,27 @@ function CreateReportForm() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {goods.map((good) => (
+            {goods.length ? (
+              goods.map((good: Goods) => (
+                <TableRow>
+                  <TableCell>{good.name}</TableCell>
+                  <TableCell>{good.quantity}</TableCell>
+                  <TableCell>
+                    <TextField
+                      key={good.id}
+                      name={`${good.id}_${good.name}`}
+                      onChange={formik.handleChange}
+                      // @ts-ignore
+                      value={formik.values[`${good.id}_${good.name}`]}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
               <TableRow>
-                <TableCell>{good.name}</TableCell>
-                <TableCell>{good.quantity}</TableCell>
-                <TableCell>
-                  <TextField
-                    key={good.id}
-                    name={`${good.id}_${good.name}`}
-                    onChange={formik.handleChange}
-                    value={formik.values[`${good.id}_${good.name}`]}
-                  />
-                </TableCell>
+                <CircularProgress />
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>
