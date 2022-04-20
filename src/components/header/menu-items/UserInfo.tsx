@@ -73,7 +73,14 @@ export default function UserInfo() {
 
   return (
     <React.Fragment>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          textAlign: "center",
+          justifyContent: "flex-end",
+        }}
+      >
         <Typography>
           {user.firstName} {user.lastName}{" "}
         </Typography>
