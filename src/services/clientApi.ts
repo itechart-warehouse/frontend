@@ -122,7 +122,7 @@ interface goodsFullData {
 interface report {
   description: string;
   report_type_id: string;
-  reported_goods: { id: number, name: string, quantity: string }[];
+  reported: { id: number, name: string, quantity: string }[];
 }
 
 function initClientApi() {
@@ -376,7 +376,7 @@ function initClientApi() {
             report: {
               description: reportData.description,
               report_type_id: reportData.report_type_id,
-              reported_goods: reportData.reported_goods,
+              reported: reportData.reported,
             },
           },
           {

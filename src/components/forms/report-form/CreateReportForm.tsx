@@ -27,7 +27,7 @@ import { clearError, setError } from "../../../store/errorSlice";
 interface Values {
   description: string;
   report_type_id: string;
-  reported_goods: { id: number; name: string; quantity: string }[];
+  reported: { id: number; name: string; quantity: string }[];
 }
 
 interface Type {
@@ -75,7 +75,7 @@ function CreateReportForm() {
   const initialValues = {
     description: "",
     report_type_id: "",
-    reported_goods: goods.length
+    reported: goods.length
       ? [
           ...goods.map((it) => ({
             id: it.id,
@@ -216,10 +216,10 @@ function CreateReportForm() {
             <TableBody>
               {goods.length ? (
                 <FieldArray
-                  name="reported_goods"
+                  name="reported"
                   render={() => (
                     <>
-                      {formik.values.reported_goods.map((good, index) => (
+                      {formik.values.reported.map((good, index) => (
                         <TableRow key={good.id}>
                           {/*TODO: fix qty change when input change*/}
                           <TableCell>{good.name}</TableCell>
@@ -227,9 +227,9 @@ function CreateReportForm() {
                           <TableCell>
                             <TextField
                               key={good.id}
-                              name={`reported_goods[${index}].quantity`}
+                              name={`reported[${index}].quantity`}
                               value={
-                                formik.values.reported_goods[index].quantity
+                                formik.values.reported[index].quantity
                               }
                               onChange={formik.handleChange}
                             />
