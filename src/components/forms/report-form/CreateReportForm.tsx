@@ -72,20 +72,14 @@ function CreateReportForm() {
     navigate(`/warehouse-consignments/${id}`);
   };
 
-  const initialValues = goods.reduce(
-    (a, it) => {
-      // @ts-ignore
-      a[`${it.id}_${it.name}`] = "";
-      return a;
-    },
-    {
-      description: "",
-      report_type_id: "",
-    }
-  );
+  const initialValues = {
+    description: "",
+    report_type_id: "",
+    reported_goods: [...goods],
+  };
 
   const formik = useFormik({
-    initialValues: initialValues,
+    initialValues,
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       // clientApi.report
@@ -139,7 +133,6 @@ function CreateReportForm() {
         if (isMounted.current) {
           dispatch(clearError());
           setGoods(response.data.goods);
-          console.log(response.data.goods);
         }
       });
   }, []);
@@ -207,27 +200,10 @@ function CreateReportForm() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {goods.length ? (
-              goods.map((good: Goods) => (
-                <TableRow>
-                  <TableCell>{good.name}</TableCell>
-                  <TableCell>{good.quantity}</TableCell>
-                  <TableCell>
-                    <TextField
-                      key={good.id}
-                      name={`${good.id}_${good.name}`}
-                      onChange={formik.handleChange}
-                      // @ts-ignore
-                      value={formik.values[`${good.id}_${good.name}`]}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <CircularProgress />
-              </TableRow>
-            )}
+            {/* Just for test - show formik initial values*/}
+            {formik.values.reported_goods.map((good) => (
+              <Typography>{good.name}</Typography>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
