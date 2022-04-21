@@ -2,6 +2,8 @@ import * as React from "react";
 import { Menu, MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 export default function WarehouseButton() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -13,9 +15,14 @@ export default function WarehouseButton() {
     setAnchorEl(null);
   };
 
+  const company = useSelector((state: RootState) => state.user.userCompany);
+
   const navigate = useNavigate();
   const warehouseCreate = () => {
     navigate("/warehouse/create");
+  };
+  const warehouseList = () => {
+    navigate(`/companies/${company.id}/warehouses`);
   };
   return (
     <>
@@ -41,11 +48,19 @@ export default function WarehouseButton() {
         <MenuItem
           onClick={() => {
             handleClose();
-            warehouseCreate();
+            warehouseList();
           }}
         >
-          Create warehouse
+          Listing
         </MenuItem>
+        {/*<MenuItem*/}
+        {/*  onClick={() => {*/}
+        {/*    handleClose();*/}
+        {/*    warehouseCreate();*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  Create warehouse*/}
+        {/*</MenuItem>*/}
       </Menu>
     </>
   );
