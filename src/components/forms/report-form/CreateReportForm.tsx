@@ -1,4 +1,4 @@
-import { FieldArray, useFormik } from "formik";
+import { FieldArray, FormikProvider, useFormik } from "formik";
 import {
   Button,
   TextField,
@@ -153,93 +153,102 @@ function CreateReportForm() {
   }, [id]);
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <FormControl fullWidth>
-        <InputLabel id="report_type_id">Type</InputLabel>
-        <Select
-          id="report_type_id"
-          value={formik.values.report_type_id}
-          label="report_type_id"
-          name="report_type_id"
+    <FormikProvider value={formik}>
+      <form onSubmit={formik.handleSubmit}>
+        <FormControl fullWidth>
+          <InputLabel id="report_type_id">Type</InputLabel>
+          <Select
+            id="report_type_id"
+            value={formik.values.report_type_id}
+            label="report_type_id"
+            name="report_type_id"
+            onChange={formik.handleChange}
+            sx={{ mb: 3 }}
+          >
+            {reportTypes.length &&
+              reportTypes.map((type: Type) => (
+                <MenuItem key={type.id} value={type.id}>
+                  {type.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+        <TextField
+          fullWidth
+          id="description"
+          name="description"
+          label="Description"
+          multiline
+          rows={4}
+          value={formik.values.description}
           onChange={formik.handleChange}
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
+          helperText={formik.touched.description && formik.errors.description}
           sx={{ mb: 3 }}
+        />
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 450 }} aria-label="usersPage table">
+            <TableHead sx={headStyle}>
+              <TableRow sx={rowStyle}>
+                <TableCell>
+                  <Typography variant="h6">Name</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Quantity</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Missed</Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {/* Just for test - show formik initial values*/}
+              {/*{formik.values.reported_goods.map((good) => (*/}
+              {/*  <TableRow>*/}
+
+              {/*    <TableCell>*/}
+              {/*    </TableCell>*/}
+              {/*  </TableRow>*/}
+              {/*))}*/}
+
+              <FieldArray
+                name="reported_goods"
+                render={() => (
+                  <>
+                    {formik.values.reported_goods.map((good, index) => (
+                      <TableRow key={good.id}>
+                        <TableCell>{good.name}</TableCell>
+                        <TableCell>{good.quantity}</TableCell>
+                        <TableCell>
+                          <TextField
+                            key={good.id}
+                            name={`reported_goods[${index}].quantity`}
+                            value={formik.values.reported_goods[index].quantity}
+                            onChange={formik.handleChange}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
+              />
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+          style={{ margin: "0 0 10px 0" }}
         >
-          {reportTypes.length &&
-            reportTypes.map((type: Type) => (
-              <MenuItem key={type.id} value={type.id}>
-                {type.name}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
-      <TextField
-        fullWidth
-        id="description"
-        name="description"
-        label="Description"
-        multiline
-        rows={4}
-        value={formik.values.description}
-        onChange={formik.handleChange}
-        error={formik.touched.description && Boolean(formik.errors.description)}
-        helperText={formik.touched.description && formik.errors.description}
-        sx={{ mb: 3 }}
-      />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 450 }} aria-label="usersPage table">
-          <TableHead sx={headStyle}>
-            <TableRow sx={rowStyle}>
-              <TableCell>
-                <Typography variant="h6">Name</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6">Quantity</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6">Missed</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* Just for test - show formik initial values*/}
-            {/*{formik.values.reported_goods.map((good) => (*/}
-            {/*  <TableRow>*/}
-            {/*    <TableCell>{good.name}</TableCell>*/}
-            {/*    <TableCell>{good.quantity}</TableCell>*/}
-            {/*    <TableCell>*/}
-            {/*    </TableCell>*/}
-            {/*  </TableRow>*/}
-            {/*))}*/}
-
-            <FieldArray
-              name="reported_goods"
-              render={() => (
-                <>
-                  {formik.values.reported_goods.map((good, index) => (
-                    <TextField
-                      key={good.id}
-                      name={`reported_goods[${index}].quantity`}
-                      value={formik.values.reported_goods[index].quantity}
-                      onChange={formik.handleChange}
-                    />
-                  ))}
-                </>
-              )}
-            />
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Button
-        color="primary"
-        variant="contained"
-        fullWidth
-        type="submit"
-        style={{ margin: "0 0 10px 0" }}
-      >
-        Submit
-      </Button>
-    </form>
+          Submit
+        </Button>
+      </form>
+    </FormikProvider>
   );
 }
 
