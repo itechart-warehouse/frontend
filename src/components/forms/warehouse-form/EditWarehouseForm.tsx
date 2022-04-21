@@ -9,6 +9,7 @@ import { RootState } from "../../../store";
 import { clearWarehouseState } from "../../../store/warehouseSlice";
 import React from "react";
 import InputMask from "react-input-mask";
+import Chip from "@mui/material/Chip";
 
 interface Values {
   warehouseName: string;
@@ -156,7 +157,13 @@ function EditWarehouseForm() {
             onChange={formik.handleChange}
           />
         }
-        label="Active?"
+        label={
+          formik.values.active ? (
+            <Chip label="Active warehouse" color="success" />
+          ) : (
+            <Chip label="Inactive warehouse" />
+          )
+        }
       />
       <Button
         color="primary"

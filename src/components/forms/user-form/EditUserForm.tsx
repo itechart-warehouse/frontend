@@ -16,6 +16,7 @@ import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
+import Chip from "@mui/material/Chip";
 
 interface Values {
   firstName: string;
@@ -141,7 +142,13 @@ function EditUserForm() {
             onChange={formik.handleChange}
           />
         }
-        label="Active?"
+        label={
+          formik.values.active ? (
+            <Chip label="Active user" color="success" />
+          ) : (
+            <Chip label="Inactive user" />
+          )
+        }
       />
 
       <Button
