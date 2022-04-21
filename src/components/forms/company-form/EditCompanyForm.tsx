@@ -8,6 +8,7 @@ import React from "react";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
+import Chip from "@mui/material/Chip";
 
 interface Values {
   companyName: string;
@@ -156,7 +157,13 @@ function EditCompanyForm() {
             onChange={formik.handleChange}
           />
         }
-        label={formik.values.active ? "Active" : "Inactive"}
+        label={
+          formik.values.active ? (
+            <Chip label="Active company" color="success" />
+          ) : (
+            <Chip label="Inactive company" />
+          )
+        }
       />
 
       <Button
