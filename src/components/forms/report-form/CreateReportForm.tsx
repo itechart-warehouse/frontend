@@ -1,4 +1,4 @@
-import { useFormik } from "formik";
+import { FieldArray, useFormik } from "formik";
 import {
   Button,
   TextField,
@@ -75,11 +75,12 @@ function CreateReportForm() {
   const initialValues = {
     description: "",
     report_type_id: "",
-    reported_goods: [...goods],
+    reported_goods: goods.length ? [...goods] : [],
   };
 
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
       // clientApi.report
@@ -201,9 +202,30 @@ function CreateReportForm() {
           </TableHead>
           <TableBody>
             {/* Just for test - show formik initial values*/}
-            {formik.values.reported_goods.map((good) => (
-              <Typography>{good.name}</Typography>
-            ))}
+            {/*{formik.values.reported_goods.map((good) => (*/}
+            {/*  <TableRow>*/}
+            {/*    <TableCell>{good.name}</TableCell>*/}
+            {/*    <TableCell>{good.quantity}</TableCell>*/}
+            {/*    <TableCell>*/}
+            {/*    </TableCell>*/}
+            {/*  </TableRow>*/}
+            {/*))}*/}
+
+            <FieldArray
+              name="reported_goods"
+              render={() => (
+                <>
+                  {formik.values.reported_goods.map((good, index) => (
+                    <TextField
+                      key={good.id}
+                      name={`reported_goods[${index}].quantity`}
+                      value={formik.values.reported_goods[index].quantity}
+                      onChange={formik.handleChange}
+                    />
+                  ))}
+                </>
+              )}
+            />
           </TableBody>
         </Table>
       </TableContainer>
