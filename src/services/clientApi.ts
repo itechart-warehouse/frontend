@@ -122,7 +122,7 @@ interface goodsFullData {
 interface report {
   description: string;
   report_type_id: string;
-  reported_goods: Array<string>;
+  reported_goods: { id: number, name: string, quantity: string }[];
 }
 
 function initClientApi() {

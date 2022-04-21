@@ -27,6 +27,7 @@ import { clearError, setError } from "../../../store/errorSlice";
 interface Values {
   description: string;
   report_type_id: string;
+  reported_goods: { id: number; name: string; quantity: string }[];
 }
 
 interface Type {
@@ -38,7 +39,6 @@ interface Goods {
   id: number;
   name: string;
   quantity: string;
-  reported_quantity: string;
 }
 
 const twinkleBlue = "#e9ecef";
@@ -155,8 +155,10 @@ function CreateReportForm() {
         return Promise.reject(err);
       })
       .then((response) => {
-        dispatch(clearError());
-        setReportTypes(response.data.ReportTypes);
+        if (isMounted.current) {
+          dispatch(clearError());
+          setReportTypes(response.data.ReportTypes);
+        }
       });
   }, [id]);
 
@@ -212,27 +214,34 @@ function CreateReportForm() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <FieldArray
-                name="reported_goods"
-                render={() => (
-                  <>
-                    {formik.values.reported_goods.map((good, index) => (
-                      <TableRow key={good.id}>
-                        <TableCell>{good.name}</TableCell>
-                        <TableCell>{good.quantity}</TableCell>
-                        <TableCell>
-                          <TextField
-                            key={good.id}
-                            name={`reported_goods[${index}].quantity`}
-                            value={formik.values.reported_goods[index].quantity}
-                            onChange={formik.handleChange}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </>
-                )}
-              />
+              {goods.length ? (
+                <FieldArray
+                  name="reported_goods"
+                  render={() => (
+                    <>
+                      {formik.values.reported_goods.map((good, index) => (
+                        <TableRow key={good.id}>
+                          {/*TODO: fix qty change when input change*/}
+                          <TableCell>{good.name}</TableCell>
+                          <TableCell>{good.quantity}</TableCell>
+                          <TableCell>
+                            <TextField
+                              key={good.id}
+                              name={`reported_goods[${index}].quantity`}
+                              value={
+                                formik.values.reported_goods[index].quantity
+                              }
+                              onChange={formik.handleChange}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </>
+                  )}
+                />
+              ) : (
+                <CircularProgress />
+              )}
             </TableBody>
           </Table>
         </TableContainer>
