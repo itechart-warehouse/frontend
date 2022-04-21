@@ -78,7 +78,7 @@ function EditCompanyForm() {
   const routeCompaniesList = () => {
     navigate("/companies");
   };
-
+  // const state = {checked: formik.values.active};
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
@@ -156,7 +156,7 @@ function EditCompanyForm() {
             onChange={formik.handleChange}
           />
         }
-        label="Active?"
+        label={formik.values.active ? "Active" : "Inactive"}
       />
 
       <Button
