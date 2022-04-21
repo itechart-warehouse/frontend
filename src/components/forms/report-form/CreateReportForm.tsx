@@ -75,7 +75,15 @@ function CreateReportForm() {
   const initialValues = {
     description: "",
     report_type_id: "",
-    reported_goods: goods.length ? [...goods] : [],
+    reported_goods: goods.length
+      ? [
+          ...goods.map((it) => ({
+            id: it.id,
+            name: it.name,
+            quantity: it.quantity,
+          })),
+        ]
+      : [],
   };
 
   const formik = useFormik({
@@ -83,26 +91,26 @@ function CreateReportForm() {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      // clientApi.report
-      //   .create(id, jwt, data)
-      //   .catch((err) => {
-      //     if (err.response) {
-      //       err.response.status === 500 || err.response.status === 401
-      //         ? dispatch(setError([err.response.statusText]))
-      //         : dispatch(setError([...err.response.data.user_errors]));
-      //     } else if (err.request) {
-      //       dispatch(setError(["Server is not working"]));
-      //       console.log("request", err.request);
-      //     } else {
-      //       dispatch(setError([err.message]));
-      //       console.log("message", err.message);
-      //     }
-      //     return Promise.reject(err);
-      //   })
-      //   .then((response) => {
-      //     dispatch(clearError());
-      //     routeConsignmentCard();
-      //   });
+      clientApi.report
+        .create(id, jwt, data)
+        .catch((err) => {
+          if (err.response) {
+            err.response.status === 500 || err.response.status === 401
+              ? dispatch(setError([err.response.statusText]))
+              : dispatch(setError([...err.response.data.user_errors]));
+          } else if (err.request) {
+            dispatch(setError(["Server is not working"]));
+            console.log("request", err.request);
+          } else {
+            dispatch(setError([err.message]));
+            console.log("message", err.message);
+          }
+          return Promise.reject(err);
+        })
+        .then((response) => {
+          dispatch(clearError());
+          routeConsignmentCard();
+        });
       console.log(data);
     },
   });
@@ -204,15 +212,6 @@ function CreateReportForm() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* Just for test - show formik initial values*/}
-              {/*{formik.values.reported_goods.map((good) => (*/}
-              {/*  <TableRow>*/}
-
-              {/*    <TableCell>*/}
-              {/*    </TableCell>*/}
-              {/*  </TableRow>*/}
-              {/*))}*/}
-
               <FieldArray
                 name="reported_goods"
                 render={() => (
