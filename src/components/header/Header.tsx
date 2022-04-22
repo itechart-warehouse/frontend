@@ -64,8 +64,14 @@ export default function Header() {
               ) : (
                 ""
               )}
+              {role === "Company admin" || role === "Company owner" ? (
+                <>
+                  <WarehouseButton />
+                </>
+              ) : (
+                ""
+              )}
               <TransportButton />
-              {/*<WarehouseButton />*/}
               <DriverButton />
               <ConsignmentButton />
             </Grid>

@@ -8,6 +8,7 @@ import React from "react";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
+import Chip from "@mui/material/Chip";
 
 interface Values {
   companyName: string;
@@ -78,7 +79,7 @@ function EditCompanyForm() {
   const routeCompaniesList = () => {
     navigate("/companies");
   };
-
+  // const state = {checked: formik.values.active};
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
@@ -156,7 +157,13 @@ function EditCompanyForm() {
             onChange={formik.handleChange}
           />
         }
-        label="Active?"
+        label={
+          formik.values.active ? (
+            <Chip label="Active company" color="success" />
+          ) : (
+            <Chip label="Inactive company" />
+          )
+        }
       />
 
       <Button
