@@ -14,6 +14,7 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
+  Box,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import * as yup from "yup";
@@ -198,7 +199,7 @@ function CreateReportForm() {
           helperText={formik.touched.description && formik.errors.description}
           sx={{ mb: 3 }}
         />
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ marginBottom: "10px" }}>
           <Table sx={{ minWidth: 450 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
@@ -228,9 +229,7 @@ function CreateReportForm() {
                             <TextField
                               key={good.id}
                               name={`reported[${index}].quantity`}
-                              value={
-                                formik.values.reported[index].quantity
-                              }
+                              value={formik.values.reported[index].quantity}
                               onChange={formik.handleChange}
                             />
                           </TableCell>
@@ -245,16 +244,28 @@ function CreateReportForm() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-          style={{ margin: "0 0 10px 0" }}
-        >
-          Submit
-        </Button>
+        <Box sx={{ display: "flex" }}>
+          <Button
+            color="warning"
+            variant="outlined"
+            fullWidth
+            style={{ margin: "0 5px 10px 0" }}
+            onClick={() => {
+              routeConsignmentCard();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            color="success"
+            variant="contained"
+            fullWidth
+            type="submit"
+            style={{ margin: "0 0 10px 0" }}
+          >
+            Submit
+          </Button>
+        </Box>
       </form>
     </FormikProvider>
   );
