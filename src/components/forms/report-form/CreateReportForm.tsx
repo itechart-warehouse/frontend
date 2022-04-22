@@ -92,26 +92,26 @@ function CreateReportForm() {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.report
-        .create(id, jwt, data)
-        .catch((err) => {
-          if (err.response) {
-            err.response.status === 500 || err.response.status === 401
-              ? dispatch(setError([err.response.statusText]))
-              : dispatch(setError([...err.response.data.user_errors]));
-          } else if (err.request) {
-            dispatch(setError(["Server is not working"]));
-            console.log("request", err.request);
-          } else {
-            dispatch(setError([err.message]));
-            console.log("message", err.message);
-          }
-          return Promise.reject(err);
-        })
-        .then((response) => {
-          dispatch(clearError());
-          routeConsignmentCard();
-        });
+      // clientApi.report
+      //   .create(id, jwt, data)
+      //   .catch((err) => {
+      //     if (err.response) {
+      //       err.response.status === 500 || err.response.status === 401
+      //         ? dispatch(setError([err.response.statusText]))
+      //         : dispatch(setError([...err.response.data.user_errors]));
+      //     } else if (err.request) {
+      //       dispatch(setError(["Server is not working"]));
+      //       console.log("request", err.request);
+      //     } else {
+      //       dispatch(setError([err.message]));
+      //       console.log("message", err.message);
+      //     }
+      //     return Promise.reject(err);
+      //   })
+      //   .then((response) => {
+      //     dispatch(clearError());
+      //     routeConsignmentCard();
+      //   });
       console.log(data);
     },
   });
@@ -215,31 +215,27 @@ function CreateReportForm() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {goods.length ? (
-                <FieldArray
-                  name="reported"
-                  render={() => (
-                    <>
-                      {formik.values.reported.map((good, index) => (
-                        <TableRow key={good.id}>
-                          {/*TODO: fix qty change when input change*/}
-                          <TableCell>{good.name}</TableCell>
-                          <TableCell>{good.quantity}</TableCell>
-                          <TableCell>
-                            <TextField
-                              key={good.id}
-                              name={`reported[${index}].quantity`}
-                              value={formik.values.reported[index].quantity}
-                              onChange={formik.handleChange}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  )}
-                />
+              {goods.length && formik.values.reported.length ? (
+                goods.map((good, index) => (
+                  <TableRow key={good.id}>
+                    <TableCell>{good.name}</TableCell>
+                    <TableCell>{good.quantity}</TableCell>
+                    <TableCell>
+                      <TextField
+                        key={good.id}
+                        name={`reported[${index}].quantity`}
+                        value={formik.values.reported[index].quantity}
+                        onChange={formik.handleChange}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))
               ) : (
-                <CircularProgress />
+                <TableRow>
+                  <TableCell>
+                    <CircularProgress />
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>
