@@ -81,7 +81,7 @@ function CreateReportForm() {
           ...goods.map((it) => ({
             id: it.id,
             name: it.name,
-            quantity: it.quantity,
+            quantity: "",
           })),
         ]
       : [],
