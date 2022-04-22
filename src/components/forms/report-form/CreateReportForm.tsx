@@ -76,15 +76,12 @@ function CreateReportForm() {
   const initialValues = {
     description: "",
     report_type_id: "",
-    reported: goods.length
-      ? [
-          ...goods.map((it) => ({
-            id: it.id,
-            name: it.name,
-            quantity: "",
-          })),
-        ]
-      : [],
+
+    reported: goods.map((it) => ({
+      id: it.id,
+      name: it.name,
+      quantity: "",
+    })),
   };
 
   const formik = useFormik({
