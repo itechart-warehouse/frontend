@@ -1,4 +1,5 @@
 import axios from "axios";
+import {array} from "yup";
 
 const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
 //TODO Test local url
@@ -121,6 +122,7 @@ interface goodsFullData {
 interface report {
   description: string;
   report_type_id: string;
+  reported: { id: number, name: string, quantity: string }[];
 }
 
 function initClientApi() {
@@ -374,6 +376,7 @@ function initClientApi() {
             report: {
               description: reportData.description,
               report_type_id: reportData.report_type_id,
+              reported: reportData.reported,
             },
           },
           {
