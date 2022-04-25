@@ -13,52 +13,36 @@ import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { Alert } from "@mui/material";
 import LoadingCard from "./LoadingCard";
+import { Consignment, UserInfo } from "./types/WarehouseConsignmnet.types";
 
-interface Consignment {
-  id: number;
-  status: string;
-  bundle_seria: string;
-  bundle_number: string;
-  consignment_seria: string;
-  consignment_number: string;
-  first_name: string;
-  second_name: string;
-  passport: string;
-  contractor_name: string;
-  truck_number: string;
-  date: string;
-}
+const consignmentInit = {
+  id: 0,
+  status: "",
+  bundle_seria: "",
+  bundle_number: "",
+  consignment_seria: "",
+  consignment_number: "",
+  first_name: "",
+  second_name: "",
+  passport: "",
+  contractor_name: "",
+  truck_number: "",
+  date: "",
+};
 
-interface UserInfo {
+const userInfoInit = {
   user: {
-    first_name: string;
-    last_name: string;
-  };
-}
+    first_name: "",
+    last_name: "",
+  },
+};
+
 export default function WarehouseConsignmentCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
-  const [userActions, setUserActions] = useState<UserInfo>({
-    user: {
-      first_name: "",
-      last_name: "",
-    },
-  });
-  const [consignment, setConsignment] = useState<Consignment>({
-    id: 0,
-    status: "",
-    bundle_seria: "",
-    bundle_number: "",
-    consignment_seria: "",
-    consignment_number: "",
-    first_name: "",
-    second_name: "",
-    passport: "",
-    contractor_name: "",
-    truck_number: "",
-    date: "",
-  });
+  const [userActions, setUserActions] = useState<UserInfo>(userInfoInit);
+  const [consignment, setConsignment] = useState<Consignment>(consignmentInit);
 
   console.log(" ROLE", role);
 
@@ -217,17 +201,23 @@ export default function WarehouseConsignmentCard() {
   };
 
   const statusAction = () => {
-    if (consignment.status === "Registered" && role === 'Inspector') {
+    if (consignment.status === "Registered" && role === "Inspector") {
       return (
         <Button color="success" onClick={check}>
           Check
         </Button>
       );
-    } else if (consignment.status === "Checked" && role === 'Warehouse Manager') {
+    } else if (
+      consignment.status === "Checked" &&
+      role === "Warehouse Manager"
+    ) {
       return <Button onClick={place}>Place</Button>;
-    } else if (consignment.status === "Placed" && role === 'Inspector') {
+    } else if (consignment.status === "Placed" && role === "Inspector") {
       return <Button onClick={recheck}>Recheck</Button>;
-    } else if (consignment.status === "Checked before shipment" && role === 'Dispatcher') {
+    } else if (
+      consignment.status === "Checked before shipment" &&
+      role === "Dispatcher"
+    ) {
       return <Button onClick={shipp}>Shipp</Button>;
     } else if (consignment.status === "Shipped") {
       <Alert severity="success">This consignment was shipped.</Alert>;

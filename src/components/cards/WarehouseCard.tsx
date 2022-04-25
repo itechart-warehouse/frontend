@@ -13,46 +13,30 @@ import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import { setWarehouseState } from "../../store/warehouseSlice";
 import LoadingCard from "./LoadingCard";
+import { Warehouse } from "./types/Warehouse.types";
 
-interface Warehouse {
+const warehouseInit = {
   warehouse: {
-    name: string;
-    address: string;
-    phone: string;
-    area: string;
-    reserved: string;
-  };
+    name: "",
+    address: "",
+    phone: "",
+    area: "",
+    reserved: "",
+  },
   company: {
-    id: any;
-    name: string;
-  };
+    id: "",
+    name: "",
+  },
   user: {
-    first_name: string;
-    last_name: string;
-    id: string;
-  };
-}
+    first_name: "",
+    last_name: "",
+    id: "",
+  },
+};
 
 function WarehouseCard() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [warehouse, setWarehouse] = useState<Warehouse>({
-    warehouse: {
-      name: "",
-      address: "",
-      phone: "",
-      area: "",
-      reserved: "",
-    },
-    company: {
-      id: "",
-      name: "",
-    },
-    user: {
-      first_name: "",
-      last_name: "",
-      id: "",
-    },
-  });
+  const [warehouse, setWarehouse] = useState<Warehouse>(warehouseInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const { id } = useParams();
   const navigate = useNavigate();
