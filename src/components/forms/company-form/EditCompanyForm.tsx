@@ -9,14 +9,7 @@ import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
 import Chip from "@mui/material/Chip";
-
-interface Values {
-  companyName: string;
-  companyAddress: string;
-  companyPhone: string;
-  companyEmail: string;
-  active: boolean;
-}
+import { Values } from "./EditCompany.types";
 
 const validationSchema = yup.object({
   companyName: yup.string().required("Company name is required"),

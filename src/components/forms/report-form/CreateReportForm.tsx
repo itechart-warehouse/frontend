@@ -1,4 +1,4 @@
-import { FieldArray, FormikProvider, useFormik } from "formik";
+import { FormikProvider, useFormik } from "formik";
 import {
   Button,
   TextField,
@@ -15,8 +15,8 @@ import {
   TableBody,
   CircularProgress,
   Box,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,23 +24,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-
-interface Values {
-  description: string;
-  report_type_id: string;
-  reported: { id: number; name: string; quantity: string }[];
-}
-
-interface Type {
-  id: number;
-  name: string;
-}
-
-interface Goods {
-  id: number;
-  name: string;
-  quantity: string;
-}
+import { Goods, Values, Type } from "./CreateReport.types";
 
 const twinkleBlue = "#e9ecef";
 

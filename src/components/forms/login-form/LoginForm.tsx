@@ -6,11 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../store/loginSlice";
 import { setError } from "../../../store/errorSlice";
-
-interface Values {
-  email: string;
-  password: string;
-}
+import { Values } from "./LoginForm.types";
 
 const validationSchema = yup.object({
   email: yup
