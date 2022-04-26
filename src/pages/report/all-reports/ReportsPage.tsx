@@ -21,6 +21,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { linkStyle } from "../../../styles/linkStyle";
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
+import ReportedGoodsDialog from "../../../components/dialogs/ReportedGoodsDialog";
 
 interface Report {
   report: {
@@ -48,9 +50,9 @@ const mainContainerStyle = {
 };
 
 const titleStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  mb: 3
+  display: "flex",
+  alignItems: "center",
+  mb: 3,
 };
 
 const rowStyle = {
@@ -58,6 +60,11 @@ const rowStyle = {
 };
 
 function Reports() {
+  const [open, setOpen] = useState(false);
+
+  //TODO correct initial state
+
+  const [selectedValue, setSelectedValue] = useState("1");
   const { id } = useParams();
   const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
@@ -89,6 +96,17 @@ function Reports() {
   const headStyle = {
     backgroundColor: twinkleBlue,
   };
+
+  const handleClickOpen = (value: string) => {
+    setOpen(true);
+    setSelectedValue(value);
+  };
+
+  const handleClose = (value: string) => {
+    setOpen(false);
+    // setSelectedValue("");
+  };
+
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -119,7 +137,9 @@ function Reports() {
                 <TableCell align="right">
                   <Typography variant="h6">User</Typography>
                 </TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="center">
+                  <Typography variant="h6">Goods</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -134,7 +154,21 @@ function Reports() {
                   <TableCell align="right">
                     {rep.user.first_name} {rep.user.last_name}
                   </TableCell>
-                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() => {
+                        handleClickOpen(rep.report.id);
+                      }}
+                    >
+                      <ViewInArIcon />
+                    </Button>
+
+                    <ReportedGoodsDialog
+                      selectedValue={selectedValue}
+                      open={open}
+                      onClose={handleClose}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

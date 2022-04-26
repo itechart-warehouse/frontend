@@ -1,9 +1,9 @@
 import axios from "axios";
-import {array} from "yup";
+import { array } from "yup";
 
-const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
+// const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
 //TODO Test local url
-// const baseUrl = "http://localhost:3000";
+const baseUrl = "http://localhost:3000";
 
 interface userData {
   email: string;
@@ -122,7 +122,7 @@ interface goodsFullData {
 interface report {
   description: string;
   report_type_id: string;
-  reported: { id: number, name: string, quantity: string }[];
+  reported: { id: number; name: string; quantity: string }[];
 }
 
 function initClientApi() {
@@ -394,6 +394,10 @@ function initClientApi() {
             headers: { authorization: jwt },
           }
         ),
+      reportedGoods: (report_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/reports/${report_id}/goods`, {
+          headers: { authorization: jwt },
+        }),
     },
   };
 }
