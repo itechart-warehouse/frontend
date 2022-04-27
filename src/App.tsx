@@ -31,6 +31,8 @@ import WarehouseConsignmentsPage from "./pages/consignment/warehouse-all-consign
 import ConsignmentGoodsPage from "./pages/consignment/warehouse-all-consignment/goods/consignment-goods/ConsignmentGoodsPage";
 import CreateReportPage from "./pages/report/create-report/CreateReportPage";
 import ReportsPage from "./pages/report/all-reports/ReportsPage";
+import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
+import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
 
 function App() {
   const isLoggedIn = useSelector(
