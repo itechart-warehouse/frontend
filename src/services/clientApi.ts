@@ -13,9 +13,9 @@ import {
   report,
 } from "./clientApi.types";
 
-const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
+const baseUrl = `${process.env.REACT_APP_HEROKU_URL}`;
 //TODO Test local url
-// const baseUrl = "http://localhost:3000";
+// const baseUrl = `${process.env.REACT_APP_LOCAL_URL}`;
 
 function initClientApi() {
   return {
