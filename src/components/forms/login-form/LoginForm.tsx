@@ -81,7 +81,7 @@ function LoginForm() {
         type="submit"
         style={{ margin: "0 0 10px 0" }}
       >
-        Submit
+        Log In
       </Button>
       <Grid container>
         <Grid item xs>

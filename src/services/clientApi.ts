@@ -286,6 +286,10 @@ function initClientApi() {
             headers: { authorization: jwt },
           }
         ),
+      reportedGoods: (report_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/reports/${report_id}/goods`, {
+          headers: { authorization: jwt },
+        }),
     },
   };
 }

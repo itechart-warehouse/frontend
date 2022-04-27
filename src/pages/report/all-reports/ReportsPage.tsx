@@ -8,49 +8,27 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { linkStyle } from "../../../styles/linkStyle";
-
-interface Report {
-  report: {
-    id: string;
-    report_date: string;
-    description: string;
-    report_type: string;
-  };
-  report_type: {
-    name: string;
-  };
-  user: {
-    id: number;
-    first_name: string;
-    last_name: string;
-  };
-  consignment: {
-    consignment_seria: string;
-    consignment_number: string;
-  };
-}
+import ReportedGoodsDialog from "../../../components/dialogs/ReportedGoodsDialog";
+import { Report } from "./ReportsPage.types";
 
 const mainContainerStyle = {
   pt: 3,
 };
 
 const titleStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  mb: 3
+  display: "flex",
+  alignItems: "center",
+  mb: 3,
 };
 
 const rowStyle = {
@@ -89,6 +67,7 @@ function Reports() {
   const headStyle = {
     backgroundColor: twinkleBlue,
   };
+
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -119,24 +98,34 @@ function Reports() {
                 <TableCell align="right">
                   <Typography variant="h6">User</Typography>
                 </TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="center">
+                  <Typography variant="h6">Goods</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {reports.map((rep) => (
-                <TableRow key={rep.report.id}>
-                  <TableCell component="th" scope="row">
-                    {rep.report_type}
-                  </TableCell>
-                  <TableCell align="right">{rep.report.description}</TableCell>
-                  <TableCell align="right">{rep.report.report_date}</TableCell>
+              {reports.length
+                ? reports.map((rep: Report) => (
+                    <TableRow key={rep.report.id}>
+                      <TableCell component="th" scope="row">
+                        {rep.report_type}
+                      </TableCell>
+                      <TableCell align="right">
+                        {rep.report.description}
+                      </TableCell>
+                      <TableCell align="right">
+                        {rep.report.report_date}
+                      </TableCell>
 
-                  <TableCell align="right">
-                    {rep.user.first_name} {rep.user.last_name}
-                  </TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-              ))}
+                      <TableCell align="right">
+                        {rep.user.first_name} {rep.user.last_name}
+                      </TableCell>
+                      <TableCell align="center">
+                        <ReportedGoodsDialog reportId={rep.report.id} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : ""}
             </TableBody>
           </Table>
         </TableContainer>
