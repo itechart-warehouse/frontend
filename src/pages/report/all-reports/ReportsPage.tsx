@@ -8,42 +8,18 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { linkStyle } from "../../../styles/linkStyle";
-import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import ReportedGoodsDialog from "../../../components/dialogs/ReportedGoodsDialog";
-
-interface Report {
-  report: {
-    id: string;
-    report_date: string;
-    description: string;
-    report_type: string;
-  };
-  report_type: {
-    name: string;
-  };
-  user: {
-    id: number;
-    first_name: string;
-    last_name: string;
-  };
-  consignment: {
-    consignment_seria: string;
-    consignment_number: string;
-  };
-}
+import { Report } from "./ReportsPage.types";
 
 const mainContainerStyle = {
   pt: 3,
@@ -60,11 +36,6 @@ const rowStyle = {
 };
 
 function Reports() {
-  const [open, setOpen] = useState(false);
-
-  //TODO correct initial state
-
-  const [selectedValue, setSelectedValue] = useState("1");
   const { id } = useParams();
   const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
@@ -95,16 +66,6 @@ function Reports() {
 
   const headStyle = {
     backgroundColor: twinkleBlue,
-  };
-
-  const handleClickOpen = (value: string) => {
-    setOpen(true);
-    setSelectedValue(value);
-  };
-
-  const handleClose = (value: string) => {
-    setOpen(false);
-    // setSelectedValue("");
   };
 
   return (
@@ -143,34 +104,28 @@ function Reports() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {reports.map((rep) => (
-                <TableRow key={rep.report.id}>
-                  <TableCell component="th" scope="row">
-                    {rep.report_type}
-                  </TableCell>
-                  <TableCell align="right">{rep.report.description}</TableCell>
-                  <TableCell align="right">{rep.report.report_date}</TableCell>
+              {reports.length
+                ? reports.map((rep: Report) => (
+                    <TableRow key={rep.report.id}>
+                      <TableCell component="th" scope="row">
+                        {rep.report_type}
+                      </TableCell>
+                      <TableCell align="right">
+                        {rep.report.description}
+                      </TableCell>
+                      <TableCell align="right">
+                        {rep.report.report_date}
+                      </TableCell>
 
-                  <TableCell align="right">
-                    {rep.user.first_name} {rep.user.last_name}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      onClick={() => {
-                        handleClickOpen(rep.report.id);
-                      }}
-                    >
-                      <ViewInArIcon />
-                    </Button>
-
-                    <ReportedGoodsDialog
-                      selectedValue={selectedValue}
-                      open={open}
-                      onClose={handleClose}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+                      <TableCell align="right">
+                        {rep.user.first_name} {rep.user.last_name}
+                      </TableCell>
+                      <TableCell align="center">
+                        <ReportedGoodsDialog reportId={rep.report.id} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : ""}
             </TableBody>
           </Table>
         </TableContainer>
