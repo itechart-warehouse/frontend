@@ -1,4 +1,4 @@
-import { Alert, Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import WarehouseConsignmentCard from "../../../components/cards/WarehouseConsignmentCard";
 
 function WarehouseConsignmentShowPage() {

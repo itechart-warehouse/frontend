@@ -1,6 +1,4 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Box } from "@mui/material";
 import WelcomeTitle from "../../components/main-page/WelcomeTitle";
 import HomeCalendar from "../../components/main-page/HomeCalendar";
 import HomeData from "../../components/main-page/HomeData";

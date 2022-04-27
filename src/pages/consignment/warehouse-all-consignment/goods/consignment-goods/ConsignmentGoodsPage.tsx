@@ -8,8 +8,8 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,26 +18,8 @@ import { clientApi } from "../../../../../services/clientApi";
 import { RootState } from "../../../../../store";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { linkStyle } from "../../../../../styles/linkStyle";
+import { Goods, Consignment, Warehouse } from "./ConsignmentGoods.types";
 
-interface Goods {
-  id: number;
-  name: string;
-  bundle_seria: string;
-  bundle_number: string;
-  quantity: string;
-  placed_date: string;
-  warehouse_id: string;
-  status: string;
-}
-interface Consignment {
-  id: number;
-  bundle_seria: string;
-  bundle_number: string;
-}
-
-interface Warehouse {
-  name: string;
-}
 const mainContainerStyle = {
   pt: 3,
 };
@@ -117,7 +99,10 @@ function ConsignmentGoods() {
             <ArrowBackIcon fontSize="large" />
           </Link>
           Goods listing of consignment{" "}
-          <Link to={`/warehouse-consignments/${consignment.id}`} style={linkStyle}>
+          <Link
+            to={`/warehouse-consignments/${consignment.id}`}
+            style={linkStyle}
+          >
             {consignment.bundle_seria} {consignment.bundle_number}
           </Link>
         </Typography>

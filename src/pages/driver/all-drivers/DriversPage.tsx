@@ -7,25 +7,16 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
   CircularProgress,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 import { truckApi } from "../../../services/truckApi";
-
-interface Driver {
-  id: string;
-  first_name: string;
-  second_name: string;
-  company: {
-    name: string;
-  };
-}
+import { Driver } from "./DriversPage.types";
 
 const twinkleBlue = "#e9ecef";
 

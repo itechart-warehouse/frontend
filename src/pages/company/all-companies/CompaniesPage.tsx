@@ -8,9 +8,8 @@ import {
   TableCell,
   TableBody,
   Button,
-  Icon,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,15 +18,7 @@ import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-
-interface Company {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-  active: boolean;
-}
+import { Company } from "./CompaniesPage.types";
 
 const mainContainerStyle = {
   pt: 3,

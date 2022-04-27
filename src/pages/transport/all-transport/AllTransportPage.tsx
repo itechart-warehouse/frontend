@@ -8,22 +8,16 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
 import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
 import { truckApi } from "../../../services/truckApi";
+import { Transport } from "./AllTransportPage.types";
 
-interface Transport {
-  id: number;
-  truck_number: string;
-  company: {
-    name: string;
-  };
-}
 const twinkleBlue = "#e9ecef";
 
 const headStyle = {
