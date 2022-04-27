@@ -1,9 +1,9 @@
 import axios from "axios";
 import { array } from "yup";
 
-const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
+const baseUrl = process.env.REACT_APP_WAREHOUSE_URL;
 //TODO Test local url
-// const baseUrl = "http://localhost:3000";
+// const baseUrl = process.env.REACT_APP_WAREHOUSE_LOCAL_URL;
 
 interface userData {
   email: string;
