@@ -8,24 +8,15 @@ import {
   TableCell,
   TableBody,
   Button,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-
-interface Section {
-  id: number;
-  name: string;
-  area: string;
-  reserved: string;
-}
-interface Warehouse {
-  name: string;
-}
+import { Section, Warehouse } from "./SectionsPage.types";
 
 const WarehouseState = {
   name: "",
@@ -71,7 +62,6 @@ function Sections() {
         setWarehouse(response.data.warehouse);
       });
   }, []);
-  console.log("out", sections);
   const navigate = useNavigate();
   const routeEditSections = () => {
     navigate("edit");

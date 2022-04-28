@@ -14,30 +14,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-
-interface Values {
-  userEmail: string;
-  userPassword: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  company_id: string;
-  role_id: string;
-}
-
-// interface Company {
-//   id: number;
-//   name: string;
-//   address: string;
-//   phone: string;
-//   email: string;
-// }
-
-interface Roles {
-  id: number;
-  name: string;
-}
+import { Values, Roles } from "./CreateUser.types";
 
 const validationSchema = yup.object({
   userEmail: yup

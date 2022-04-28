@@ -8,8 +8,8 @@ import {
   TableCell,
   TableBody,
   Button,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,23 +18,7 @@ import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-
-interface User {
-  user: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    address: string;
-    active: boolean;
-  };
-
-  company: {
-    name: string;
-  };
-
-  role: string;
-}
+import { User } from "./UsersPage.types";
 
 const twinkleBlue = "#e9ecef";
 

@@ -8,8 +8,8 @@ import {
   TableCell,
   TableBody,
   Button,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -18,25 +18,7 @@ import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-
-interface Warehouse {
-  warehouse: {
-    id: number;
-    name: string;
-    address: string;
-    phone: string;
-    area: string;
-    active: boolean;
-  };
-  user: {
-    id: number;
-    first_name: string;
-    last_name: string;
-  }[];
-}
-interface Company {
-  name: string;
-}
+import { Warehouse, Company } from "./WarehousesPage.types";
 
 const CompanyState = {
   name: "",
@@ -150,8 +132,7 @@ function Warehouses() {
                   <TableCell align="center">
                     {ware.warehouse.active ? <CheckIcon /> : <CloseIcon />}
                   </TableCell>
-                  <TableCell align="center">
-                  </TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
               ))}
             </TableBody>

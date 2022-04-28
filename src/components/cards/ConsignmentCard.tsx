@@ -5,7 +5,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useRef, useState } from "react";
 import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,79 +14,46 @@ import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import LoadingCard from "./LoadingCard";
+import { Consignment, Goods } from "./types/Consignment.types";
 
-interface Consignment {
-  id: number;
-  status: string;
-  bundle_seria: string;
-  bundle_number: string;
-  consignment_seria: string;
-  consignment_number: string;
-
+const consignmentInit = {
+  id: 0,
+  status: "",
+  bundle_seria: "",
+  bundle_number: "",
+  consignment_seria: "",
+  consignment_number: "",
   truck: {
-    truck_number: string;
+    truck_number: "",
     truck_type: {
-      truck_type_name: string;
-    };
-  };
+      truck_type_name: "",
+    },
+  },
   driver: {
-    first_name: string;
-    second_name: string;
-    middle_name: string;
-    birthday: string;
-    passport: string;
-
+    first_name: "",
+    second_name: "",
+    middle_name: "",
+    birthday: "",
+    passport: "",
     role: {
-      role_name: string;
-    };
+      role_name: "",
+    },
     company: {
-      name: string;
-    };
-  };
-}
+      name: "",
+    },
+  },
+};
 
-interface Goods {
-  good_status: string;
-  good_name: string;
-  quantity: number;
-}
+const goodsInit = {
+  good_status: "",
+  good_name: "",
+  quantity: 0,
+};
 
 export default function ConsignmentCard() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [consignment, setConsignment] = useState<Consignment>({
-    id: 0,
-    status: "",
-    bundle_seria: "",
-    bundle_number: "",
-    consignment_seria: "",
-    consignment_number: "",
-    truck: {
-      truck_number: "",
-      truck_type: {
-        truck_type_name: "",
-      },
-    },
-    driver: {
-      first_name: "",
-      second_name: "",
-      middle_name: "",
-      birthday: "",
-      passport: "",
-      role: {
-        role_name: "",
-      },
-      company: {
-        name: "",
-      },
-    },
-  });
-
-  const [goods, setGoods] = useState<Goods>({
-    good_status: "",
-    good_name: "",
-    quantity: 0,
-  });
-
+  const [consignment, setConsignment] = useState<Consignment>(consignmentInit);
+  const [goods, setGoods] = useState<Goods>(goodsInit);
   const { id } = useParams();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
@@ -228,8 +195,10 @@ export default function ConsignmentCard() {
             <Typography variant="h6" component="div"></Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
           </CardContent>
-          <CardActions sx={{justifyContent: 'space-between'}}>
-            <Button onClick={routeConsignmentList}><ArrowBackIcon fontSize="large"/></Button>
+          <CardActions sx={{ justifyContent: "space-between" }}>
+            <Button onClick={routeConsignmentList}>
+              <ArrowBackIcon fontSize="large" />
+            </Button>
             {role === "Dispatcher" ? (
               <Button onClick={registration} color="success">
                 Registration

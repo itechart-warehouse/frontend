@@ -5,7 +5,7 @@ import {
   Typography,
   CardActions,
 } from "@mui/material";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,23 +13,19 @@ import { setCompanyState } from "../../store/companySlice";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import LoadingCard from "./LoadingCard";
+import { Company } from "./types/Company.types";
 
-interface Company {
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-}
+const companyInitValues: Company = {
+  address: "",
+  email: "",
+  name: "",
+  phone: "",
+};
 
 export default function CompanyCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [company, setCompany] = useState<Company>({
-    address: "",
-    email: "",
-    name: "",
-    phone: "",
-  });
+  const [company, setCompany] = useState<Company>(companyInitValues);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
