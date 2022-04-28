@@ -1,129 +1,21 @@
 import axios from "axios";
-import {array} from "yup";
+import {
+  userData,
+  recoverData,
+  companyFullData,
+  companyData,
+  userFullData,
+  userEditData,
+  warehouseFullData,
+  warehouseEditData,
+  consignmentFullData,
+  goodsFullData,
+  report,
+} from "./clientApi.types";
 
-const baseUrl = "https://safe-cliffs-85500.herokuapp.com";
+const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
-// const baseUrl = "http://localhost:3000";
-
-interface userData {
-  email: string;
-  password: string;
-}
-
-interface recoverData {
-  email: string;
-}
-
-interface companyFullData {
-  userEmail: string;
-  userPassword: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  companyName: string;
-  companyAddress: string;
-  companyPhone: string;
-  companyEmail: string;
-}
-interface companyData {
-  companyName: string;
-  companyAddress: string;
-  companyPhone: string;
-  companyEmail: string;
-  active: boolean;
-}
-
-interface userFullData {
-  userEmail: string;
-  userPassword: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  company_id: string;
-  role_id: string;
-}
-
-interface userEditData {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  userRoleId: number;
-  active: boolean;
-}
-
-interface warehouseFullData {
-  userEmail: string;
-  userPassword: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  warehouseName: string;
-  warehouseAddress: string;
-  warehousePhone: string;
-  area: string;
-  active: boolean;
-}
-
-interface warehouseEditData {
-  warehouseName: string;
-  warehouseAddress: string;
-  warehousePhone: string;
-  warehouseArea: string;
-  active: boolean;
-}
-
-interface driverFullData {
-  firstName: string;
-  lastName: string;
-  password_number: string;
-  password_info: string;
-}
-
-interface consignmentFullData {
-  id: number;
-  status: string;
-  bundle_seria: string;
-  bundle_number: string;
-  consignment_seria: string;
-  consignment_number: string;
-
-  truck: {
-    truck_number: string;
-    truck_type: {
-      truck_type_name: string;
-    };
-  };
-  driver: {
-    first_name: string;
-    second_name: string;
-    middle_name: string;
-    birthday: string;
-    passport: string;
-
-    role: {
-      role_name: string;
-    };
-    company: {
-      name: string;
-    };
-  };
-}
-
-interface goodsFullData {
-  good_status: string;
-  good_name: string;
-  quantity: number;
-}
-
-interface report {
-  description: string;
-  report_type_id: string;
-  reported: { id: number, name: string, quantity: string }[];
-}
+// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
 function initClientApi() {
   return {
@@ -394,6 +286,10 @@ function initClientApi() {
             headers: { authorization: jwt },
           }
         ),
+      reportedGoods: (report_id: any, jwt: string) =>
+        axios.get(`${baseUrl}/reports/${report_id}/goods`, {
+          headers: { authorization: jwt },
+        }),
     },
   };
 }

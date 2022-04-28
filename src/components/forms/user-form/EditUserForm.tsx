@@ -1,31 +1,18 @@
 import { useFormik } from "formik";
 import {
   Button,
-  FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
   Switch,
   TextField,
+  Chip,
 } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
-import Chip from "@mui/material/Chip";
-
-interface Values {
-  firstName: string;
-  lastName: string;
-  address: string;
-  birthDate: string;
-  userRoleId: number;
-  active: boolean;
-}
+import { Values } from "./EditUser.types";
 
 const validationSchema = yup.object({
   firstName: yup.string().required("First name is required"),

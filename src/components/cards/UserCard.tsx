@@ -13,40 +13,27 @@ import { setUserState } from "../../store/userSlice";
 import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import LoadingCard from "./LoadingCard";
+import { User } from "./types/User.types";
 
-interface User {
+const userInit = {
   user: {
-    first_name: string;
-    last_name: string;
-    birth_date: string;
-    address: string;
-    email: string;
-  };
+    first_name: "",
+    last_name: "",
+    birth_date: "",
+    address: "",
+    email: "",
+  },
   company: {
-    name: string;
-  };
+    name: "",
+  },
   role: {
-    name: string;
-  };
-}
+    name: "",
+  },
+};
 
 function UserCard() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User>({
-    user: {
-      first_name: "",
-      last_name: "",
-      birth_date: "",
-      address: "",
-      email: "",
-    },
-    company: {
-      name: "",
-    },
-    role: {
-      name: "",
-    },
-  });
+  const [currentUser, setCurrentUser] = useState<User>(userInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const { id } = useParams();
   const navigate = useNavigate();

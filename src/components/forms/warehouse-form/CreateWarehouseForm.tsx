@@ -8,20 +8,7 @@ import { clearError, setError } from "../../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import InputMask from "react-input-mask";
-
-interface Values {
-  userEmail: string;
-  userPassword: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  warehouseName: string;
-  warehouseAddress: string;
-  warehousePhone: string;
-  area: string;
-  active: boolean;
-}
+import { Values } from "./CreateWarehouse.types";
 
 const validationSchema = yup.object({
   userEmail: yup

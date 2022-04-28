@@ -6,11 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../store/loginSlice";
 import { setError } from "../../../store/errorSlice";
-
-interface Values {
-  email: string;
-  password: string;
-}
+import { Values } from "./LoginForm.types";
 
 const validationSchema = yup.object({
   email: yup
@@ -85,7 +81,7 @@ function LoginForm() {
         type="submit"
         style={{ margin: "0 0 10px 0" }}
       >
-        Submit
+        Log In
       </Button>
       <Grid container>
         <Grid item xs>

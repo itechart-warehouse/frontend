@@ -2,7 +2,6 @@ import CreateUserForm from "../../../components/forms/user-form/CreateUserForm";
 import React from "react";
 import { Grid, Typography, Box } from "@mui/material";
 
-
 const CreateUserPage = () => {
   return (
     <Grid

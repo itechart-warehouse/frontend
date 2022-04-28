@@ -25,29 +25,11 @@ export default function DriverButton() {
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        onClick={driversRoute}
         color="inherit"
       >
         Drivers
       </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            driversRoute();
-          }}
-        >
-          Listing
-        </MenuItem>
-      </Menu>
     </>
   );
 }

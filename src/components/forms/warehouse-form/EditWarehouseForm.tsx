@@ -1,5 +1,11 @@
 import { useFormik } from "formik";
-import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Switch,
+  TextField,
+  Chip,
+} from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,15 +15,7 @@ import { RootState } from "../../../store";
 import { clearWarehouseState } from "../../../store/warehouseSlice";
 import React from "react";
 import InputMask from "react-input-mask";
-import Chip from "@mui/material/Chip";
-
-interface Values {
-  warehouseName: string;
-  warehouseAddress: string;
-  warehousePhone: string;
-  warehouseArea: string;
-  active: boolean;
-}
+import { Values } from "./EditWarehouse.types";
 
 const validationSchema = yup.object({
   warehouseName: yup.string().required("Warehouse name is required"),

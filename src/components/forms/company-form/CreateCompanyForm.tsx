@@ -8,19 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
-
-interface Values {
-  userEmail: string;
-  userPassword: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  address: string;
-  companyName: string;
-  companyAddress: string;
-  companyPhone: string;
-  companyEmail: string;
-}
+import { Values } from "./CreateCompany.types";
 
 const validationSchema = yup.object({
   userEmail: yup
