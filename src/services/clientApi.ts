@@ -13,9 +13,9 @@ import {
   report,
 } from "./clientApi.types";
 
-const baseUrl = process.env.REACT_APP_WAREHOUSE_URL;
+const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
-// const baseUrl = process.env.REACT_APP_WAREHOUSE_LOCAL_URL;
+// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
 function initClientApi() {
   return {
