@@ -9,6 +9,8 @@ import {
   TableBody,
   Button,
   Paper,
+  Box,
+  Grid,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
@@ -32,6 +34,13 @@ const twinkleBlue = "#e9ecef";
 const headStyle = {
   backgroundColor: twinkleBlue,
 };
+// const gridStyle = {
+//   height: "100vh",
+//   backgroundImage: `url(${CompanyListImage})`,
+//   backgroundRepeat: "no-repeat",
+//   backgroundPosition: "center bottom",
+//   opacity: 0.8,
+// };
 
 const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
@@ -86,6 +95,7 @@ function Companies() {
         ) : (
           ""
         )}
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>

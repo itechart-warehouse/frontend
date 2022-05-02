@@ -1,9 +1,20 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
 import DriverCard from "../../../components/cards/DriverCard";
+// @ts-ignore
+import DriverCardImage from "../../../image/DriverCard.svg";
+
+const backgroundStyle = {
+  height: "90vh",
+  backgroundImage: `url(${DriverCardImage})`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right bottom",
+  backgroundSize: "30%",
+  marginRight: "20px",
+};
 
 function DriverShowPage() {
   return (
-    <>
+    <Grid sx={backgroundStyle}>
       <Grid
         container
         spacing={0}
@@ -29,7 +40,7 @@ function DriverShowPage() {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 

@@ -12,6 +12,7 @@ import { clientApi } from "../../services/clientApi";
 import { clearError, setError } from "../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { Box } from "@mui/material";
 
 interface Consignments {
   id: number;
@@ -30,9 +31,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    fontSize: 18,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 18,
   },
 }));
 
@@ -103,25 +105,36 @@ export default function HomeData() {
   ];
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 10 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Consignment status</StyledTableCell>
-            <StyledTableCell align="left">Count</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.count}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box
+      sx={(theme) => ({
+        width: "100%",
+        height: "100%",
+        // background: "linear-gradient(45deg,#448acf 30%, #1976D2 90%)",
+        background: "#F5F5F5",
+        border: 0,
+        borderRadius: 3,
+      })}
+    >
+      <TableContainer component={Paper}>
+        <Table aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Consignment status</StyledTableCell>
+              <StyledTableCell align="center">Count</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell component="th" scope="row">
+                  {row.name}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.count}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
