@@ -89,13 +89,13 @@ function Reports() {
                 <TableCell>
                   <Typography variant="h6">Type</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Description</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Date</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">User</Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -110,14 +110,14 @@ function Reports() {
                       <TableCell component="th" scope="row">
                         {rep.report_type}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">
                         {rep.report.description}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">
                         {rep.report.report_date}
                       </TableCell>
 
-                      <TableCell align="right">
+                      <TableCell align="center">
                         {rep.user.first_name} {rep.user.last_name}
                       </TableCell>
                       <TableCell align="center">

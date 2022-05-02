@@ -103,13 +103,13 @@ function Companies() {
                 <TableCell>
                   <Typography variant="h6">Company name</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Address</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Phone</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">E-mail</Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -125,9 +125,9 @@ function Companies() {
                     <TableCell component="th" scope="row">
                       <Link to={`${comp.id}`}>{comp.name}</Link>
                     </TableCell>
-                    <TableCell align="right">{comp.address}</TableCell>
-                    <TableCell align="right">{comp.phone}</TableCell>
-                    <TableCell align="right">{comp.email}</TableCell>
+                    <TableCell align="center">{comp.address}</TableCell>
+                    <TableCell align="center">{comp.phone}</TableCell>
+                    <TableCell align="center">{comp.email}</TableCell>
                     <TableCell align="center">
                       {comp.active ? <CheckIcon /> : <CloseIcon />}
                     </TableCell>
