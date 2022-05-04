@@ -1,9 +1,20 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
 import WarehouseCard from "../../../components/cards/WarehouseCard";
+// @ts-ignore
+import WarehouseCardImage from "../../../image/WarehouseCard.svg";
+
+const backgroundStyle = {
+  height: "90vh",
+  backgroundImage: `url(${WarehouseCardImage})`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right bottom",
+  backgroundSize: "25%",
+  marginRight: "20px",
+};
 
 function WarehouseShowPage() {
   return (
-    <>
+    <Grid sx={backgroundStyle}>
       <Grid
         container
         spacing={0}
@@ -29,7 +40,7 @@ function WarehouseShowPage() {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 

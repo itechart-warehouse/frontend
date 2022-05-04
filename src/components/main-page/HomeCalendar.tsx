@@ -19,8 +19,8 @@ export default function HomeCalendar() {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
         sx={(theme) => ({
-          width: "65%",
-          height: "35vh",
+          width: "100%",
+          height: "100%",
           // background: "linear-gradient(45deg,#448acf 30%, #1976D2 90%)",
           background: "#F5F5F5",
           border: 0,

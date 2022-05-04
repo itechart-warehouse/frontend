@@ -12,7 +12,7 @@ const CreateCompanyPage = () => {
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
-      <Grid item>
+      <Grid xs={4} item>
         <Typography
           variant="h2"
           component="div"
