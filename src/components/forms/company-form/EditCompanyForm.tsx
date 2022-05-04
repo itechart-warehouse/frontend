@@ -109,7 +109,7 @@ function EditCompanyForm() {
         {() => (
           <TextField
             type="text"
-            label="Phone Number (Ex: +375-29-1234567)"
+            label="Phone Number (Ex: +375-(29)-1234567)"
             name="companyPhone"
             fullWidth
             variant="outlined"

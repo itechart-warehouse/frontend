@@ -100,7 +100,7 @@ function EditWarehouseForm() {
         {() => (
           <TextField
             type="text"
-            label="Phone Number (Ex: +375-29-1234567)"
+            label="Phone Number (Ex: +375-(29)-1234567)"
             name="warehousePhone"
             fullWidth
             variant="outlined"
