@@ -20,11 +20,12 @@ import {
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError, setError } from "../../../store/errorSlice";
 import { Goods, Values, Type } from "./CreateReport.types";
+import useMount from "../../../services/isMountedHook";
 
 const twinkleBlue = "#e9ecef";
 
@@ -51,7 +52,8 @@ function CreateReportForm() {
   const dispatch = useDispatch();
   const [reportTypes, setReportTypes] = useState([]);
   const { id } = useParams();
-  const isMounted = useRef(false);
+  const isMounted = useMount();
+
 
   const routeConsignmentCard = () => {
     navigate(`/warehouse-consignments/${id}`);
@@ -98,13 +100,6 @@ function CreateReportForm() {
   });
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
     clientApi.goods
       .getByConsignmentId(id, jwt)
       .catch((err) => {
@@ -121,7 +116,7 @@ function CreateReportForm() {
         return Promise.reject(err);
       })
       .then((response) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setGoods(response.data.goods);
         }
@@ -137,7 +132,7 @@ function CreateReportForm() {
         return Promise.reject(err);
       })
       .then((response) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setReportTypes(response.data.ReportTypes);
         }

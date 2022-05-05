@@ -10,13 +10,14 @@ import {
   CircularProgress,
   Paper,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 import { truckApi } from "../../../services/truckApi";
 import { Driver } from "./DriversPage.types";
+import useMount from "../../../services/isMountedHook";
 
 const twinkleBlue = "#e9ecef";
 
@@ -39,14 +40,7 @@ const rowStyle = {
 function Drivers() {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  const isMounted = useMount();
 
   useEffect(() => {
     truckApi.driver
@@ -65,7 +59,7 @@ function Drivers() {
         return Promise.reject(err);
       })
       .then((response) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setDrivers(response.data);
           console.log(response.data);

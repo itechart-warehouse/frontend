@@ -5,7 +5,7 @@ import {
   Typography,
   CardActions,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import { RootState } from "../../store";
 import { clearError, setError } from "../../store/errorSlice";
 import LoadingCard from "./LoadingCard";
 import { Company } from "./types/Company.types";
+import useMount from "../../services/isMountedHook";
 
 const companyInitValues: Company = {
   address: "",
@@ -29,14 +30,7 @@ export default function CompanyCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  const isMounted = useMount();
 
   useEffect(() => {
     clientApi.company
@@ -55,7 +49,7 @@ export default function CompanyCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setCompany(res.data.company);
           setIsLoaded(true);

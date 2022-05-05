@@ -6,7 +6,7 @@ import {
   CardActions,
 } from "@mui/material";
 import { clientApi } from "../../services/clientApi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -14,6 +14,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { setWarehouseState } from "../../store/warehouseSlice";
 import LoadingCard from "./LoadingCard";
 import { Warehouse } from "./types/Warehouse.types";
+import useMount from "../../services/isMountedHook";
 
 const warehouseInit = {
   warehouse: {
@@ -41,14 +42,7 @@ function WarehouseCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  const isMounted = useMount();
 
   useEffect(() => {
     clientApi.warehouse
@@ -67,7 +61,7 @@ function WarehouseCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setWarehouse(res.data);
           setIsLoaded(true);

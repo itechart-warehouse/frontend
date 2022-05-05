@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import LoadingCard from "./LoadingCard";
 import { Consignment, Goods } from "./types/Consignment.types";
+import useMount from "../../services/isMountedHook";
 
 const consignmentInit = {
   id: 0,
@@ -59,14 +60,7 @@ export default function ConsignmentCard() {
   const role = useSelector((state: RootState) => state.user.userRole.name);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  const isMounted = useMount();
 
   useEffect(() => {
     truckApi.consignment
@@ -85,7 +79,7 @@ export default function ConsignmentCard() {
         return Promise.reject(err);
       })
       .then((res) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           setConsignment(res.data);
           console.log("consignment", res.data);
           dispatch(clearError());

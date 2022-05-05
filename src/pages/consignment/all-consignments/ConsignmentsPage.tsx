@@ -8,14 +8,15 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { truckApi } from "../../../services/truckApi";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError, setError } from "../../../store/errorSlice";
 import { ConsignmentsType } from "./ConsignmentsPage.types";
+import useMount from "../../../services/isMountedHook";
 
 const mainContainerStyle = {
   pt: 3,
@@ -37,14 +38,7 @@ const rowStyle = {
 function Consignments() {
   const [consignments, setConsignments] = useState<ConsignmentsType[]>([]);
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  const isMounted = useMount();
 
   useEffect(() => {
     truckApi.consignment
@@ -63,7 +57,7 @@ function Consignments() {
         return Promise.reject(err);
       })
       .then((response) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setConsignments(response.data);
           console.log(response.data);
