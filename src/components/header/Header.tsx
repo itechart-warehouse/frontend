@@ -27,7 +27,6 @@ export default function Header() {
       .then(() => {
         dispatch(logoutUser());
       })
-      .catch((err) => alert(err));
   };
 
   const navigate = useNavigate();

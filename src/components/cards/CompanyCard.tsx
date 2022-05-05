@@ -35,19 +35,6 @@ export default function CompanyCard() {
   useEffect(() => {
     clientApi.company
       .getById(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((res) => {
         if (isMounted()) {
           dispatch(clearError());

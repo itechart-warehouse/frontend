@@ -45,7 +45,6 @@ export default function UserInfo() {
       .then(() => {
         dispatch(logoutUser());
       })
-      .catch((err) => alert(err));
   };
 
   const navigate = useNavigate();

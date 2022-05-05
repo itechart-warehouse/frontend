@@ -1,3 +1,16 @@
+export interface errorData {
+  response: {
+    data: {
+      company_errors: [];
+      user_errors: [];
+    };
+    statusText: string;
+    status: number;
+  };
+  request: {};
+  message: string;
+}
+
 export interface userData {
   email: string;
   password: string;

@@ -11,21 +11,48 @@ import {
   consignmentFullData,
   goodsFullData,
   report,
+  errorData,
 } from "./clientApi.types";
+import { store } from "../store";
+import { setError } from "../store/errorSlice";
 
 // const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
 const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
+function errorHandler(err: errorData) {
+  if (err.response) {
+    err.response.status === 500 || err.response.status === 401
+      ? store.dispatch(setError([err.response.statusText]))
+      : store.dispatch(
+          setError([
+            ...err.response.data.company_errors,
+            ...err.response.data.user_errors,
+          ])
+        );
+  } else if (err.request) {
+    store.dispatch(setError(["Server is not working"]));
+    console.log("request", err.request);
+  } else {
+    store.dispatch(setError([err.message]));
+    console.log("message", err.message);
+  }
+  return Promise.reject(err);
+}
+
 function initClientApi() {
   return {
     userData: {
       login: (credentials: userData) =>
-        axios.post(`${baseUrl}/login`, {
-          user: { email: credentials.email, password: credentials.password },
-        }),
+        axios
+          .post(`${baseUrl}/login`, {
+            user: { email: credentials.email, password: credentials.password },
+          })
+          .catch((err) => errorHandler(err)),
       logout: (jwt: string) =>
-        axios.delete(`${baseUrl}/logout`, { headers: { authorization: jwt } }),
+        axios
+          .delete(`${baseUrl}/logout`, { headers: { authorization: jwt } })
+          .catch((err) => errorHandler(err)),
     },
     recoverData: {
       recoverEmail: (credentials: recoverData) =>
@@ -35,50 +62,58 @@ function initClientApi() {
     },
     company: {
       create: (companyCredentials: companyFullData, jwt: string) =>
-        axios.post(
-          `${baseUrl}/company/create`,
-          {
-            company: {
-              email: companyCredentials.companyEmail,
-              name: companyCredentials.companyName,
-              address: companyCredentials.address,
-              phone: companyCredentials.companyPhone,
+        axios
+          .post(
+            `${baseUrl}/company/create`,
+            {
+              company: {
+                email: companyCredentials.companyEmail,
+                name: companyCredentials.companyName,
+                address: companyCredentials.address,
+                phone: companyCredentials.companyPhone,
+              },
+              user: {
+                email: companyCredentials.userEmail,
+                password: companyCredentials.userPassword,
+                first_name: companyCredentials.firstName,
+                last_name: companyCredentials.lastName,
+                birth_date: companyCredentials.birthDate,
+                address: companyCredentials.address,
+              },
             },
-            user: {
-              email: companyCredentials.userEmail,
-              password: companyCredentials.userPassword,
-              first_name: companyCredentials.firstName,
-              last_name: companyCredentials.lastName,
-              birth_date: companyCredentials.birthDate,
-              address: companyCredentials.address,
-            },
-          },
-          { headers: { authorization: jwt } }
-        ),
+            { headers: { authorization: jwt } }
+          )
+          .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
-        axios.get(`${baseUrl}/companies`, { headers: { authorization: jwt } }),
+        axios
+          .get(`${baseUrl}/companies`, { headers: { authorization: jwt } })
+          .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
-        axios.get(`${baseUrl}/companies/${id}`, {
-          headers: { authorization: jwt },
-        }),
+        axios
+          .get(`${baseUrl}/companies/${id}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       editCompanyById: (
         id: any,
         companyCredentials: companyData,
         jwt: string
       ) =>
-        axios.post(
-          `${baseUrl}/companies/update/${id}`,
-          {
-            company: {
-              name: companyCredentials.companyName,
-              address: companyCredentials.companyAddress,
-              phone: companyCredentials.companyPhone,
-              email: companyCredentials.companyEmail,
-              active: companyCredentials.active,
+        axios
+          .post(
+            `${baseUrl}/companies/update/${id}`,
+            {
+              company: {
+                name: companyCredentials.companyName,
+                address: companyCredentials.companyAddress,
+                phone: companyCredentials.companyPhone,
+                email: companyCredentials.companyEmail,
+                active: companyCredentials.active,
+              },
             },
-          },
-          { headers: { authorization: jwt } }
-        ),
+            { headers: { authorization: jwt } }
+          )
+          .catch((err) => errorHandler(err)),
     },
     user: {
       create: (userCredentials: userFullData, jwt: string) =>
