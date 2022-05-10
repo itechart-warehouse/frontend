@@ -11,7 +11,7 @@ import { truckApi } from "../../services/truckApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import LoadingCard from "./LoadingCard";
 import { Consignment, Goods } from "./types/Consignment.types";
@@ -65,19 +65,6 @@ export default function ConsignmentCard() {
   useEffect(() => {
     truckApi.consignment
       .getById(id)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((res) => {
         if (isMounted()) {
           setConsignment(res.data);
@@ -91,19 +78,6 @@ export default function ConsignmentCard() {
   useEffect(() => {
     truckApi.goods
       .getByConsignmentId(id)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((res) => {
         setGoods(res.data);
         dispatch(clearError());

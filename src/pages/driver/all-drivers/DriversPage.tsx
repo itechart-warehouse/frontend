@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 import { truckApi } from "../../../services/truckApi";
 import { Driver } from "./DriversPage.types";
@@ -57,19 +57,6 @@ function Drivers() {
   useEffect(() => {
     truckApi.driver
       .getAll()
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
