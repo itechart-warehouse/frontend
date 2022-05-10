@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { linkStyle } from "../../../styles/linkStyle";
 import ReportedGoodsDialog from "../../../components/dialogs/ReportedGoodsDialog";
@@ -43,19 +43,6 @@ function Reports() {
   useEffect(() => {
     clientApi.report
       .getAllByConsignmentId(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((response) => {
         dispatch(clearError());
         setReports(response.data.reports);

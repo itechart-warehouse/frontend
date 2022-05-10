@@ -16,9 +16,9 @@ import {
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
+const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
-const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
 function errorHandler(err: errorData) {
   if (err.response) {
@@ -51,9 +51,11 @@ function initClientApi() {
     },
     recoverData: {
       recoverEmail: (credentials: recoverData) =>
-        axios.post(`${baseUrl}/password`, {
-          user: { email: credentials.email },
-        }),
+        axios
+          .post(`${baseUrl}/password`, {
+            user: { email: credentials.email },
+          })
+          .catch((err) => errorHandler(err)),
     },
     company: {
       create: (companyCredentials: companyFullData, jwt: string) =>
@@ -320,40 +322,47 @@ function initClientApi() {
     },
     goods: {
       getByConsignmentId: (id: any, jwt: string) =>
-        axios.get(`${baseUrl}/warehouse-consignments/${id}/goods`, {
-          headers: { authorization: jwt },
-        }),
+        axios
+          .get(`${baseUrl}/warehouse-consignments/${id}/goods`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
     },
     report: {
       create: (consignmentId: any, jwt: string, reportData: report) =>
-        axios.post(
-          `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create`,
-          {
-            report: {
-              description: reportData.description,
-              report_type_id: reportData.report_type_id,
-              reported: reportData.reported,
+        axios
+          .post(
+            `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create`,
+            {
+              report: {
+                description: reportData.description,
+                report_type_id: reportData.report_type_id,
+                reported: reportData.reported,
+              },
             },
-          },
-          {
-            headers: { authorization: jwt },
-          }
-        ),
+            {
+              headers: { authorization: jwt },
+            }
+          )
+          .catch((err) => errorHandler(err)),
       getListOfTypes: (id: any, jwt: string) =>
-        axios.get(`${baseUrl}/warehouse-consignments/${id}/reports/create`, {
-          headers: { authorization: jwt },
-        }),
-      getAllByConsignmentId: (consignment_id: any, jwt: string) =>
-        axios.get(
-          `${baseUrl}/warehouse-consignments/${consignment_id}/reports`,
-          {
+        axios
+          .get(`${baseUrl}/warehouse-consignments/${id}/reports/create`, {
             headers: { authorization: jwt },
-          }
-        ),
+          })
+          .catch((err) => errorHandler(err)),
+      getAllByConsignmentId: (consignment_id: any, jwt: string) =>
+        axios
+          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       reportedGoods: (report_id: any, jwt: string) =>
-        axios.get(`${baseUrl}/reports/${report_id}/goods`, {
-          headers: { authorization: jwt },
-        }),
+        axios
+          .get(`${baseUrl}/reports/${report_id}/goods`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
     },
   };
 }

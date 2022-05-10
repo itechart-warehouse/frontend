@@ -23,7 +23,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import { Goods, Values, Type } from "./CreateReport.types";
 import useMount from "../../../services/isMountedHook";
 
@@ -77,20 +77,6 @@ function CreateReportForm() {
     onSubmit: (data: Values) => {
       clientApi.report
         .create(id, jwt, data)
-        .catch((err) => {
-          if (err.response) {
-            err.response.status === 500 || err.response.status === 401
-              ? dispatch(setError([err.response.statusText]))
-              : dispatch(setError([...err.response.data.user_errors]));
-          } else if (err.request) {
-            dispatch(setError(["Server is not working"]));
-            console.log("request", err.request);
-          } else {
-            dispatch(setError([err.message]));
-            console.log("message", err.message);
-          }
-          return Promise.reject(err);
-        })
         .then((response) => {
           dispatch(clearError());
           routeConsignmentCard();
@@ -102,19 +88,6 @@ function CreateReportForm() {
   useEffect(() => {
     clientApi.goods
       .getByConsignmentId(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
@@ -126,11 +99,6 @@ function CreateReportForm() {
   useEffect(() => {
     clientApi.report
       .getListOfTypes(id, jwt)
-      .catch((err) => {
-        dispatch(setError([err.response.statusText]));
-        console.log(err.response);
-        return Promise.reject(err);
-      })
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
