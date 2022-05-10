@@ -8,8 +8,6 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -19,9 +17,8 @@ import BusinessIcon from "@mui/icons-material/Business";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import { clientApi } from "../../../services/clientApi";
 import { logoutUser } from "../../../store/loginSlice";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { ListItem, TextField } from "@mui/material";
+import { ListItem } from "@mui/material";
 
 export default function UserInfo() {
   const dispatch = useDispatch();

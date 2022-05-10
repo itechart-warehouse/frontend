@@ -18,8 +18,14 @@ import InputMask from "react-input-mask";
 import { Values } from "./EditWarehouse.types";
 
 const validationSchema = yup.object({
-  warehouseName: yup.string().required("Warehouse name is required"),
-  warehouseAddress: yup.string().required("Warehouse address is required"),
+  warehouseName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Warehouse name is required"),
+  warehouseAddress: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Warehouse address is required"),
   warehousePhone: yup
     .string()
     .test("len", "Invalid", (val = "") => {
@@ -86,7 +92,7 @@ function EditWarehouseForm() {
         {() => (
           <TextField
             type="text"
-            label="Phone Number (Ex: +375-29-1234567)"
+            label="Phone Number (Ex: +375-(29)-1234567)"
             name="warehousePhone"
             fullWidth
             variant="outlined"

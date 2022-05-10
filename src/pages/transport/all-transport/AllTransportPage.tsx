@@ -9,6 +9,7 @@ import {
   TableBody,
   CircularProgress,
   Paper,
+  Grid,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,6 +18,17 @@ import { clearError, setError } from "../../../store/errorSlice";
 import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
 import { truckApi } from "../../../services/truckApi";
 import { Transport } from "./AllTransportPage.types";
+// @ts-ignore
+import TransportCardImage from "../../../image/TransportCard.svg";
+
+const backgroundStyle = {
+  height: "90vh",
+  backgroundImage: `url(${TransportCardImage})`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right bottom",
+  backgroundSize: "50%",
+  marginRight: "20px",
+};
 
 const twinkleBlue = "#e9ecef";
 
@@ -63,7 +75,7 @@ function Transports() {
   }, []);
 
   return (
-    <>
+    <Grid sx={backgroundStyle}>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Transport listing
@@ -105,7 +117,7 @@ function Transports() {
           </Table>
         </TableContainer>
       </Container>
-    </>
+    </Grid>
   );
 }
 

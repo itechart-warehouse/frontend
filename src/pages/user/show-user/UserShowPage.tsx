@@ -1,9 +1,20 @@
 import UserCard from "../../../components/cards/UserCard";
 import { Box, Card, Grid, Typography } from "@mui/material";
+// @ts-ignore
+import UserCardImage from "../../../image/UserCard.svg";
+
+const backgroundStyle = {
+  height: "90vh",
+  backgroundImage: `url(${UserCardImage})`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right bottom",
+  backgroundSize: "25%",
+  marginRight: "20px",
+};
 
 function UserShowPage() {
   return (
-    <>
+    <Grid sx={backgroundStyle}>
       <Grid
         container
         spacing={0}
@@ -29,7 +40,7 @@ function UserShowPage() {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 

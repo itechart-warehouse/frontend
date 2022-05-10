@@ -82,16 +82,16 @@ function Warehouses() {
                 <TableCell>
                   <Typography variant="h6">Warehouse name</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Address</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Phone</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Admin</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Area</Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -108,14 +108,14 @@ function Warehouses() {
                       {ware.warehouse.name}
                     </Link>
                   </TableCell>
-                  <TableCell align="right">{ware.warehouse.address}</TableCell>
-                  <TableCell align="right">{ware.warehouse.phone}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{ware.warehouse.address}</TableCell>
+                  <TableCell align="center">{ware.warehouse.phone}</TableCell>
+                  <TableCell align="center">
                     <Link to={`/users/${ware.user[0].id}`}>
                       {ware.user[0].first_name} {ware.user[0].last_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="right">{ware.warehouse.area}</TableCell>
+                  <TableCell align="center">{ware.warehouse.area}</TableCell>
                   <TableCell align="center">
                     {ware.warehouse.active ? <CheckIcon /> : <CloseIcon />}
                   </TableCell>

@@ -79,19 +79,29 @@ function Consignments() {
                   <Typography variant="h6">Consignments</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">Driver</Typography>
+                  <Typography align="center" variant="h6">
+                    Driver
+                  </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">Car</Typography>
+                  <Typography align="center" variant="h6">
+                    Car
+                  </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">Bundle</Typography>
+                  <Typography align="center" variant="h6">
+                    Bundle
+                  </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">Status</Typography>
+                  <Typography align="center" variant="h6">
+                    Status
+                  </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">Contractor</Typography>
+                  <Typography align="center" variant="h6">
+                    Contractor
+                  </Typography>
                 </TableCell>
                 <TableCell></TableCell>
               </TableRow>
@@ -108,22 +118,22 @@ function Consignments() {
                             {consignments.consignment_number}
                           </Link>
                         </TableCell>
-                        <TableCell align="left" component="th" scope="row">
+                        <TableCell align="center" component="th" scope="row">
                           {consignments.driver.first_name}{" "}
                           {consignments.driver.second_name}{" "}
                           {consignments.driver.middle_name}
                         </TableCell>
-                        <TableCell align="left" component="th" scope="row">
+                        <TableCell align="center" component="th" scope="row">
                           {consignments.truck.truck_number}
                         </TableCell>
-                        <TableCell align="left" component="th" scope="row">
+                        <TableCell align="center" component="th" scope="row">
                           {consignments.bundle_seria}{" "}
                           {consignments.bundle_number}
                         </TableCell>
-                        <TableCell align="left" component="th" scope="row">
+                        <TableCell align="center" component="th" scope="row">
                           {consignments.status}
                         </TableCell>
-                        <TableCell align="left" component="th" scope="row">
+                        <TableCell align="center" component="th" scope="row">
                           {consignments.driver.company.name}
                         </TableCell>
                       </TableRow>

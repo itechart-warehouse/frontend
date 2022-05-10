@@ -1,7 +1,8 @@
-import { Typography, Container, Button } from "@mui/material";
+import { Typography, Container, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError } from "../../store/errorSlice";
+import Error from "../../image/Error.svg";
 
 const containerStyle = {
   display: "flex",
@@ -26,6 +27,16 @@ function NotFoundPage() {
       <Typography variant="subtitle1" component="div" sx={{ mb: 3 }}>
         Something went wrong
       </Typography>
+      <Box
+        component="img"
+        sx={{
+          height: "40%",
+          width: "40%",
+          marginBottom: "20px",
+        }}
+        alt="Error"
+        src={Error}
+      />
       <Button variant="outlined" onClick={rootRoute}>
         Back to home page
       </Button>

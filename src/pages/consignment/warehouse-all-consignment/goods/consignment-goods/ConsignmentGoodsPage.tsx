@@ -131,19 +131,19 @@ function ConsignmentGoods() {
                     <TableCell component="th" scope="row">
                       {good.bundle_seria} {good.bundle_number}
                     </TableCell>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {good.name}
                     </TableCell>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {good.status}
                     </TableCell>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {good.quantity}
                     </TableCell>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {good.placed_date ? good.placed_date : "NA"}
                     </TableCell>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {good.warehouse_id ? warehouse.name : "NA"}
                     </TableCell>
                   </TableRow>

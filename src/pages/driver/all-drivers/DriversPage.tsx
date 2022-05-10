@@ -9,6 +9,7 @@ import {
   TableBody,
   CircularProgress,
   Paper,
+  Grid,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -18,6 +19,17 @@ import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatRecline
 import { truckApi } from "../../../services/truckApi";
 import { Driver } from "./DriversPage.types";
 import useMount from "../../../services/isMountedHook";
+// @ts-ignore
+import DriverCardImage from "../../../image/DriverCard.svg";
+
+const backgroundStyle = {
+  height: "90vh",
+  backgroundImage: `url(${DriverCardImage})`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right bottom",
+  backgroundSize: "60%",
+  marginRight: "20px",
+};
 
 const twinkleBlue = "#e9ecef";
 
@@ -68,7 +80,7 @@ function Drivers() {
   }, []);
 
   return (
-    <>
+    <Grid sx={backgroundStyle}>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
@@ -115,7 +127,7 @@ function Drivers() {
           </Table>
         </TableContainer>
       </Container>
-    </>
+    </Grid>
   );
 }
 

@@ -73,16 +73,16 @@ function Users() {
                 <TableCell>
                   <Typography variant="h6">User name</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Address</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Company</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">Role</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Typography variant="h6">E-mail</Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -98,10 +98,10 @@ function Users() {
                       {item.user.first_name} {item.user.last_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="right">{item.user.address}</TableCell>
-                  <TableCell align="right">{item.company.name}</TableCell>
-                  <TableCell align="right">{item.role}</TableCell>
-                  <TableCell align="right">{item.user.email}</TableCell>
+                  <TableCell align="center">{item.user.address}</TableCell>
+                  <TableCell align="center">{item.company.name}</TableCell>
+                  <TableCell align="center">{item.role}</TableCell>
+                  <TableCell align="center">{item.user.email}</TableCell>
                   <TableCell align="center">
                     {item.user.active ? <CheckIcon /> : <CloseIcon />}
                   </TableCell>
