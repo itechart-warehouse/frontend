@@ -2,6 +2,7 @@ import { Typography, Container, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError } from "../../store/errorSlice";
+// @ts-ignore
 import Error from "../../image/Error.svg";
 
 const containerStyle = {
@@ -30,8 +31,8 @@ function NotFoundPage() {
       <Box
         component="img"
         sx={{
-          height: "40%",
-          width: "40%",
+          height: "30%",
+          width: "30%",
           marginBottom: "20px",
         }}
         alt="Error"
