@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserState } from "../../store/userSlice";
 import { RootState } from "../../store";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import LoadingCard from "./LoadingCard";
 import { User } from "./types/User.types";
 import useMount from "../../services/isMountedHook";
@@ -44,19 +44,6 @@ function UserCard() {
   useEffect(() => {
     clientApi.user
       .getById(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((res) => {
         if (isMounted()) {
           dispatch(clearError());

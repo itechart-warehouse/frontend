@@ -24,12 +24,7 @@ function errorHandler(err: errorData) {
   if (err.response) {
     err.response.status === 500 || err.response.status === 401
       ? store.dispatch(setError([err.response.statusText]))
-      : store.dispatch(
-          setError([
-            ...err.response.data.company_errors,
-            ...err.response.data.user_errors,
-          ])
-        );
+      : store.dispatch(setError(["Invalid Data"]));
   } else if (err.request) {
     store.dispatch(setError(["Server is not working"]));
     console.log("request", err.request);
@@ -117,34 +112,38 @@ function initClientApi() {
     },
     user: {
       create: (userCredentials: userFullData, jwt: string) =>
-        axios.post(
-          `${baseUrl}/user/create`,
-          {
-            user: {
-              email: userCredentials.userEmail,
-              password: userCredentials.userPassword,
-              first_name: userCredentials.firstName,
-              last_name: userCredentials.lastName,
-              birth_date: userCredentials.birthDate,
-              address: userCredentials.address,
-              user_role_id: userCredentials.role_id,
+        axios
+          .post(
+            `${baseUrl}/user/create`,
+            {
+              user: {
+                email: userCredentials.userEmail,
+                password: userCredentials.userPassword,
+                first_name: userCredentials.firstName,
+                last_name: userCredentials.lastName,
+                birth_date: userCredentials.birthDate,
+                address: userCredentials.address,
+                user_role_id: userCredentials.role_id,
+              },
+              // company: {
+              //   id: userCredentials.company_id,
+              // },
             },
-            // company: {
-            //   id: userCredentials.company_id,
-            // },
-          },
-          { headers: { authorization: jwt } }
-        ),
+            { headers: { authorization: jwt } }
+          )
+          .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/users`, { headers: { authorization: jwt } }),
       getInfoToCreate: (jwt: string) =>
-        axios.get(`${baseUrl}/user/create`, {
-          headers: { authorization: jwt },
-        }),
+        axios
+          .get(`${baseUrl}/user/create`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios.get(`${baseUrl}/users/${id}`, {
           headers: { authorization: jwt },
-        }),
+        }).catch((err) => errorHandler(err)),
       editUserById: (id: any, credentials: userEditData, jwt: string) =>
         axios.post(
           `${baseUrl}/users/update/${id}`,
@@ -159,7 +158,7 @@ function initClientApi() {
             },
           },
           { headers: { authorization: jwt } }
-        ),
+        ).catch((err) => errorHandler(err)),
       getAllRoles: (jwt: string) =>
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import { Values, Roles } from "./CreateUser.types";
 
 const validationSchema = yup.object({
@@ -42,18 +42,11 @@ function CreateUserForm() {
   const [value, setValue] = useState<Date | null>(null);
 
   useEffect(() => {
-    clientApi.user
-      .getInfoToCreate(jwt)
-      .catch((err) => {
-        dispatch(setError([err.response.statusText]));
-        console.log(err.response);
-        return Promise.reject(err);
-      })
-      .then((response) => {
-        dispatch(clearError());
-        // setCompanies(response.data.companies);
-        setRoles(response.data.roles);
-      });
+    clientApi.user.getInfoToCreate(jwt).then((response) => {
+      dispatch(clearError());
+      // setCompanies(response.data.companies);
+      setRoles(response.data.roles);
+    });
   }, []);
 
   const routeUsersList = () => {
@@ -73,26 +66,10 @@ function CreateUserForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.user
-        .create(data, jwt)
-        .catch((err) => {
-          if (err.response) {
-            err.response.status === 500 || err.response.status === 401
-              ? dispatch(setError([err.response.statusText]))
-              : dispatch(setError([...err.response.data.user_errors]));
-          } else if (err.request) {
-            dispatch(setError(["Server is not working"]));
-            console.log("request", err.request);
-          } else {
-            dispatch(setError([err.message]));
-            console.log("message", err.message);
-          }
-          return Promise.reject(err);
-        })
-        .then(() => {
-          dispatch(clearError());
-          routeUsersList();
-        });
+      clientApi.user.create(data, jwt).then(() => {
+        dispatch(clearError());
+        routeUsersList();
+      });
     },
   });
   return (
