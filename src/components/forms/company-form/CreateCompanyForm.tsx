@@ -243,8 +243,8 @@ function CreateCompanyForm() {
         InputLabelProps={{
           shrink: true,
         }}
-        // InputProps={{lang: 'en'}}
         type="date"
+        lang="ru"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}

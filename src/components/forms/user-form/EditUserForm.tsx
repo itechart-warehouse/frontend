@@ -122,6 +122,7 @@ function EditUserForm() {
           shrink: true,
         }}
         type="date"
+        lang="en"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
         error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
