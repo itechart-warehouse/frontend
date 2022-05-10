@@ -9,7 +9,7 @@ import {
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearWarehouseState } from "../../../store/warehouseSlice";
@@ -50,20 +50,6 @@ function EditWarehouseForm() {
     onSubmit: (data: Values) => {
       clientApi.warehouse
         .editWarehouseById(id, data, jwt)
-        .catch((err) => {
-          if (err.response) {
-            err.response.status === 500 || err.response.status === 401
-              ? dispatch(setError([err.response.statusText]))
-              : dispatch(setError([...err.response.data.warehouse_errors]));
-          } else if (err.request) {
-            dispatch(setError(["Server is not working"]));
-            console.log("request", err.request);
-          } else {
-            dispatch(setError([err.message]));
-            console.log("message", err.message);
-          }
-          return Promise.reject(err);
-        })
         .then(() => {
           dispatch(clearError());
           dispatch(clearWarehouseState());

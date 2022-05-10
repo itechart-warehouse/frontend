@@ -62,20 +62,6 @@ function CreateWarehouseForm() {
     onSubmit: (data: Values) => {
       clientApi.warehouse
         .create(data, id, jwt)
-        .catch((err) => {
-          if (err.response) {
-            err.response.status === 500 || err.response.status === 401
-              ? dispatch(setError([err.response.statusText]))
-              : dispatch(setError([...err.response.data.user_errors]));
-          } else if (err.request) {
-            dispatch(setError(["Server is not working"]));
-            console.log("request", err.request);
-          } else {
-            dispatch(setError([err.message]));
-            console.log("message", err.message);
-          }
-          return Promise.reject(err);
-        })
         .then(() => {
           dispatch(clearError());
           routeWarehouseList();
