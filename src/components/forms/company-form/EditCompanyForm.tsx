@@ -12,8 +12,14 @@ import Chip from "@mui/material/Chip";
 import { Values } from "./EditCompany.types";
 
 const validationSchema = yup.object({
-  companyName: yup.string().required("Company name is required"),
-  companyAddress: yup.string().required("Company address is required"),
+  companyName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Company name is required"),
+  companyAddress: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Company address is required"),
   companyPhone: yup
     .string()
     .test("len", "Invalid", (val = "") => {

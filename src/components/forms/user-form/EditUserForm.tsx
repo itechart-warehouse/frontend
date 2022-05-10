@@ -15,9 +15,18 @@ import { clearError, setError } from "../../../store/errorSlice";
 import { Values } from "./EditUser.types";
 
 const validationSchema = yup.object({
-  firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
-  address: yup.string().required("Address is required"),
+  firstName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("First name is required"),
+  lastName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Last name is required"),
+  address: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Address is required"),
   birthDate: yup.string().required("Birth date is required"),
   active: yup.boolean().required("Active is required"),
 });

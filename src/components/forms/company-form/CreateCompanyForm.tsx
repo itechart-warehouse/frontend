@@ -19,11 +19,23 @@ const validationSchema = yup.object({
     .string()
     .min(6, "Password should be of minimum 8 characters length")
     .required("Password is required"),
-  firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
+  firstName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("First name is required"),
+  lastName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Last name is required"),
   birthDate: yup.string().required("Birth date is required"),
-  address: yup.string().required("Address is required"),
-  companyName: yup.string().required("Company name is required"),
+  address: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Address is required"),
+  companyName: yup
+    .string()
+    .min(3, "Too short. Minimum 3 characters")
+    .required("Company name is required"),
   companyAddress: yup.string().required("Company address is required"),
   companyPhone: yup
     .string()
@@ -231,6 +243,7 @@ function CreateCompanyForm() {
         InputLabelProps={{
           shrink: true,
         }}
+        // InputProps={{lang: 'en'}}
         type="date"
         value={formik.values.birthDate}
         onChange={formik.handleChange}
