@@ -68,7 +68,7 @@ export default function TransportCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={routeTransportList}>Transport list</Button>
+        <Button onClick={routeTransportList}>List of transport</Button>
       </CardActions>
     </React.Fragment>
   );

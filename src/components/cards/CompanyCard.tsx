@@ -26,6 +26,7 @@ const companyInitValues: Company = {
 export default function CompanyCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const [company, setCompany] = useState<Company>(companyInitValues);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -33,15 +34,13 @@ export default function CompanyCard() {
   const isMounted = useMount();
 
   useEffect(() => {
-    clientApi.company
-      .getById(id, jwt)
-      .then((res) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setCompany(res.data.company);
-          setIsLoaded(true);
-        }
-      });
+    clientApi.company.getById(id, jwt).then((res) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setCompany(res.data.company);
+        setIsLoaded(true);
+      }
+    });
   }, [id]);
 
   const routeCompanyList = () => {
@@ -81,8 +80,18 @@ export default function CompanyCard() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button onClick={routeCompanyEdit}>Edit</Button>
-            <Button onClick={routeCompanyList}>Cancel</Button>
+            {role === "System admin" ||
+            role === "Company owner" ||
+            role === "Company admin" ? (
+              <Button onClick={routeCompanyEdit}>Edit</Button>
+            ) : (
+              ""
+            )}
+            {role === "System admin" ? (
+              <Button onClick={routeCompanyList}>List of companies</Button>
+            ) : (
+              ""
+            )}
           </CardActions>
         </Card>
       ) : (

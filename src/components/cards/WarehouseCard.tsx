@@ -39,21 +39,20 @@ function WarehouseCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [warehouse, setWarehouse] = useState<Warehouse>(warehouseInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useMount();
 
   useEffect(() => {
-    clientApi.warehouse
-      .getById(id, jwt)
-      .then((res) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setWarehouse(res.data);
-          setIsLoaded(true);
-        }
-      });
+    clientApi.warehouse.getById(id, jwt).then((res) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setWarehouse(res.data);
+        setIsLoaded(true);
+      }
+    });
   }, [id]);
 
   const routeWarehouseList = () => {
@@ -108,8 +107,18 @@ function WarehouseCard() {
             </Typography>
 
             <CardActions>
-              <Button onClick={routeWarehouseEdit}>Edit</Button>
-              <Button onClick={routeWarehouseList}>Cancel</Button>
+              {role === "System admin" ||
+              role === "Company owner" ||
+              role === "Company admin" ? (
+                <>
+                  <Button onClick={routeWarehouseEdit}>Edit</Button>
+                  <Button onClick={routeWarehouseList}>
+                    List of warehouses
+                  </Button>
+                </>
+              ) : (
+                ""
+              )}
             </CardActions>
           </CardContent>
         </Card>

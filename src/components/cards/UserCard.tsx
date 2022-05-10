@@ -36,21 +36,20 @@ function UserCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentUser, setCurrentUser] = useState<User>(userInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useMount();
 
   useEffect(() => {
-    clientApi.user
-      .getById(id, jwt)
-      .then((res) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setCurrentUser(res.data);
-          setIsLoaded(true);
-        }
-      });
+    clientApi.user.getById(id, jwt).then((res) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setCurrentUser(res.data);
+        setIsLoaded(true);
+      }
+    });
   }, [id]);
 
   const routeUsersList = () => {
@@ -101,8 +100,21 @@ function UserCard() {
               {currentUser.company.name}
             </Typography>
             <CardActions>
-              <Button onClick={routeUserEdit}>Edit</Button>
-              <Button onClick={routeUsersList}>Cancel</Button>
+              {role === "System admin" ||
+              role === "Company owner" ||
+              role === "Company admin" ||
+              role === "Warehouse admin" ? (
+                <Button onClick={routeUserEdit}>Edit</Button>
+              ) : (
+                ""
+              )}
+              {role === "System admin" ||
+              role === "Company owner" ||
+              role === "Company admin" ? (
+                <Button onClick={routeUsersList}>List of users</Button>
+              ) : (
+                ""
+              )}
             </CardActions>
           </CardContent>
         </Card>
