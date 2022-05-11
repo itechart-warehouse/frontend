@@ -5,15 +5,16 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { Alert } from "@mui/material";
 import LoadingCard from "./LoadingCard";
 import { Consignment, UserInfo } from "./types/WarehouseConsignmnet.types";
+import useMount from "../../services/isMountedHook";
 
 const consignmentInit = {
   id: 0,
@@ -44,134 +45,50 @@ export default function WarehouseConsignmentCard() {
   const [userActions, setUserActions] = useState<UserInfo>(userInfoInit);
   const [consignment, setConsignment] = useState<Consignment>(consignmentInit);
 
-  console.log(" ROLE", role);
-
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
+  const isMounted = useMount();
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    clientApi.consignment
-      .getById(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        if (isMounted.current) {
-          setConsignment(res.data.consignment);
-          setUserActions(res.data.actions);
-          console.log("consignment", res.data.consignment);
-          console.log("user_actions", res.data.actions);
-          dispatch(clearError());
-          setIsLoaded(true);
-        }
-      });
+    clientApi.consignment.getById(id, jwt).then((res) => {
+      if (isMounted()) {
+        setConsignment(res.data.consignment);
+        setUserActions(res.data.actions);
+        console.log("consignment", res.data.consignment);
+        console.log("user_actions", res.data.actions);
+        dispatch(clearError());
+        setIsLoaded(true);
+      }
+    });
   }, [id]);
 
   const check = () => {
-    clientApi.warehouseConsignment
-      .check(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.data.error]));
-          console.log("response", err.response.data.error);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        routeConsignmentList();
-      });
+    clientApi.warehouseConsignment.check(id, jwt).then((res) => {
+      dispatch(clearError());
+      routeConsignmentList();
+    });
   };
 
   const place = () => {
-    clientApi.warehouseConsignment
-      .place(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.data.error]));
-          console.log("response", err.response.data.error);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        routeConsignmentList();
-      });
+    clientApi.warehouseConsignment.place(id, jwt).then((res) => {
+      dispatch(clearError());
+      routeConsignmentList();
+    });
   };
 
   const recheck = () => {
-    clientApi.warehouseConsignment
-      .recheck(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.data.error]));
-          console.log("response", err.response.data.error);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        routeConsignmentList();
-      });
+    clientApi.warehouseConsignment.recheck(id, jwt).then((res) => {
+      dispatch(clearError());
+      routeConsignmentList();
+    });
   };
 
   const shipp = () => {
-    clientApi.warehouseConsignment
-      .shipp(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.data.error]));
-          console.log("response", err.response.data.error);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        dispatch(clearError());
-        routeConsignmentList();
-      });
+    clientApi.warehouseConsignment.shipp(id, jwt).then((res) => {
+      dispatch(clearError());
+      routeConsignmentList();
+    });
   };
 
   const statusAlert = () => {

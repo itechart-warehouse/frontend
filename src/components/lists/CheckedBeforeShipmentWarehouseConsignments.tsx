@@ -8,12 +8,12 @@ import {
   TableCell,
   TableBody,
   Button,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
 import CheckIcon from "@mui/icons-material/Check";
@@ -58,25 +58,10 @@ function CheckedWarehouseConsignments() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment
-      .getAll(jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((response) => {
-        dispatch(clearError());
-        setConsignments(response.data.consignments);
-      });
+    clientApi.consignment.getAll(jwt).then((response) => {
+      dispatch(clearError());
+      setConsignments(response.data.consignments);
+    });
   }, []);
   console.log(consignments);
 

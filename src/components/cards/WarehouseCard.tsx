@@ -6,7 +6,7 @@ import {
   CardActions,
 } from "@mui/material";
 import { clientApi } from "../../services/clientApi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -14,6 +14,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { setWarehouseState } from "../../store/warehouseSlice";
 import LoadingCard from "./LoadingCard";
 import { Warehouse } from "./types/Warehouse.types";
+import useMount from "../../services/isMountedHook";
 
 const warehouseInit = {
   warehouse: {
@@ -38,41 +39,20 @@ function WarehouseCard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [warehouse, setWarehouse] = useState<Warehouse>(warehouseInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
+  const isMounted = useMount();
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    clientApi.warehouse
-      .getById(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
-      .then((res) => {
-        if (isMounted.current) {
-          dispatch(clearError());
-          setWarehouse(res.data);
-          setIsLoaded(true);
-        }
-      });
+    clientApi.warehouse.getById(id, jwt).then((res) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setWarehouse(res.data);
+        setIsLoaded(true);
+      }
+    });
   }, [id]);
 
   const routeWarehouseList = () => {
@@ -127,8 +107,18 @@ function WarehouseCard() {
             </Typography>
 
             <CardActions>
-              <Button onClick={routeWarehouseEdit}>Edit</Button>
-              <Button onClick={routeWarehouseList}>Cancel</Button>
+              {role === "System admin" ||
+              role === "Company owner" ||
+              role === "Company admin" ? (
+                <>
+                  <Button onClick={routeWarehouseEdit}>Edit</Button>
+                  <Button onClick={routeWarehouseList}>
+                    List of warehouses
+                  </Button>
+                </>
+              ) : (
+                ""
+              )}
             </CardActions>
           </CardContent>
         </Card>

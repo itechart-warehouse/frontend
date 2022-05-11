@@ -1,7 +1,7 @@
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -26,19 +26,6 @@ export default function ReportedGoodsDialog({ reportId }: ReportProps) {
   useEffect(() => {
     clientApi.report
       .reportedGoods(reportId, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((response) => {
         dispatch(clearError());
         setGoods(response.data.reported_goods);

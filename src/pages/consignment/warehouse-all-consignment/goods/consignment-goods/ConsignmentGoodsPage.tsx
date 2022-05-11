@@ -10,7 +10,7 @@ import {
   CircularProgress,
   Paper,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, setError } from "../../../../../store/errorSlice";
@@ -19,6 +19,7 @@ import { RootState } from "../../../../../store";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { linkStyle } from "../../../../../styles/linkStyle";
 import { Goods, Consignment, Warehouse } from "./ConsignmentGoods.types";
+import useMount from "../../../../../services/isMountedHook";
 
 const mainContainerStyle = {
   pt: 3,
@@ -48,36 +49,16 @@ function ConsignmentGoods() {
     name: "",
   });
   const dispatch = useDispatch();
-  const isMounted = useRef(false);
+  const isMounted = useMount();
 
   const { id } = useParams();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
     clientApi.goods
       .getByConsignmentId(id, jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((response) => {
-        if (isMounted.current) {
+        if (isMounted()) {
           dispatch(clearError());
           setGoods(response.data.goods);
           setConsignment(response.data.consignment);

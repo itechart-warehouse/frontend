@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { User } from "./UsersPage.types";
@@ -46,19 +46,6 @@ function Users() {
   useEffect(() => {
     clientApi.user
       .getAll(jwt)
-      .catch((err) => {
-        if (err.response) {
-          dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
-        } else if (err.request) {
-          dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
-        } else {
-          dispatch(setError([err.message]));
-          console.log("message", err.message);
-        }
-        return Promise.reject(err);
-      })
       .then((response) => {
         dispatch(clearError());
         setUsers(response.data.users);

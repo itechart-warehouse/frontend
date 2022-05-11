@@ -100,7 +100,7 @@ function UserCard() {
           Contractor info
         </Typography>
         <CardActions>
-          <Button onClick={routeDriversList}>Cancel</Button>
+          <Button onClick={routeDriversList}>List of drivers</Button>
         </CardActions>
       </CardContent>
     </>
