@@ -61,7 +61,7 @@ function initClientApi() {
       create: (companyCredentials: companyFullData, jwt: string) =>
         axios
           .post(
-            `${baseUrl}/company/create`,
+            `${baseUrl}/company`,
             {
               company: {
                 email: companyCredentials.companyEmail,
@@ -83,11 +83,11 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios
-          .get(`${baseUrl}/companies`, { headers: { authorization: jwt } })
+          .get(`${baseUrl}/company`, { headers: { authorization: jwt } })
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/companies/${id}`, {
+          .get(`${baseUrl}/company/${id}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -97,8 +97,8 @@ function initClientApi() {
         jwt: string
       ) =>
         axios
-          .post(
-            `${baseUrl}/companies/update/${id}`,
+          .put(
+            `${baseUrl}/company/${id}`,
             {
               company: {
                 name: companyCredentials.companyName,
@@ -116,7 +116,7 @@ function initClientApi() {
       create: (userCredentials: userFullData, jwt: string) =>
         axios
           .post(
-            `${baseUrl}/user/create`,
+            `${baseUrl}/user`,
             {
               user: {
                 email: userCredentials.userEmail,
@@ -136,24 +136,24 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios
-          .get(`${baseUrl}/users`, { headers: { authorization: jwt } })
+          .get(`${baseUrl}/user`, { headers: { authorization: jwt } })
           .catch((err) => errorHandler(err)),
       getInfoToCreate: (jwt: string) =>
         axios
-          .get(`${baseUrl}/user/create`, {
+          .get(`${baseUrl}/users/create`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/users/${id}`, {
+          .get(`${baseUrl}/user/${id}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
       editUserById: (id: any, credentials: userEditData, jwt: string) =>
         axios
-          .post(
-            `${baseUrl}/users/update/${id}`,
+          .put(
+            `${baseUrl}/users/${id}`,
             {
               user: {
                 first_name: credentials.firstName,
@@ -173,14 +173,14 @@ function initClientApi() {
     warehouse: {
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/companies/${company_id}/warehouses`, {
+          .get(`${baseUrl}/companies/${company_id}/warehouse`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
       create: (warehouseCredentials: warehouseFullData, id: any, jwt: string) =>
         axios
           .post(
-            `${baseUrl}/warehouse/create`,
+            `${baseUrl}/warehouse`,
             {
               warehouse: {
                 area: warehouseCredentials.area,
@@ -215,8 +215,8 @@ function initClientApi() {
         jwt: string
       ) =>
         axios
-          .post(
-            `${baseUrl}/warehouses/update/${id}`,
+          .put(
+            `${baseUrl}/warehouse/${id}`,
             {
               warehouse: {
                 name: credentials.warehouseName,
