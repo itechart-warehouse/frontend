@@ -16,9 +16,9 @@ import {
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
+//const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
-// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+ const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
 function errorHandler(err: errorData) {
   if (err.response) {
@@ -168,12 +168,12 @@ function initClientApi() {
           )
           .catch((err) => errorHandler(err)),
       getAllRoles: (jwt: string) =>
-        axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
+        axios.get(`${baseUrl}/user_roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/companies/${company_id}/warehouse`, {
+          .get(`${baseUrl}/companies/${company_id}/warehouses`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -254,7 +254,7 @@ function initClientApi() {
       ) =>
         axios
           .post(
-            `${baseUrl}/consignments/create`,
+            `${baseUrl}/consignment`,
             {
               consignment: {
                 status: consignmentCredentials.status,
@@ -275,13 +275,13 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${id}`, {
+          .get(`${baseUrl}/consignment/${id}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments`, {
+          .get(`${baseUrl}/consignment`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -289,32 +289,32 @@ function initClientApi() {
     warehouseConsignment: {
       check: (id: any, jwt: string) =>
         axios
-          .post(
-            `${baseUrl}/warehouse-consignments/${id}/check`,
+          .put(
+            `${baseUrl}/consignment/${id}/check`,
             {},
             { headers: { authorization: jwt } }
           )
           .catch((err) => errorHandler(err)),
       place: (id: any, jwt: string) =>
         axios
-          .post(
-            `${baseUrl}/warehouse-consignments/${id}/place`,
+          .put(
+            `${baseUrl}/consignment/${id}/place`,
             {},
             { headers: { authorization: jwt } }
           )
           .catch((err) => errorHandler(err)),
       recheck: (id: any, jwt: string) =>
         axios
-          .post(
-            `${baseUrl}/warehouse-consignments/${id}/recheck`,
+          .put(
+            `${baseUrl}/consignment/${id}/recheck`,
             {},
             { headers: { authorization: jwt } }
           )
           .catch((err) => errorHandler(err)),
       shipp: (id: any, jwt: string) =>
         axios
-          .post(
-            `${baseUrl}/warehouse-consignments/${id}/shipp`,
+          .put(
+            `${baseUrl}/consignment/${id}/shipp`,
             {},
             { headers: { authorization: jwt } }
           )
@@ -323,7 +323,7 @@ function initClientApi() {
     goods: {
       getByConsignmentId: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${id}/goods`, {
+          .get(`${baseUrl}/consignment/${id}/goods`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -332,7 +332,7 @@ function initClientApi() {
       create: (consignmentId: any, jwt: string, reportData: report) =>
         axios
           .post(
-            `${baseUrl}/warehouse-consignments/${consignmentId}/reports/create`,
+            `${baseUrl}/consignment/${consignmentId}/reports`,
             {
               report: {
                 description: reportData.description,
@@ -347,13 +347,13 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getListOfTypes: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${id}/reports/create`, {
+          .get(`${baseUrl}/consignment/${id}/report_type`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
       getAllByConsignmentId: (consignment_id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports`, {
+          .get(`${baseUrl}/consignment/${consignment_id}/reports`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
