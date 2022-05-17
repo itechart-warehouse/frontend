@@ -140,7 +140,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getInfoToCreate: (jwt: string) =>
         axios
-          .get(`${baseUrl}/users/create`, {
+          .get(`${baseUrl}/user/create`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -153,7 +153,7 @@ function initClientApi() {
       editUserById: (id: any, credentials: userEditData, jwt: string) =>
         axios
           .put(
-            `${baseUrl}/users/${id}`,
+            `${baseUrl}/user/${id}`,
             {
               user: {
                 first_name: credentials.firstName,
@@ -168,7 +168,7 @@ function initClientApi() {
           )
           .catch((err) => errorHandler(err)),
       getAllRoles: (jwt: string) =>
-        axios.get(`${baseUrl}/user_roles`, { headers: { authorization: jwt } }),
+        axios.get(`${baseUrl}/user/user_roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
       getAllByCompanyId: (company_id: any, jwt: string) =>
@@ -347,7 +347,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getListOfTypes: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/consignment/${id}/report_type`, {
+          .get(`${baseUrl}/consignment/${id}/reports/report_type`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -359,7 +359,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       reportedGoods: (report_id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/reports/${report_id}/goods`, {
+          .get(`${baseUrl}/consignment/reports/${report_id}/goods`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
