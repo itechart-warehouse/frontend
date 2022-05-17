@@ -1,10 +1,8 @@
 export interface Report {
-  report: {
-    id: string;
-    report_date: string;
-    description: string;
-    report_type: string;
-  };
+  id: string;
+  report_date: string;
+  description: string;
+
   report_type: {
     name: string;
   };

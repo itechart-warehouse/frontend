@@ -60,11 +60,11 @@ function ConsignmentGoods() {
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
-          setGoods(response.data.goods);
-          setConsignment(response.data.consignment);
-          setWarehouse(response.data.warehouse);
           console.log(response.data.goods);
-          console.log(response.data.consignment);
+          console.log(response.data.goods[0].consignment);
+          setGoods(response.data.goods);
+          setConsignment(response.data.goods[0].consignment);
+          setWarehouse(response.data.goods.warehouse);
         }
       });
   }, []);

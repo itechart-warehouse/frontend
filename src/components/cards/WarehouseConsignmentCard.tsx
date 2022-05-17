@@ -54,9 +54,9 @@ export default function WarehouseConsignmentCard() {
     clientApi.consignment.getById(id, jwt).then((res) => {
       if (isMounted()) {
         setConsignment(res.data.consignment);
-        setUserActions(res.data.actions);
+        setUserActions(res.data.consignment.actions);
         console.log("consignment", res.data.consignment);
-        console.log("user_actions", res.data.actions);
+        console.log("user_actions", res.data.consignment.actions);
         dispatch(clearError());
         setIsLoaded(true);
       }

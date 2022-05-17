@@ -17,17 +17,15 @@ import { User } from "./types/User.types";
 import useMount from "../../services/isMountedHook";
 
 const userInit = {
-  user: {
-    first_name: "",
-    last_name: "",
-    birth_date: "",
-    address: "",
-    email: "",
-  },
+  first_name: "",
+  last_name: "",
+  birth_date: "",
+  address: "",
+  email: "",
   company: {
     name: "",
   },
-  role: {
+  user_role: {
     name: "",
   },
 };
@@ -46,7 +44,7 @@ function UserCard() {
     clientApi.user.getById(id, jwt).then((res) => {
       if (isMounted()) {
         dispatch(clearError());
-        setCurrentUser(res.data);
+        setCurrentUser(res.data.user);
         setIsLoaded(true);
       }
     });
@@ -66,32 +64,32 @@ function UserCard() {
         <Card>
           <CardContent>
             <Typography variant="h4" component="div">
-              {currentUser.user.first_name} {currentUser.user.last_name}
+              {currentUser.first_name} {currentUser.last_name}
             </Typography>
             <br />
             <Typography variant="h6" component="div">
               Birth Date
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {currentUser.user.birth_date}
+              {currentUser.birth_date}
             </Typography>
             <Typography variant="h6" component="div">
               Address
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {currentUser.user.address}
+              {currentUser.address}
             </Typography>
             <Typography variant="h6" component="div">
               Email
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {currentUser.user.email}
+              {currentUser.email}
             </Typography>
             <Typography variant="h6" component="div">
               Role
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {currentUser.role.name}
+              {currentUser.user_role.name}
             </Typography>
             <Typography variant="h6" component="div">
               Company
@@ -101,16 +99,16 @@ function UserCard() {
             </Typography>
             <CardActions>
               {role === "System admin" ||
-              role === "Company owner" ||
-              role === "Company admin" ||
-              role === "Warehouse admin" ? (
+                role === "Company owner" ||
+                role === "Company admin" ||
+                role === "Warehouse admin" ? (
                 <Button onClick={routeUserEdit}>Edit</Button>
               ) : (
                 ""
               )}
               {role === "System admin" ||
-              role === "Company owner" ||
-              role === "Company admin" ? (
+                role === "Company owner" ||
+                role === "Company admin" ? (
                 <Button onClick={routeUsersList}>List of users</Button>
               ) : (
                 ""
