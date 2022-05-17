@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import "./App.css";
@@ -33,6 +34,7 @@ import CreateReportPage from "./pages/report/create-report/CreateReportPage";
 import ReportsPage from "./pages/report/all-reports/ReportsPage";
 import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
 import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
+import Statistics from "./pages/statistics/Statistics";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -98,6 +100,7 @@ function App() {
                 path="warehouse-consignments/:id/reports"
                 element={<ReportsPage />}
               />
+                <Route path='statistics' element={<Statistics />} />
             </Route>
           </>
         ) : (

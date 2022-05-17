@@ -1,5 +1,5 @@
+import * as React from 'react';
 import CreateCompanyForm from "../../../components/forms/company-form/CreateCompanyForm";
-import React from "react";
 import { Grid, Typography, Box } from "@mui/material";
 
 const CreateCompanyPage = () => {

@@ -1,27 +1,19 @@
-import {
-  Card,
-  CardContent,
-  Button,
-  Typography,
-  CardActions,
-} from "@mui/material";
+import * as React from "react";
 import { useEffect, useState } from "react";
-import { clientApi } from "../../services/clientApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  Card, CardContent, Button, Typography, CardActions,
+} from "@mui/material";
+import { clientApi } from "../../services/clientApi";
 import { setCompanyState } from "../../store/companySlice";
 import { RootState } from "../../store";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import LoadingCard from "./LoadingCard";
 import { Company } from "./types/Company.types";
 import useMount from "../../services/isMountedHook";
 
-const companyInitValues: Company = {
-  address: "",
-  email: "",
-  name: "",
-  phone: "",
-};
+const companyInitValues: Company = {address: "", email: "", name: "", phone: ""};
 
 export default function CompanyCard() {
   const [isLoaded, setIsLoaded] = useState(false);

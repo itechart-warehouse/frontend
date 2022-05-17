@@ -1,29 +1,18 @@
 import * as React from "react";
-import { Menu, MenuItem } from "@mui/material";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Menu, MenuItem, Button } from "@mui/material";
 import { RootState } from "../../../store";
 
 export default function WarehouseButton() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const company = useSelector((state: RootState) => state.user.userCompany);
-
   const navigate = useNavigate();
-  const warehouseCreate = () => {
-    navigate("/warehouse/create");
-  };
-  const warehouseList = () => {
-    navigate(`/companies/${company.id}/warehouses`);
-  };
+  const open = Boolean(anchorEl);
+  const handleClick = (event: any) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+  const company = useSelector((state: RootState) => state.user.userCompany);
+  const warehouseList = () => navigate(`/companies/${company.id}/warehouses`);
+
   return (
     <>
       <Button
@@ -53,14 +42,6 @@ export default function WarehouseButton() {
         >
           Listing
         </MenuItem>
-        {/*<MenuItem*/}
-        {/*  onClick={() => {*/}
-        {/*    handleClose();*/}
-        {/*    warehouseCreate();*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Create warehouse*/}
-        {/*</MenuItem>*/}
       </Menu>
     </>
   );

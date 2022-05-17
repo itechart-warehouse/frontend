@@ -26,7 +26,9 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^0.25.0",
     "date-fns": "^2.28.0",
+    "eslint": "^8.15.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-react": "^7.29.4",
     "formik": "^2.2.9",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
@@ -44,7 +46,8 @@
     "start": "PORT=3006 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src"
   },
   "eslintConfig": {
     "extends": [

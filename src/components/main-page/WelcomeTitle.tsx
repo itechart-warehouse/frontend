@@ -24,7 +24,7 @@ export default function WelcomeTitle() {
   };
 
   return (
-    <>
+    <div>
       <Box>
         <Divider sx={{ color: "#1976d2" }}>
           <Typography variant="h1" gutterBottom>
@@ -39,6 +39,6 @@ export default function WelcomeTitle() {
         </Typography>
         {checkWarehouse()}
       </Box>
-    </>
+    </div>
   );
 }

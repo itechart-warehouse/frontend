@@ -1,3 +1,7 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Card,
   CardActions,
@@ -6,10 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useEffect, useState } from "react";
 import { truckApi } from "../../services/truckApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
@@ -52,9 +53,10 @@ const goodsInit = {
 };
 
 export default function ConsignmentCard() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [consignment, setConsignment] = useState<Consignment>(consignmentInit);
-  const [goods, setGoods] = useState<Goods>(goodsInit);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [consignment, setConsignment] =
+    React.useState<Consignment>(consignmentInit);
+  const [goods, setGoods] = React.useState<Goods>(goodsInit);
   const { id } = useParams();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
@@ -62,26 +64,22 @@ export default function ConsignmentCard() {
   const dispatch = useDispatch();
   const isMounted = useMount();
 
-  useEffect(() => {
-    truckApi.consignment
-      .getById(id)
-      .then((res) => {
-        if (isMounted()) {
-          setConsignment(res.data);
-          console.log("consignment", res.data);
-          dispatch(clearError());
-          setIsLoaded(true);
-        }
-      });
+  React.useEffect(() => {
+    truckApi.consignment.getById(id).then((res) => {
+      if (isMounted()) {
+        setConsignment(res.data);
+        console.log("consignment", res.data);
+        dispatch(clearError());
+        setIsLoaded(true);
+      }
+    });
   }, [id]);
 
-  useEffect(() => {
-    truckApi.goods
-      .getByConsignmentId(id)
-      .then((res) => {
-        setGoods(res.data);
-        dispatch(clearError());
-      });
+  React.useEffect(() => {
+    truckApi.goods.getByConsignmentId(id).then((res) => {
+      setGoods(res.data);
+      dispatch(clearError());
+    });
   }, [id]);
 
   const routeConsignmentList = () => {
@@ -93,16 +91,14 @@ export default function ConsignmentCard() {
   };
 
   const registration = () => {
-    clientApi.consignment
-      .create(consignment, goods, jwt)
-      .then((res) => {
-        dispatch(clearError());
-        routeRegisteredConsignment(res.data.consignment.id);
-      });
+    clientApi.consignment.create(consignment, goods, jwt).then((res) => {
+      dispatch(clearError());
+      routeRegisteredConsignment(res.data.consignment.id);
+    });
   };
 
   return (
-    <>
+    <div>
       {isLoaded ? (
         <Card>
           <CardContent>
@@ -166,6 +162,6 @@ export default function ConsignmentCard() {
       ) : (
         <LoadingCard />
       )}
-    </>
+    </div>
   );
 }

@@ -1,8 +1,8 @@
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { clearError } from "../../store/errorSlice";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
   TableBody,
@@ -19,27 +19,21 @@ import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { Goods, ReportProps } from "./ReportedGoodsDialog.types";
 
 export default function ReportedGoodsDialog({ reportId }: ReportProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
-  const [goods, setGoods] = useState<Goods[]>([]);
-  useEffect(() => {
-    clientApi.report
-      .reportedGoods(reportId, jwt)
-      .then((response) => {
-        dispatch(clearError());
-        setGoods(response.data.reported_goods);
-      });
+  const [goods, setGoods] = React.useState<Goods[]>([]);
+  React.useEffect(() => {
+    clientApi.report.reportedGoods(reportId, jwt).then((response) => {
+      dispatch(clearError());
+      setGoods(response.data.reported_goods);
+    });
   }, [reportId]);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
 
   const twinkleBlue = "#e9ecef";
-  const headStyle = {
-    backgroundColor: twinkleBlue,
-  };
+  const headStyle = { backgroundColor: twinkleBlue };
 
   return (
     <>

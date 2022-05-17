@@ -1,17 +1,17 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardActions,
   CardContent,
   Button,
   Typography,
+  Alert,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
-import { Alert } from "@mui/material";
 import LoadingCard from "./LoadingCard";
 import { Consignment, UserInfo } from "./types/WarehouseConsignmnet.types";
 import useMount from "../../services/isMountedHook";
@@ -39,24 +39,23 @@ const userInfoInit = {
 };
 
 export default function WarehouseConsignmentCard() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
-  const [userActions, setUserActions] = useState<UserInfo>(userInfoInit);
-  const [consignment, setConsignment] = useState<Consignment>(consignmentInit);
+  const [userActions, setUserActions] = React.useState<UserInfo>(userInfoInit);
+  const [consignment, setConsignment] =
+    React.useState<Consignment>(consignmentInit);
 
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useMount();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.consignment.getById(id, jwt).then((res) => {
       if (isMounted()) {
         setConsignment(res.data.consignment);
         setUserActions(res.data.actions);
-        console.log("consignment", res.data.consignment);
-        console.log("user_actions", res.data.actions);
         dispatch(clearError());
         setIsLoaded(true);
       }
@@ -64,28 +63,28 @@ export default function WarehouseConsignmentCard() {
   }, [id]);
 
   const check = () => {
-    clientApi.warehouseConsignment.check(id, jwt).then((res) => {
+    clientApi.warehouseConsignment.check(id, jwt).then(() => {
       dispatch(clearError());
       routeConsignmentList();
     });
   };
 
   const place = () => {
-    clientApi.warehouseConsignment.place(id, jwt).then((res) => {
+    clientApi.warehouseConsignment.place(id, jwt).then(() => {
       dispatch(clearError());
       routeConsignmentList();
     });
   };
 
   const recheck = () => {
-    clientApi.warehouseConsignment.recheck(id, jwt).then((res) => {
+    clientApi.warehouseConsignment.recheck(id, jwt).then(() => {
       dispatch(clearError());
       routeConsignmentList();
     });
   };
 
   const shipp = () => {
-    clientApi.warehouseConsignment.shipp(id, jwt).then((res) => {
+    clientApi.warehouseConsignment.shipp(id, jwt).then(() => {
       dispatch(clearError());
       routeConsignmentList();
     });
@@ -137,17 +136,12 @@ export default function WarehouseConsignmentCard() {
     ) {
       return <Button onClick={shipp}>Shipp</Button>;
     } else if (consignment.status === "Shipped") {
-      <Alert severity="success">This consignment was shipped.</Alert>;
+      return <Alert severity="success">This consignment was shipped.</Alert>;
     }
   };
 
-  const routeConsignmentList = () => {
-    navigate("/warehouse-consignments");
-  };
-
-  const routeReportCreate = () => {
-    navigate("reports/create");
-  };
+  const routeConsignmentList = () => navigate("/warehouse-consignments");
+  const routeReportCreate = () => navigate("reports/create");
 
   return (
     <>

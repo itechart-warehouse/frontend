@@ -1,8 +1,8 @@
+import * as React from "react";
 import { Container, Grid, Box } from "@mui/material";
 import WelcomeTitle from "../../components/main-page/WelcomeTitle";
 import HomeCalendar from "../../components/main-page/HomeCalendar";
 import HomeData from "../../components/main-page/HomeData";
-// @ts-ignore
 import HomeImage from "../../image/HomeImage.svg";
 
 export default function BasicGrid() {

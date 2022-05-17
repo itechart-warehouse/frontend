@@ -1,3 +1,6 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardContent,
@@ -6,9 +9,6 @@ import {
   Button,
 } from "@mui/material";
 import { clientApi } from "../../services/clientApi";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { setUserState } from "../../store/userSlice";
 import { RootState } from "../../store";
 import { clearError } from "../../store/errorSlice";
@@ -33,8 +33,8 @@ const userInit = {
 };
 
 function UserCard() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User>(userInit);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState<User>(userInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
   const { id } = useParams();
@@ -42,7 +42,7 @@ function UserCard() {
   const dispatch = useDispatch();
   const isMounted = useMount();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.user.getById(id, jwt).then((res) => {
       if (isMounted()) {
         dispatch(clearError());
@@ -52,9 +52,7 @@ function UserCard() {
     });
   }, [id]);
 
-  const routeUsersList = () => {
-    navigate("/users");
-  };
+  const routeUsersList = () => navigate("/users");
   const routeUserEdit = () => {
     navigate(`/users/${id}/edit`);
     dispatch(setUserState(currentUser));
