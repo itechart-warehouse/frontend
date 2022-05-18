@@ -46,7 +46,6 @@ function CheckedWarehouseConsignments() {
     clientApi.consignment.getAll(jwt).then((response) => {
       dispatch(clearError());
       setConsignments(response.data.consignments);
-      console.log(response.data.consignments);
     });
   }, []);
   return (

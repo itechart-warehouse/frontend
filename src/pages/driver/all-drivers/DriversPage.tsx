@@ -46,7 +46,6 @@ function Drivers() {
       if (isMounted()) {
         dispatch(clearError());
         setDrivers(response.data);
-        console.log(response.data);
       }
     });
   }, []);
