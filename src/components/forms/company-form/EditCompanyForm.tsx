@@ -1,14 +1,19 @@
-import { useFormik } from "formik";
-import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
-import * as yup from "yup";
-import { clientApi } from "../../../services/clientApi";
+import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import React from "react";
-import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
-import Chip from "@mui/material/Chip";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import {
+  Button,
+  FormControlLabel,
+  Switch,
+  TextField,
+  Chip,
+} from "@mui/material";
+import { clientApi } from "../../../services/clientApi";
+import { RootState } from "../../../store";
+import { clearError } from "../../../store/errorSlice";
 import { Values } from "./EditCompany.types";
 
 const validationSchema = yup.object({
@@ -51,20 +56,16 @@ function EditCompanyForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.company
-        .editCompanyById(id, data, jwt)
-        .then(() => {
-          //  TODO we need to clear current company state after submit
-          dispatch(clearError());
-          routeCompaniesList();
-        });
+      clientApi.company.editCompanyById(id, data, jwt).then(() => {
+        //  TODO we need to clear current company state after submit
+        dispatch(clearError());
+        routeCompaniesList();
+      });
     },
   });
 
-  const routeCompaniesList = () => {
-    navigate("/companies");
-  };
-  // const state = {checked: formik.values.active};
+  const routeCompaniesList = () => navigate("/companies");
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField

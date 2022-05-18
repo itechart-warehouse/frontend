@@ -1,29 +1,19 @@
 import * as React from "react";
-import { Menu, MenuItem } from "@mui/material";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { Menu, MenuItem, Button } from "@mui/material";
 
 export default function ConsignmentButton() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClick = (event: any) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
   const navigate = useNavigate();
-  const truckConsignmentsRoute = () => {
-    navigate("/consignments");
-  };
-
-  const warehouseConsignmentsRoute = () => {
-    navigate("/warehouse-consignments");
-  };
+  const truckConsignmentsRoute = () => navigate("/consignments");
+  const warehouseConsignmentsRoute = () => navigate("/warehouse-consignments");
 
   return (
-    <>
+    <div>
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -60,6 +50,6 @@ export default function ConsignmentButton() {
           Warehouse listing
         </MenuItem>
       </Menu>
-    </>
+    </div>
   );
 }

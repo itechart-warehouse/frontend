@@ -1,24 +1,26 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import Logout from "@mui/icons-material/Logout";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Divider,
+  IconButton,
+  Typography,
+  Tooltip,
+  ListItem,
+} from "@mui/material";
 import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone";
 import PersonIcon from "@mui/icons-material/Person";
 import BusinessIcon from "@mui/icons-material/Business";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
+import Logout from "@mui/icons-material/Logout";
+import { RootState } from "../../../store";
 import { clientApi } from "../../../services/clientApi";
 import { logoutUser } from "../../../store/loginSlice";
-import { useNavigate } from "react-router-dom";
-import { ListItem } from "@mui/material";
 
 export default function UserInfo() {
   const dispatch = useDispatch();
@@ -30,30 +32,17 @@ export default function UserInfo() {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
   const logout = () => {
-    clientApi.userData
-      .logout(user.jwt)
-      .then(() => {
-        dispatch(logoutUser());
-      })
+    clientApi.userData.logout(user.jwt).then(() => dispatch(logoutUser()));
   };
 
   const navigate = useNavigate();
-  const routeUserCompany = () => {
-    navigate(`/companies/${company.id}`);
-  };
-  const routeUserWarehouse = () => {
-    navigate(`/warehouse/${warehouse.id}`);
-  };
-  const routeUserCard = () => {
-    navigate(`/users/${user.id}`);
-  };
+  const routeUserCompany = () => navigate(`/companies/${company.id}`);
+  const routeUserWarehouse = () => navigate(`/warehouse/${warehouse.id}`);
+  const routeUserCard = () => navigate(`/users/${user.id}`);
   const checkWarehouse = () => {
     if (warehouse.name) {
       return (

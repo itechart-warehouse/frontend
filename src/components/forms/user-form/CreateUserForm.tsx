@@ -1,4 +1,8 @@
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
+import * as yup from "yup";
 import {
   Button,
   TextField,
@@ -7,11 +11,7 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
-import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError } from "../../../store/errorSlice";
 import { Values, Roles } from "./CreateUser.types";
@@ -38,29 +38,23 @@ const validationSchema = yup.object({
     .string()
     .min(3, "Too short. Minimum 3 characters")
     .required("Address is required"),
-  // company_id: yup.string().required("Company name is required"),
   role_id: yup.string().required("Company address is required"),
 });
 
 function CreateUserForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
-  // const [companies, setCompanies] = useState<Company[]>([]);
-  const [roles, setRoles] = useState<Roles[]>([]);
+  const [roles, setRoles] = React.useState<Roles[]>([]);
   const dispatch = useDispatch();
-  const [value, setValue] = useState<Date | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.user.getInfoToCreate(jwt).then((response) => {
       dispatch(clearError());
-      // setCompanies(response.data.companies);
       setRoles(response.data.roles);
     });
   }, []);
 
-  const routeUsersList = () => {
-    navigate("/users");
-  };
+  const routeUsersList = () => navigate("/users");
 
   const formik = useFormik({
     initialValues: {
@@ -157,24 +151,6 @@ function CreateUserForm() {
         helperText={formik.touched.birthDate && formik.errors.birthDate}
         sx={{ mb: 3 }}
       />
-      {/*<FormControl fullWidth>*/}
-      {/*  <InputLabel id="Company">Company</InputLabel>*/}
-      {/*  <Select*/}
-      {/*    id="companyId"*/}
-      {/*    value={formik.values.company_id}*/}
-      {/*    label="Company"*/}
-      {/*    name="company_id"*/}
-      {/*    onChange={formik.handleChange}*/}
-      {/*    sx={{ mb: 3 }}*/}
-      {/*  >*/}
-      {/*    {companies.length &&*/}
-      {/*      companies.map((company) => (*/}
-      {/*        <MenuItem key={company.id} value={company.id}>*/}
-      {/*          {company.name}*/}
-      {/*        </MenuItem>*/}
-      {/*      ))}*/}
-      {/*  </Select>*/}
-      {/*</FormControl>*/}
 
       <FormControl fullWidth>
         <InputLabel id="Role">Role</InputLabel>

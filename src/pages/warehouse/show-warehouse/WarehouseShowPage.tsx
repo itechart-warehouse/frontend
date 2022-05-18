@@ -1,6 +1,6 @@
+import * as React from "react";
 import { Box, Card, Grid, Typography } from "@mui/material";
 import WarehouseCard from "../../../components/cards/WarehouseCard";
-// @ts-ignore
 import WarehouseCardImage from "../../../image/WarehouseCard.svg";
 
 const backgroundStyle = {

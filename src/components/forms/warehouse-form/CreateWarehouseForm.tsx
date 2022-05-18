@@ -1,13 +1,13 @@
-import { useFormik } from "formik";
-import { Button, TextField, Typography } from "@mui/material";
-import * as yup from "yup";
-import { clientApi } from "../../../services/clientApi";
+import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import React from "react";
-import { clearError, setError } from "../../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import InputMask from "react-input-mask";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { Button, TextField, Typography } from "@mui/material";
+import { clientApi } from "../../../services/clientApi";
+import { clearError } from "../../../store/errorSlice";
+import { RootState } from "../../../store";
 import { Values } from "./CreateWarehouse.types";
 
 const validationSchema = yup.object({
@@ -75,12 +75,10 @@ function CreateWarehouseForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.warehouse
-        .create(data, id, jwt)
-        .then(() => {
-          dispatch(clearError());
-          routeWarehouseList();
-        });
+      clientApi.warehouse.create(data, id, jwt).then(() => {
+        dispatch(clearError());
+        routeWarehouseList();
+      });
     },
   });
 

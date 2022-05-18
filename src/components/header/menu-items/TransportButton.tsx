@@ -4,18 +4,16 @@ import Button from "@mui/material/Button";
 
 export default function TransportButton() {
   const navigate = useNavigate();
-  const transportsRoute = () =>navigate("/transports");
+  const transportsRoute = () => navigate("/transports");
 
   return (
-    <>
-      <Button
-        id="basic-button"
-        aria-haspopup="true"
-        onClick={transportsRoute}
-        color="inherit"
-      >
-        Transports
-      </Button>
-    </>
+    <Button
+      id="basic-button"
+      aria-haspopup="true"
+      onClick={transportsRoute}
+      color="inherit"
+    >
+      Transports
+    </Button>
   );
 }

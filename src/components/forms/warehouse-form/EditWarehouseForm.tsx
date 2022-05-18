@@ -1,3 +1,8 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import InputMask from "react-input-mask";
+import * as yup from "yup";
 import { useFormik } from "formik";
 import {
   Button,
@@ -6,15 +11,10 @@ import {
   TextField,
   Chip,
 } from "@mui/material";
-import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useNavigate, useParams } from "react-router-dom";
 import { clearError } from "../../../store/errorSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearWarehouseState } from "../../../store/warehouseSlice";
-import React from "react";
-import InputMask from "react-input-mask";
 import { Values } from "./EditWarehouse.types";
 
 const validationSchema = yup.object({
@@ -54,19 +54,15 @@ function EditWarehouseForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.warehouse
-        .editWarehouseById(id, data, jwt)
-        .then(() => {
-          dispatch(clearError());
-          dispatch(clearWarehouseState());
-          routeWarehouseCard();
-        });
+      clientApi.warehouse.editWarehouseById(id, data, jwt).then(() => {
+        dispatch(clearError());
+        dispatch(clearWarehouseState());
+        routeWarehouseCard();
+      });
     },
   });
 
-  const routeWarehouseCard = () => {
-    navigate(`/warehouse/${id}`);
-  };
+  const routeWarehouseCard = () => navigate(`/warehouse/${id}`);
 
   return (
     <form onSubmit={formik.handleSubmit}>

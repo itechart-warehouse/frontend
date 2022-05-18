@@ -1,13 +1,13 @@
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import InputMask from "react-input-mask";
+import { useDispatch, useSelector } from "react-redux";
+import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, TextField, Typography } from "@mui/material";
-import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useNavigate } from "react-router-dom";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
-import InputMask from "react-input-mask";
+import { clearError } from "../../../store/errorSlice";
 import { Values } from "./CreateCompany.types";
 
 const validationSchema = yup.object({
@@ -70,12 +70,10 @@ function CreateCompanyForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.company
-        .create(data, jwt)
-        .then(() => {
-          dispatch(clearError());
-          routeCompaniesList();
-        });
+      clientApi.company.create(data, jwt).then(() => {
+        dispatch(clearError());
+        routeCompaniesList();
+      });
     },
   });
 

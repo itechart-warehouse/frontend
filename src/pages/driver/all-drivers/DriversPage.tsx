@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Typography,
   Container,
@@ -11,16 +13,13 @@ import {
   Paper,
   Grid,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { clearError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import { clearError } from "../../../store/errorSlice";
 import { truckApi } from "../../../services/truckApi";
 import { Driver } from "./DriversPage.types";
 import useMount from "../../../services/isMountedHook";
-// @ts-ignore
 import DriverCardImage from "../../../image/DriverCard.svg";
+import * as React from "react";
 
 const backgroundStyle = {
   height: "90vh",
@@ -32,38 +31,24 @@ const backgroundStyle = {
 };
 
 const twinkleBlue = "#e9ecef";
-
-const headStyle = {
-  backgroundColor: twinkleBlue,
-};
-
-const mainContainerStyle = {
-  pt: 3,
-};
-
-const titleStyle = {
-  mb: 3,
-};
-
-const rowStyle = {
-  "&:last-child td, &:last-child th": { border: 0 },
-};
+const headStyle = { backgroundColor: twinkleBlue };
+const mainContainerStyle = { pt: 3 };
+const titleStyle = { mb: 3 };
+const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
 
 function Drivers() {
-  const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [drivers, setDrivers] = React.useState<Driver[]>([]);
   const dispatch = useDispatch();
   const isMounted = useMount();
 
-  useEffect(() => {
-    truckApi.driver
-      .getAll()
-      .then((response) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setDrivers(response.data);
-          console.log(response.data);
-        }
-      });
+  React.useEffect(() => {
+    truckApi.driver.getAll().then((response) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setDrivers(response.data);
+        console.log(response.data);
+      }
+    });
   }, []);
 
   return (

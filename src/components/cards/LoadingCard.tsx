@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Skeleton, Card, Typography, CardContent } from "@mui/material";
 
 const cardStyle = {

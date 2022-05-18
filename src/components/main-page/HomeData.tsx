@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import {
   Table,
@@ -11,10 +12,8 @@ import {
   TableCell,
   tableCellClasses,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { clearError, setError } from "../../store/errorSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 interface Consignments {
@@ -36,19 +35,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
     fontSize: 18,
   },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 18,
-  },
+  [`&.${tableCellClasses.body}`]: { fontSize: 18 },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
+  "&:nth-of-type(odd)": { backgroundColor: theme.palette.action.hover },
+  "&:last-child td, &:last-child th": { border: 0 },
 }));
 
 function createData(name: string, count: number) {
@@ -56,23 +48,20 @@ function createData(name: string, count: number) {
 }
 
 export default function HomeData() {
-  const [consignments, setConsignments] = useState<Consignments[]>([]);
+  const [consignments, setConsignments] = React.useState<Consignments[]>([]);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.consignment
       .getAll(jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
         } else if (err.request) {
           dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
         } else {
           dispatch(setError([err.message]));
-          console.log("message", err.message);
         }
         return Promise.reject(err);
       })
@@ -82,7 +71,6 @@ export default function HomeData() {
       });
   }, []);
 
-  console.log(consignments);
   const registeredCount = consignments.filter(
     (item) => item.status === "Registered"
   ).length;
@@ -112,7 +100,6 @@ export default function HomeData() {
       sx={(theme) => ({
         width: "100%",
         height: "100%",
-        // background: "linear-gradient(45deg,#448acf 30%, #1976D2 90%)",
         background: "#F5F5F5",
         border: 0,
         borderRadius: 3,

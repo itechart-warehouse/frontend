@@ -1,4 +1,8 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
+import * as yup from "yup";
 import {
   Button,
   FormControlLabel,
@@ -6,12 +10,9 @@ import {
   TextField,
   Chip,
 } from "@mui/material";
-import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError } from "../../../store/errorSlice";
 import { Values } from "./EditUser.types";
 
 const validationSchema = yup.object({
@@ -49,19 +50,15 @@ function EditUserForm() {
 
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.user
-        .editUserById(id, data, jwt)
-        .then(() => {
-          //  TODO we need to clear current user state after submit
-          dispatch(clearError());
-          routeUsersList();
-        });
+      clientApi.user.editUserById(id, data, jwt).then(() => {
+        //  TODO we need to clear current user state after submit
+        dispatch(clearError());
+        routeUsersList();
+      });
     },
   });
 
-  const routeUsersList = () => {
-    navigate("/users");
-  };
+  const routeUsersList = () => navigate("/users");
 
   return (
     <form onSubmit={formik.handleSubmit}>

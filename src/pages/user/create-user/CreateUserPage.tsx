@@ -1,6 +1,6 @@
-import CreateUserForm from "../../../components/forms/user-form/CreateUserForm";
-import React from "react";
+import * as React from "react";
 import { Grid, Typography, Box } from "@mui/material";
+import CreateUserForm from "../../../components/forms/user-form/CreateUserForm";
 
 const CreateUserPage = () => {
   return (

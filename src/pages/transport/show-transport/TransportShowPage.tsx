@@ -1,6 +1,6 @@
+import * as React from "react";
 import { Box, Card, Grid, Typography } from "@mui/material";
 import TransportCard from "../../../components/cards/TransportCard";
-// @ts-ignore
 import TransportCardImage from "../../../image/TransportCard.svg";
 
 const backgroundStyle = {

@@ -1,6 +1,6 @@
+import * as React from "react";
 import { Box, Card, Grid, Typography } from "@mui/material";
 import CompanyCard from "../../../components/cards/CompanyCard";
-// @ts-ignore
 import CompanyCardImage from "../../../image/CompanyCard.svg";
 
 const gridStyle = {

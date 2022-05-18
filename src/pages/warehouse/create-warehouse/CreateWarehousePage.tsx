@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Grid, Typography, Box } from "@mui/material";
 import CreateWarehouseForm from "../../../components/forms/warehouse-form/CreateWarehouseForm";
 

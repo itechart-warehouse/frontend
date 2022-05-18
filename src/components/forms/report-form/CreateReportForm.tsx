@@ -1,4 +1,8 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FormikProvider, useFormik } from "formik";
+import * as yup from "yup";
 import {
   Button,
   TextField,
@@ -17,25 +21,16 @@ import {
   Box,
   Paper,
 } from "@mui/material";
-import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { clearError } from "../../../store/errorSlice";
 import { Goods, Values, Type } from "./CreateReport.types";
 import useMount from "../../../services/isMountedHook";
 
 const twinkleBlue = "#e9ecef";
+const headStyle = { backgroundColor: twinkleBlue };
 
-const headStyle = {
-  backgroundColor: twinkleBlue,
-};
-
-const rowStyle = {
-  "&:last-child td, &:last-child th": { border: 0 },
-};
+const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
 
 const validationSchema = yup.object({
   description: yup
@@ -46,28 +41,20 @@ const validationSchema = yup.object({
 });
 
 function CreateReportForm() {
-  const [goods, setGoods] = useState<Goods[]>([]);
+  const [goods, setGoods] = React.useState<Goods[]>([]);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [reportTypes, setReportTypes] = useState([]);
+  const [reportTypes, setReportTypes] = React.useState([]);
   const { id } = useParams();
   const isMounted = useMount();
 
-
-  const routeConsignmentCard = () => {
-    navigate(`/warehouse-consignments/${id}`);
-  };
+  const routeConsignmentCard = () => navigate(`/warehouse-consignments/${id}`);
 
   const initialValues = {
     description: "",
     report_type_id: "",
-
-    reported: goods.map((it) => ({
-      id: it.id,
-      name: it.name,
-      quantity: "",
-    })),
+    reported: goods.map((it) => ({ id: it.id, name: it.name, quantity: "" })),
   };
 
   const formik = useFormik({
@@ -75,36 +62,29 @@ function CreateReportForm() {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (data: Values) => {
-      clientApi.report
-        .create(id, jwt, data)
-        .then((response) => {
-          dispatch(clearError());
-          routeConsignmentCard();
-        });
-      console.log(data);
+      clientApi.report.create(id, jwt, data).then(() => {
+        dispatch(clearError());
+        routeConsignmentCard();
+      });
     },
   });
 
-  useEffect(() => {
-    clientApi.goods
-      .getByConsignmentId(id, jwt)
-      .then((response) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setGoods(response.data.goods);
-        }
-      });
+  React.useEffect(() => {
+    clientApi.goods.getByConsignmentId(id, jwt).then((response) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setGoods(response.data.goods);
+      }
+    });
   }, []);
 
-  useEffect(() => {
-    clientApi.report
-      .getListOfTypes(id, jwt)
-      .then((response) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setReportTypes(response.data.ReportTypes);
-        }
-      });
+  React.useEffect(() => {
+    clientApi.report.getListOfTypes(id, jwt).then((response) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setReportTypes(response.data.ReportTypes);
+      }
+    });
   }, [id]);
 
   return (
@@ -190,9 +170,7 @@ function CreateReportForm() {
             variant="outlined"
             fullWidth
             style={{ margin: "0 5px 10px 0" }}
-            onClick={() => {
-              routeConsignmentCard();
-            }}
+            onClick={() => routeConsignmentCard()}
           >
             Cancel
           </Button>

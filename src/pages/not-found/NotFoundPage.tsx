@@ -1,8 +1,8 @@
-import { Typography, Container, Button, Box } from "@mui/material";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Typography, Container, Button, Box } from "@mui/material";
 import { clearError } from "../../store/errorSlice";
-// @ts-ignore
 import Error from "../../image/Error.svg";
 
 const containerStyle = {

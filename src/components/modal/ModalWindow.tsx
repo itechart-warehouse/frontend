@@ -1,3 +1,6 @@
+import * as React from "react";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Collapse,
@@ -7,10 +10,7 @@ import {
   ListItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { clearError } from "../../store/errorSlice";
-import { useNavigate } from "react-router-dom";
 
 interface ModalWindowProps {
   isOpen: boolean;
@@ -18,13 +18,11 @@ interface ModalWindowProps {
 
 function ModalWindow({ isOpen }: ModalWindowProps) {
   const error = useSelector((state: RootStateOrAny) => state.error.errors);
-  const [open, setOpen] = useState(isOpen);
+  const [open, setOpen] = React.useState(isOpen);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const routeHome = () => {
-    navigate("/home");
-  };
+  const routeHome = () => navigate("/home");
 
   return (
     <Box sx={{ width: "100%" }}>
