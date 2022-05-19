@@ -100,7 +100,7 @@ function App() {
                 path="warehouse-consignments/:id/reports"
                 element={<ReportsPage />}
               />
-                <Route path='statistics' element={<Statistics />} />
+              <Route path="statistics" element={<Statistics />} />
             </Route>
           </>
         ) : (
