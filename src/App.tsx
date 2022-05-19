@@ -2,7 +2,6 @@ import * as React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import "./App.css";
-//import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -19,7 +18,6 @@ import WarehousesPage from "./pages/warehouse/all-warehouses/WarehousesPage";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
 import CreateWarehousePage from "./pages/warehouse/create-warehouse/CreateWarehousePage";
 import WarehouseShowPage from "./pages/warehouse/show-warehouse/WarehouseShowPage";
-// import SectionsPage from "./pages/section/all-sections/SectionsPage";
 import EditWarehousePage from "./pages/warehouse/edit-warehouse/EditWarehousePage";
 import ConsignmentsPage from "./pages/consignment/all-consignments/ConsignmentsPage";
 import ConsignmentShowPage from "./pages/consignment/show-consignment/ConsignmentShowPage";
@@ -32,8 +30,6 @@ import WarehouseConsignmentsPage from "./pages/consignment/warehouse-all-consign
 import ConsignmentGoodsPage from "./pages/consignment/warehouse-all-consignment/goods/consignment-goods/ConsignmentGoodsPage";
 import CreateReportPage from "./pages/report/create-report/CreateReportPage";
 import ReportsPage from "./pages/report/all-reports/ReportsPage";
-import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
-import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
 import Statistics from "./pages/statistics/Statistics";
 
 function App() {
@@ -109,7 +105,6 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<LoginPage />} />
             </Route>
-            {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
         )}
       </Routes>
