@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import * as dayjs from "dayjs";
+import * as isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import {
   Box,
   Container,
@@ -21,6 +23,9 @@ import { RootState } from "../../store";
 import { statisticsSortTable, statisticsTable } from "./statisticsField";
 import { getComparator, Order, stableSort } from "./stableSort";
 import { Statistiic } from "./statistics.types";
+import FilterBar from "./FilterBar";
+
+dayjs.extend(isSameOrAfter);
 
 const twinkleBlue = "#e9ecef";
 const headStyle = { backgroundColor: twinkleBlue };
@@ -55,9 +60,18 @@ const Statistics = () => {
 
   return (
     <Container maxWidth="xl" sx={mainContainerStyle}>
-      <Typography variant="h2" sx={titleStyle}>
-        Users actions
-      </Typography>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h2" sx={titleStyle}>
+          Users actions
+        </Typography>
+        <FilterBar />
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
           <TableHead sx={headStyle}>

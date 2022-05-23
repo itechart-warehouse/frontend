@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CalendarPicker, { CalendarPickerProps } from "@mui/lab/CalendarPicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 /**
