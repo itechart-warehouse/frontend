@@ -28,7 +28,7 @@ export default function ReportedGoodsDialog({ reportId }: ReportProps) {
       .reportedGoods(reportId, jwt)
       .then((response) => {
         dispatch(clearError());
-        setGoods(response.data.reported_goods);
+        setGoods(response.data.report.reported_goods);
       });
   }, [reportId]);
 

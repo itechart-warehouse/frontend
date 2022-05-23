@@ -48,7 +48,7 @@ function Warehouses() {
       .then((response) => {
         dispatch(clearError());
         setWarehouses(response.data.warehouses);
-        setCompany(response.data.company);
+        setCompany(response.data.warehouses[0].company)
         console.log(jwt);
       });
   }, []);
@@ -101,23 +101,23 @@ function Warehouses() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {warehouses.map((ware) => (
-                <TableRow key={ware.warehouse.id}>
+              {warehouses.map((warehouse) => (
+                <TableRow key={warehouse.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`/warehouse/${ware.warehouse.id}`}>
-                      {ware.warehouse.name}
+                    <Link to={`/warehouse/${warehouse.id}`}>
+                      {warehouse.name}
                     </Link>
                   </TableCell>
-                  <TableCell align="center">{ware.warehouse.address}</TableCell>
-                  <TableCell align="center">{ware.warehouse.phone}</TableCell>
+                  <TableCell align="center">{warehouse.address}</TableCell>
+                  <TableCell align="center">{warehouse.phone}</TableCell>
                   <TableCell align="center">
-                    <Link to={`/users/${ware.user[0].id}`}>
-                      {ware.user[0].first_name} {ware.user[0].last_name}
+                    <Link to={`/users/${warehouse.user.id}`}>
+                      {warehouse.user.first_name} {warehouse.user.last_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="center">{ware.warehouse.area}</TableCell>
+                  <TableCell align="center">{warehouse.area}</TableCell>
                   <TableCell align="center">
-                    {ware.warehouse.active ? <CheckIcon /> : <CloseIcon />}
+                    {warehouse.active ? <CheckIcon /> : <CloseIcon />}
                   </TableCell>
                   <TableCell align="center"></TableCell>
                 </TableRow>

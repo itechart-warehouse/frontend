@@ -92,26 +92,26 @@ function Reports() {
             </TableHead>
             <TableBody>
               {reports.length
-                ? reports.map((rep: Report) => (
-                    <TableRow key={rep.report.id}>
-                      <TableCell component="th" scope="row">
-                        {rep.report_type}
-                      </TableCell>
-                      <TableCell align="center">
-                        {rep.report.description}
-                      </TableCell>
-                      <TableCell align="center">
-                        {rep.report.report_date}
-                      </TableCell>
+                ? reports.map((report: Report) => (
+                  <TableRow key={report.id}>
+                    <TableCell component="th" scope="row">
+                      {report.report_type.name}
+                    </TableCell>
+                    <TableCell align="center">
+                      {report.description}
+                    </TableCell>
+                    <TableCell align="center">
+                      {report.report_date}
+                    </TableCell>
 
-                      <TableCell align="center">
-                        {rep.user.first_name} {rep.user.last_name}
-                      </TableCell>
-                      <TableCell align="center">
-                        <ReportedGoodsDialog reportId={rep.report.id} />
-                      </TableCell>
-                    </TableRow>
-                  ))
+                    <TableCell align="center">
+                      {report.user.first_name} {report.user.last_name}
+                    </TableCell>
+                    <TableCell align="center">
+                      <ReportedGoodsDialog reportId={report.id} />
+                    </TableCell>
+                  </TableRow>
+                ))
                 : ""}
             </TableBody>
           </Table>

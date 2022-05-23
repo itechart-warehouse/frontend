@@ -1,11 +1,9 @@
 export interface Warehouse {
-  warehouse: {
-    name: string;
-    address: string;
-    phone: string;
-    area: string;
-    reserved: string;
-  };
+  name: string;
+  address: string;
+  phone: string;
+  area: string;
+  reserved: string;
   company: {
     id: any;
     name: string;
