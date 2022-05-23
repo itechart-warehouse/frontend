@@ -246,6 +246,10 @@ function initClientApi() {
           headers: { authorization: jwt },
         }),
     },
+    statistic: {
+      getAll: (jwt: string) =>
+        axios.get(`${baseUrl}/statistics`, { headers: { authorization: jwt } }),
+    },
     consignment: {
       create: (
         consignmentCredentials: consignmentFullData,
