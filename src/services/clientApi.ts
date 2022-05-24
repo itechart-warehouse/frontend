@@ -12,6 +12,7 @@ import {
   goodsFullData,
   report,
   errorData,
+  newPassword,
 } from "./clientApi.types";
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
@@ -40,22 +41,30 @@ function initClientApi() {
     userData: {
       login: (credentials: userData) =>
         axios
-          .post(`${baseUrl}/login`, {
+          .post(`${baseUrl}/users/sign_in`, {
             user: { email: credentials.email, password: credentials.password },
           })
           .catch((err) => errorHandler(err)),
       logout: (jwt: string) =>
         axios
-          .delete(`${baseUrl}/logout`, { headers: { authorization: jwt } })
+          .delete(`${baseUrl}/users/sign_out`, { headers: { authorization: jwt } })
           .catch((err) => errorHandler(err)),
     },
     recoverData: {
       recoverEmail: (credentials: recoverData) =>
         axios
-          .post(`${baseUrl}/password`, {
+          .post(`${baseUrl}/users/password`, {
             user: { email: credentials.email },
           })
           .catch((err) => errorHandler(err)),
+      newPassword: (credentials: newPassword) =>
+        axios
+          .put(`${baseUrl}/users/password`, {
+            password: credentials.password,
+            password_confirmation: credentials.password_confirmation,
+            reset_password_token: credentials.reset_password_token
+          })
+          .catch((err) => errorHandler(err))
     },
     company: {
       create: (companyCredentials: companyFullData, jwt: string) =>

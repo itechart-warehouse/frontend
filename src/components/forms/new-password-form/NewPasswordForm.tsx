@@ -2,53 +2,46 @@ import { useFormik } from "formik";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../../store/loginSlice";
-import { setError } from "../../../store/errorSlice";
-import { Values } from "./LoginForm.types";
+import { Values } from "./NewPasswordForm.types";
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
   password: yup
     .string()
     .min(6, "Password should be of minimum 8 characters length")
     .required("Password is required"),
+  // TODO: add password match validation
 });
 
-function LoginForm() {
+function NewPasswodForm() {
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const reset_password_token = searchParams.get('reset_password_token')
+
   const formik = useFormik({
     initialValues: {
-      email: "",
       password: "",
+      password_confirmation: "",
+      reset_password_token: reset_password_token,
     },
     validationSchema: validationSchema,
-    onSubmit: (user: Values) => {
-      clientApi.userData
-        .login(user)
+    onSubmit: (newPassword: Values) => {
+      clientApi.recoverData
+        .newPassword(newPassword)
         .then((res) => {
-          dispatch(loginUser(res));
+          // TODO: we can add alert or form messages with response.data.messages
+          // where will be status of update password 
+          navigate("/");
         });
     },
   });
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <TextField
-        fullWidth
-        id="email"
-        name="email"
-        label="Email"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-        sx={{ mb: 3 }}
-      />
       <TextField
         fullWidth
         id="password"
@@ -61,6 +54,19 @@ function LoginForm() {
         helperText={formik.touched.password && formik.errors.password}
         sx={{ mb: 3 }}
       />
+      <TextField
+        fullWidth
+        id="password_confirmation"
+        name="password_confirmation"
+        label="Password confirmation"
+        type="password"
+        value={formik.values.password_confirmation}
+        onChange={formik.handleChange}
+        error={formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)}
+        helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
+        sx={{ mb: 3 }}
+      />
+
       <Button
         color="primary"
         variant="contained"
@@ -68,14 +74,13 @@ function LoginForm() {
         type="submit"
         style={{ margin: "0 0 10px 0" }}
       >
-        Log In
+        Set new password
       </Button>
       <Grid container>
         <Grid item xs>
           <Typography>
-            {/*TODO add path to recover password and change color definition*/}
-            <Link to="/users/password/new" style={{ color: "#1976d2" }}>
-              Forgot password?
+            <Link to="/" style={{ color: "#1976d2" }}>
+              Back to login page
             </Link>
           </Typography>
         </Grid>
@@ -84,4 +89,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default NewPasswodForm;
