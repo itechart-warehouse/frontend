@@ -57,7 +57,7 @@ function RegistartedWarehouseConsignments() {
 
   useEffect(() => {
     clientApi.consignment
-      .getAll(jwt)
+      .getAll(jwt,'Registered')
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);

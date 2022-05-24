@@ -62,7 +62,7 @@ export default function HomeData() {
 
   useEffect(() => {
     clientApi.consignment
-      .getAll(jwt)
+      .getAll(jwt,'checked')
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));

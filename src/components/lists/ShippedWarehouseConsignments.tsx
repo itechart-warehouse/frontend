@@ -56,7 +56,7 @@ function CheckedWarehouseConsignments() {
 
   useEffect(() => {
     clientApi.consignment
-      .getAll(jwt)
+      .getAll(jwt,'Shipped')
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);

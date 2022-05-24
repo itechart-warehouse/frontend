@@ -56,7 +56,7 @@ function PlacedWarehouseConsignments() {
 
   useEffect(() => {
     clientApi.consignment
-      .getAll(jwt)
+      .getAll(jwt,'Placed')
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);

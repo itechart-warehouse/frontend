@@ -16,9 +16,9 @@ import {
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
+//const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
-// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+ const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
 function errorHandler(err: errorData) {
   if (err.response) {
@@ -247,6 +247,12 @@ function initClientApi() {
         }),
     },
     consignment: {
+        getByPage:  (jwt: string,status:string,page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/warehouse-consignments/${status}/${page}/${perPage}`, {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
       create: (
         consignmentCredentials: consignmentFullData,
         goodsCredentials: goodsFullData,
@@ -275,13 +281,13 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${id}`, {
+          .get(`${baseUrl}/warehouse-consignments/${id}/a`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAll: (jwt: string) =>
+      getAll: (jwt: string,status:string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments`, {
+          .get(`${baseUrl}/warehouse-consignments/${status}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),

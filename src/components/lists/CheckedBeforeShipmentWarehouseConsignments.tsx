@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper,
+  Paper, TablePagination,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -20,6 +20,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import {response} from "msw";
 
 interface Consignments {
   id: number;
@@ -54,16 +55,31 @@ const rowStyle = {
 
 function CheckedWarehouseConsignments() {
   const [consignments, setConsignments] = useState<Consignments[]>([]);
+  const [consCount, setConsCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment.getAll(jwt).then((response) => {
+    clientApi.consignment.getAll(jwt,'Checked before shipment').then((response) => {
       dispatch(clearError());
       setConsignments(response.data.consignments);
+      setConsCount(response.data.consignment_count)
     });
   }, []);
   console.log(consignments);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    clientApi.consignment.getByPage(jwt,'Checked before shipment',newPage).then((response)=>{
+      setConsignments(response.data);
+      setPage(newPage);
+    })
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <>
@@ -148,6 +164,15 @@ function CheckedWarehouseConsignments() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={consCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );
