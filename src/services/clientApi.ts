@@ -16,14 +16,14 @@ import {
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
+// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
-// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
 
 function errorHandler(err: errorData) {
   if (err.response) {
     err.response.status === 500 || err.response.status === 401
-      ? store.dispatch(setError([err.response.statusText]))
+      ? store.dispatch(setError([err.response.data]))
       : store.dispatch(setError(["Invalid Data"]));
   } else if (err.request) {
     store.dispatch(setError(["Server is not working"]));

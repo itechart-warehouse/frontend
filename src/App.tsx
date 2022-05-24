@@ -8,7 +8,6 @@ import { RootState } from "./store";
 import CompanyShowPage from "./pages/company/show-company/CompanyShowPage";
 import CompaniesPage from "./pages/company/all-companies/CompaniesPage";
 import CreateCompanyPage from "./pages/company/create-company/CreateCompanyPage";
-import Layout from "./pages/layout/Layout";
 import UsersPage from "./pages/user/all-users/UsersPage";
 import EditUserPage from "./pages/user/edit-user/EditUserPage";
 import CreateUserPage from "./pages/user/create-user/CreateUserPage";
@@ -31,8 +30,7 @@ import WarehouseConsignmentsPage from "./pages/consignment/warehouse-all-consign
 import ConsignmentGoodsPage from "./pages/consignment/warehouse-all-consignment/goods/consignment-goods/ConsignmentGoodsPage";
 import CreateReportPage from "./pages/report/create-report/CreateReportPage";
 import ReportsPage from "./pages/report/all-reports/ReportsPage";
-import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
-import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
+import Layout from "./pages/layout/Layout";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -103,9 +101,9 @@ function App() {
         ) : (
           <>
             <Route path="/*" element={<Navigate to="/" />} />
-            <Route path="/" element={<Layout />}>
-              <Route index element={<LoginPage />} />
-            </Route>
+            {/*// <Route path="/" element={<Layout />}>*/}
+            <Route index element={<LoginPage />} />
+            {/*</Route>*/}
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
         )}
