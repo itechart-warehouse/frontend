@@ -44,12 +44,10 @@ function Users() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.user
-      .getAll(jwt)
-      .then((response) => {
-        dispatch(clearError());
-        setUsers(response.data.users);
-      });
+    clientApi.user.getAll(jwt).then((response) => {
+      dispatch(clearError());
+      setUsers(response.data.users);
+    });
   }, []);
 
   const navigate = useNavigate();
@@ -92,18 +90,18 @@ function Users() {
             </TableHead>
             <TableBody>
               {users.map((item) => (
-                <TableRow key={item.user.id}>
+                <TableRow key={item.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${item.user.id}`}>
-                      {item.user.first_name} {item.user.last_name}
+                    <Link to={`${item.id}`}>
+                      {item.first_name} {item.last_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="center">{item.user.address}</TableCell>
+                  <TableCell align="center">{item.address}</TableCell>
                   <TableCell align="center">{item.company.name}</TableCell>
                   <TableCell align="center">{item.role}</TableCell>
-                  <TableCell align="center">{item.user.email}</TableCell>
+                  <TableCell align="center">{item.email}</TableCell>
                   <TableCell align="center">
-                    {item.user.active ? <CheckIcon /> : <CloseIcon />}
+                    {item.active ? <CheckIcon /> : <CloseIcon />}
                   </TableCell>
                 </TableRow>
               ))}
