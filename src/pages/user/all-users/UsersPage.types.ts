@@ -10,5 +10,7 @@ export interface User {
     name: string;
   };
 
-  role: string;
+  user_role: {
+    name: string;
+  };
 }

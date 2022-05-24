@@ -39,12 +39,12 @@ function EditUserForm() {
   const user = useSelector((state: RootStateOrAny) => state.userCard.userCard);
   const formik = useFormik({
     initialValues: {
-      firstName: user.user.first_name,
-      lastName: user.user.last_name,
-      address: user.user.address,
-      birthDate: user.user.birth_date,
-      userRoleId: user.user.user_role_id,
-      active: user.user.active,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      address: user.address,
+      birthDate: user.birth_date,
+      userRoleId: user.user_role_id,
+      active: user.active,
     },
 
     validationSchema: validationSchema,

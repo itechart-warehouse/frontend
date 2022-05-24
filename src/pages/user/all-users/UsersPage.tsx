@@ -89,19 +89,19 @@ function Users() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((item) => (
-                <TableRow key={item.id}>
+              {users.map((user) => (
+                <TableRow key={user.id}>
                   <TableCell component="th" scope="row">
-                    <Link to={`${item.id}`}>
-                      {item.first_name} {item.last_name}
+                    <Link to={`${user.id}`}>
+                      {user.first_name} {user.last_name}
                     </Link>
                   </TableCell>
-                  <TableCell align="center">{item.address}</TableCell>
-                  <TableCell align="center">{item.company.name}</TableCell>
-                  <TableCell align="center">{item.role}</TableCell>
-                  <TableCell align="center">{item.email}</TableCell>
+                  <TableCell align="center">{user.address}</TableCell>
+                  <TableCell align="center">{user.company.name}</TableCell>
+                  <TableCell align="center">{user.user_role.name}</TableCell>
+                  <TableCell align="center">{user.email}</TableCell>
                   <TableCell align="center">
-                    {item.active ? <CheckIcon /> : <CloseIcon />}
+                    {user.active ? <CheckIcon /> : <CloseIcon />}
                   </TableCell>
                 </TableRow>
               ))}

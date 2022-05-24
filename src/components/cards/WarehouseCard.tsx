@@ -17,13 +17,11 @@ import { Warehouse } from "./types/Warehouse.types";
 import useMount from "../../services/isMountedHook";
 
 const warehouseInit = {
-  warehouse: {
-    name: "",
-    address: "",
-    phone: "",
-    area: "",
-    reserved: "",
-  },
+  name: "",
+  address: "",
+  phone: "",
+  area: "",
+  reserved: "",
   company: {
     id: "",
     name: "",
@@ -49,7 +47,7 @@ function WarehouseCard() {
     clientApi.warehouse.getById(id, jwt).then((res) => {
       if (isMounted()) {
         dispatch(clearError());
-        setWarehouse(res.data);
+        setWarehouse(res.data.warehouse);
         setIsLoaded(true);
       }
     });
@@ -61,7 +59,7 @@ function WarehouseCard() {
   };
   const routeWarehouseEdit = () => {
     navigate(`/warehouse/${id}/edit`);
-    dispatch(setWarehouseState(warehouse.warehouse));
+    dispatch(setWarehouseState(warehouse));
   };
 
   return (
@@ -70,26 +68,26 @@ function WarehouseCard() {
         <Card>
           <CardContent>
             <Typography variant="h4" component="div">
-              {warehouse.warehouse.name}
+              {warehouse.name}
             </Typography>
             <br />
             <Typography variant="h6" component="div">
               Address
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {warehouse.warehouse.address}
+              {warehouse.address}
             </Typography>
             <Typography variant="h6" component="div">
               Phone
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {warehouse.warehouse.phone}
+              {warehouse.phone}
             </Typography>
             <Typography variant="h6" component="div">
               Area
             </Typography>
             <Typography color="text.secondary">
-              {warehouse.warehouse.reserved}/{warehouse.warehouse.area}
+              {warehouse.reserved}/{warehouse.area}
             </Typography>
             <Typography variant="h6" component="div">
               Company name
@@ -108,8 +106,8 @@ function WarehouseCard() {
 
             <CardActions>
               {role === "System admin" ||
-              role === "Company owner" ||
-              role === "Company admin" ? (
+                role === "Company owner" ||
+                role === "Company admin" ? (
                 <>
                   <Button onClick={routeWarehouseEdit}>Edit</Button>
                   <Button onClick={routeWarehouseList}>
