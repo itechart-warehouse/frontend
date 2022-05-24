@@ -113,6 +113,12 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     user: {
+        getByPage:  (jwt: string,page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/users/${page}/${perPage}`, {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
       create: (userCredentials: userFullData, jwt: string) =>
         axios
           .post(

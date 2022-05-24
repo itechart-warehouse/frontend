@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper,
+  Paper, TablePagination,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
@@ -40,7 +40,10 @@ const rowStyle = {
 
 function Users() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [users, setUsers] = useState<User[]>([]);
+  const [consCount, setConsCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
+  const [users, setUsers] = useState<User[]>(([]));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,15 +51,28 @@ function Users() {
       .getAll(jwt)
       .then((response) => {
         dispatch(clearError());
-        setUsers(response.data.users);
+        setUsers(JSON.parse(response.data.users));
+        setConsCount(response.data.users_count)
       });
   }, []);
-
+  console.log(users)
   const navigate = useNavigate();
   const routeCreateUser = () => {
     navigate("/user/create");
   };
-
+  const handleChangePage = (event: unknown, newPage: number) => {
+    clientApi.user.getByPage(jwt,newPage).then((response)=>{
+      setUsers(response.data.consignments);
+      setPage(newPage);
+    })
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    clientApi.user.getByPage(jwt,0,event.target.value).then((response)=>{
+      setUsers(response.data.consignments);
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    })
+  };
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -110,6 +126,15 @@ function Users() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={consCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );

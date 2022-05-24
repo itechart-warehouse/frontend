@@ -1,4 +1,6 @@
 export interface User {
+  users:
+{
   id: string;
   first_name: string;
   last_name: string;
@@ -13,4 +15,5 @@ export interface User {
   user_role: {
     name: string;
   };
+}
 }
