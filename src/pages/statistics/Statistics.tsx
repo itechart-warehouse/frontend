@@ -112,9 +112,12 @@ const Statistics = () => {
                 <TableCell align="left">{item.username}</TableCell>
                 <TableCell align="center">{item.data}</TableCell>
                 <TableCell align="center">{item.company}</TableCell>
-                <TableCell align="right">activity</TableCell>
+                <TableCell align="center">{item.action}</TableCell>
+                <TableCell align="center">{item.type}</TableCell>
+                <TableCell align="right">{item.changes.name}</TableCell>
               </TableRow>
             ))}
+            {/*  BUG: CHANGES COLUMN DOESN'T SHOW ALL CHANGES */}
           </TableBody>
         </Table>
       </TableContainer>

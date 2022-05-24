@@ -4,4 +4,7 @@ export interface UserLogs {
   username: string;
   company: string;
   data: string;
+  action: string;
+  changes: {};
+  type: string;
 }
