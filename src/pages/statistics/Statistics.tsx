@@ -5,6 +5,8 @@ import * as isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import {
   Box,
   Container,
+  List,
+  ListItem,
   Paper,
   Table,
   TableBody,
@@ -23,6 +25,7 @@ import { UserLogs } from "./statistics.type";
 import { statisticsSortTable, statisticsTable } from "./statisticsField";
 import { getComparator, Order, stableSort } from "./stableSort";
 import FilterBar from "./FilterBar";
+import ListItemText from "@mui/material/ListItemText";
 
 dayjs.extend(isSameOrAfter);
 
@@ -45,8 +48,6 @@ const Statistics = () => {
       setUserLogs(response.data.warehouse_audits);
     });
   }, []);
-
-  console.log(userLogs);
 
   const handleRequestSort = (event, property: keyof UserLogs) => {
     const isAsc = orderBy === property && order === "asc";
@@ -114,7 +115,25 @@ const Statistics = () => {
                 <TableCell align="center">{item.company}</TableCell>
                 <TableCell align="center">{item.action}</TableCell>
                 <TableCell align="center">{item.type}</TableCell>
-                <TableCell align="right">{item.changes.name}</TableCell>
+                <TableCell align="right">
+                  <List
+                    sx={{
+                      width: "100%",
+                      maxWidth: 360,
+                      bgcolor: "background.paper",
+                    }}
+                  >
+                    {Object.keys(item.changes).map((it) => (
+                      <ListItem key={it} disableGutters>
+                        <ListItemText>{`${it}:${
+                          Array.isArray(item.changes[it])
+                            ? item.changes[it].join(" to ")
+                            : item.changes[it]
+                        }`}</ListItemText>
+                      </ListItem>
+                    ))}
+                  </List>
+                </TableCell>
               </TableRow>
             ))}
             {/*  BUG: CHANGES COLUMN DOESN'T SHOW ALL CHANGES */}
