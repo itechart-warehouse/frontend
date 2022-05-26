@@ -1,41 +1,105 @@
 import * as React from "react";
 import ruLocale from "date-fns/locale/ru";
-import TextField from "@mui/material/TextField";
+import { TextField, Typography } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Typography } from "@mui/material";
 
-export default function BasicDateRangePicker() {
-  const [startDate, setStartDate] = React.useState<Date | null>(null);
-  const [endDate, setEndDate] = React.useState<Date | null>(null);
+export default function BasicDateRangePicker({
+  onDateFilter,
+  onNameFilter,
+  onActionFilter,
+  actions,
+}) {
+  const [filters, setFilters] = React.useState({
+    name: "",
+    action: "",
+    from: "",
+    to: "",
+  });
+
+  const handleInput = (field) => (event) => {
+    const { value } = event.target;
+
+    setFilters({
+      ...filters,
+      [field]: value,
+    });
+
+    switch (field) {
+      case "name":
+        onNameFilter(value);
+        break;
+      case "action":
+        onActionFilter(value);
+        break;
+      case "from":
+        onDateFilter(value, "from");
+        break;
+      case "to":
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ruLocale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           columnGap: "10px",
+          rowGap: "10px",
         }}
       >
-        <DatePicker
-          label="Start"
-          value={startDate}
-          onChange={(newValue) => {
-            setStartDate(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <Typography variant="h6">to</Typography>
-        <DatePicker
-          label="End"
-          value={endDate}
-          onChange={(newValue) => {
-            setEndDate(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
+        <Typography variant="h6">Filters</Typography>
+        <div className="col-sm-12 my-2">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            value={filters.name}
+            onChange={handleInput("name")}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="action">Action</label>
+          <select
+            className="form-control"
+            id="action"
+            onChange={handleInput("action")}
+          >
+            <option value="">Select</option>
+            {actions.map((action) => (
+              <option value={action} key={action}>
+                {action}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="startDate">From</label>
+          <input
+            type="date"
+            className="form-control"
+            id="startDate"
+            onChange={handleInput("from")}
+          />
+        </div>
+        <div>
+          <label htmlFor="endDate">To</label>
+          <input
+            type="date"
+            className="form-control"
+            id="endDate"
+            onChange={handleInput("to")}
+          />
+        </div>
       </div>
     </LocalizationProvider>
   );
