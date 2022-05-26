@@ -9,9 +9,9 @@ import {
   TableBody,
   CircularProgress,
   Paper,
-  Grid,
+  Grid, TablePagination,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearError } from "../../../store/errorSlice";
@@ -21,6 +21,7 @@ import { Driver } from "./DriversPage.types";
 import useMount from "../../../services/isMountedHook";
 // @ts-ignore
 import DriverCardImage from "../../../image/DriverCard.svg";
+import {clientApi} from "../../../services/clientApi";
 
 const backgroundStyle = {
   height: "90vh",
@@ -53,6 +54,10 @@ function Drivers() {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const dispatch = useDispatch();
   const isMounted = useMount();
+  const [driversCount, setDriversCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
+
 
   useEffect(() => {
     truckApi.driver
@@ -60,19 +65,32 @@ function Drivers() {
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
-          setDrivers(response.data);
-          console.log(response.data);
+          setDrivers(JSON.parse(response.data.drivers));
+          setDriversCount(response.data.drivers_count)
+          console.log(response.data.drivers_count);
         }
       });
   }, []);
-
+  const handleChangePage = (event: unknown, newPage: number) => {
+    truckApi.driver.getByPage(newPage,rowsPerPage.toString()).then((response)=>{
+      setDrivers(JSON.parse(response.data.drivers));
+      setPage(newPage);
+    })
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    truckApi.driver.getByPage(0,event.target.value).then((response)=>{
+      setDrivers(JSON.parse(response.data.drivers));
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    })
+  };
   return (
     <Grid sx={backgroundStyle}>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
         </Typography>
-        <TableContainer sx={{ width: 500 }} component={Paper}>
+        <TableContainer  component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
@@ -113,6 +131,15 @@ function Drivers() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={driversCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </Grid>
   );

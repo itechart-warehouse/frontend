@@ -58,6 +58,12 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     company: {
+        getByPage:  (jwt: string,page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/company/${page}/${perPage}`, {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
       create: (companyCredentials: companyFullData, jwt: string) =>
         axios
           .post(
@@ -83,7 +89,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios
-          .get(`${baseUrl}/companies`, { headers: { authorization: jwt } })
+          .get(`${baseUrl}/company`, { headers: { authorization: jwt } })
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
@@ -152,7 +158,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/users/${id}`, {
+          .get(`${baseUrl}/user/${id}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -177,6 +183,12 @@ function initClientApi() {
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
+        getByPage:  (jwt: string,page:number,perPage='',company_id:any) =>
+            axios
+                .get(`${baseUrl}/companies/${company_id}/warehouses/${page}/${perPage}`, {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios
           .get(`${baseUrl}/companies/${company_id}/warehouses`, {
@@ -245,6 +257,10 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     driver: {
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/companies/${page}/${perPage}`, )
+                .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/drivers`, { headers: { authorization: jwt } }),
       getById: (id: any, jwt: string) =>
@@ -253,12 +269,6 @@ function initClientApi() {
         }),
     },
     consignment: {
-        getByPage:  (jwt: string,status:string,page:number,perPage='') =>
-            axios
-                .get(`${baseUrl}/warehouse-consignments/${status}/${page}/${perPage}`, {
-                    headers: { authorization: jwt },
-                })
-                .catch((err) => errorHandler(err)),
       create: (
         consignmentCredentials: consignmentFullData,
         goodsCredentials: goodsFullData,
@@ -287,18 +297,24 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${id}/a`, {
+          .get(`${baseUrl}/warehouse-consignments/${id}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAll: (jwt: string,status:string) =>
+      getAll: (jwt: string,status='') =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${status}`, {
+          .get(`${baseUrl}/warehouse-consignment/${status}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
     },
     warehouseConsignment: {
+        getByPage:  (jwt: string,status:string,page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/warehouse-consignment/${status}/${page}/${perPage}`, {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
       check: (id: any, jwt: string) =>
         axios
           .post(

@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
-  Paper,
+  Paper, TablePagination,
 } from "@mui/material";
 import { truckApi } from "../../../services/truckApi";
 import React, { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { clearError } from "../../../store/errorSlice";
 import { ConsignmentsType } from "./ConsignmentsPage.types";
 import useMount from "../../../services/isMountedHook";
+import {clientApi} from "../../../services/clientApi";
 
 const mainContainerStyle = {
   pt: 3,
@@ -39,6 +40,9 @@ function Consignments() {
   const [consignments, setConsignments] = useState<ConsignmentsType[]>([]);
   const dispatch = useDispatch();
   const isMounted = useMount();
+  const [consCount, setConsCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
     truckApi.consignment
@@ -46,12 +50,25 @@ function Consignments() {
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
-          setConsignments(response.data);
-          console.log(response.data);
+          setConsignments(JSON.parse(response.data.consignments));
+          setConsCount(response.data.consignments_count)
         }
       });
   }, []);
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    truckApi.consignment.getByPage(newPage).then((response)=>{
+      setConsignments(response.data);
+      setPage(newPage);
+    })
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    truckApi.consignment.getByPage(0,event.target.value).then((response)=>{
+      setConsignments(response.data);
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    })
+  };
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -96,7 +113,7 @@ function Consignments() {
             <TableBody>
               {consignments.length ? (
                 consignments.map((consignments) => {
-                  if (consignments.status === "registered")
+
                     return (
                       <TableRow key={consignments.id}>
                         <TableCell component="th" scope="row">
@@ -136,6 +153,15 @@ function Consignments() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={consCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );

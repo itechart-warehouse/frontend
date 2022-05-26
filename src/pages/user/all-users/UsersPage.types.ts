@@ -1,13 +1,10 @@
 export interface User {
-  users:
-{
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  address: string;
-  active: boolean;
-
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    address: string;
+    active: boolean;
   company: {
     name: string;
   };
@@ -15,5 +12,4 @@ export interface User {
   user_role: {
     name: string;
   };
-}
 }

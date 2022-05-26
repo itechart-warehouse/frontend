@@ -16,20 +16,27 @@ import { clientApi } from "../../services/clientApi";
 import { clearError, setError } from "../../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import Consignments from "../../pages/consignment/all-consignments/ConsignmentsPage";
 
 interface Consignments {
-  id: number;
-  status: string;
-  bundle_seria: string;
-  bundle_number: string;
-  consignment_seria: string;
-  consignment_number: string;
-  first_name: string;
-  second_name: string;
-  contractor_name: string;
-  truck_number: string;
-  reported: boolean;
+  consignment:{
+    registeredCount:number,
+    checkedCount:number,
+    placedCount:number,
+    checkedBeforeSpipmentCount:number,
+    shippedCount:number,
+  }
 }
+const  consignment={
+  consignment:{
+    registeredCount:0,
+    checkedCount:0,
+    placedCount:0,
+    checkedBeforeSpipmentCount:0,
+    shippedCount:0,
+  }
+}
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -56,13 +63,13 @@ function createData(name: string, count: number) {
 }
 
 export default function HomeData() {
-  const [consignments, setConsignments] = useState<Consignments[]>([]);
+  const [consignments, setConsignments] = useState<Consignments>(consignment);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
 
   useEffect(() => {
     clientApi.consignment
-      .getAll(jwt,'checked')
+      .getAll(jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
@@ -78,33 +85,26 @@ export default function HomeData() {
       })
       .then((response) => {
         dispatch(clearError());
-        setConsignments(response.data.consignments);
+        setConsignments({
+          consignment: {
+            registeredCount: response.data.registered_conisgnment,
+            checkedCount: response.data.checked_conisgnment,
+            placedCount: response.data.placed_conisgnment,
+            checkedBeforeSpipmentCount: response.data.checked_before_conisgnment,
+            shippedCount: response.data.shipped_conisgnment,
+          }
+        });
       });
   }, []);
 
-  console.log(consignments);
-  const registeredCount = consignments.filter(
-    (item) => item.status === "Registered"
-  ).length;
-  const checkedCount = consignments.filter(
-    (item) => item.status === "Checked"
-  ).length;
-  const placedCount = consignments.filter(
-    (item) => item.status === "Placed"
-  ).length;
-  const checkedBeforeSpipmentCount = consignments.filter(
-    (item) => item.status === "Checked before shipment"
-  ).length;
-  const shippedCount = consignments.filter(
-    (item) => item.status === "Shipped"
-  ).length;
+
 
   const rows = [
-    createData("Registered", registeredCount),
-    createData("Checked", checkedCount),
-    createData("Placed", placedCount),
-    createData("Checked before shipment", checkedBeforeSpipmentCount),
-    createData("Shipped", shippedCount),
+    createData("Registered", consignments.consignment.registeredCount),
+    createData("Checked", consignments.consignment.checkedCount),
+    createData("Placed", consignments.consignment.placedCount),
+    createData("Checked before shipment", consignments.consignment.checkedBeforeSpipmentCount),
+    createData("Shipped", consignments.consignment.shippedCount),
   ];
 
   return (

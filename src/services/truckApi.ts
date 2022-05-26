@@ -30,8 +30,20 @@ function initTruckApi() {
             headers: { authorization: token },
           })
           .catch((err) => errorHandler(err)),
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/drivers/${page}/${perPage}`,{
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
     },
     consignment: {
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/consignments/${page}/${perPage}`,{
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
       getAll: () =>
         axios
           .get(`${baseUrl}/consignments`, {
@@ -52,6 +64,12 @@ function initTruckApi() {
             headers: { authorization: token },
           })
           .catch((err) => errorHandler(err)),
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/trucks/${page}/${perPage}`,{
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
     },
     goods: {
       getByConsignmentId: (id: any) =>

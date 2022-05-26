@@ -10,7 +10,7 @@ import {
   Button,
   Paper,
   Box,
-  Grid,
+  Grid, TablePagination,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
@@ -50,6 +50,9 @@ const rowStyle = {
 function Companies() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
+  const [compCount, setCompCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
   const [companies, setCompanies] = useState<Company[]>([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,12 +63,26 @@ function Companies() {
       if (isMounted()) {
         dispatch(clearError());
         setCompanies(response.data.companies);
+        setCompCount(response.data.company_count)
       }
     });
   }, []);
 
   const routeCreateCompany = () => {
     navigate("/company/create");
+  };
+  const handleChangePage = (event: unknown, newPage: number) => {
+    clientApi.company.getByPage(jwt,newPage,rowsPerPage.toString()).then((response)=>{
+      setCompanies(response.data.companies);
+      setPage(newPage);
+    })
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    clientApi.company.getByPage(jwt,0,event.target.value).then((response)=>{
+      setCompanies(response.data.companies);
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    })
   };
   return (
     <>
@@ -134,6 +151,15 @@ function Companies() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={compCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );

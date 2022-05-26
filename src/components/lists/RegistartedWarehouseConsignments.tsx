@@ -69,13 +69,13 @@ function RegistartedWarehouseConsignments() {
       });
   }, []);
   const handleChangePage = (event: unknown, newPage: number) => {
-    clientApi.consignment.getByPage(jwt,'Registered',newPage).then((response)=>{
+    clientApi.warehouseConsignment.getByPage(jwt,'Registered',newPage,rowsPerPage.toString()).then((response)=>{
       setConsignments(response.data.consignments);
       setPage(newPage);
     })
   }
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    clientApi.consignment.getByPage(jwt,'Registered',0,event.target.value).then((response)=>{
+    clientApi.warehouseConsignment.getByPage(jwt,'Registered',0,event.target.value).then((response)=>{
       setConsignments(response.data.consignments);
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
