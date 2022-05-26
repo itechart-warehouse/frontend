@@ -68,17 +68,6 @@ const Statistics = () => {
       handleRequestSort(event, property);
     };
 
-  const handleFilterAction = (action) => {
-    const filteredData = userLogs.filter((item) => {
-      console.log(item.action);
-      if (item.action === action) {
-        setActions(action);
-        return item;
-      }
-    });
-    setUserLogs(filteredData);
-  };
-
   const handleFilterName = (name) => {
     const filteredData = userLogs.filter((item) => {
       const fullName = `${item.username}`;
@@ -116,10 +105,8 @@ const Statistics = () => {
       </div>
       <div style={{ display: "flex", columnGap: "30px" }}>
         <FilterBar
-          onActionFilter={handleFilterAction}
           onDateFilter={handleFilterDate}
           onNameFilter={handleFilterName}
-          actions={actions}
         />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">

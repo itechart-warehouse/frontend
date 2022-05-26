@@ -5,15 +5,9 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function BasicDateRangePicker({
-  onDateFilter,
-  onNameFilter,
-  onActionFilter,
-  actions,
-}) {
+export default function BasicDateRangePicker({ onDateFilter, onNameFilter }) {
   const [filters, setFilters] = React.useState({
     name: "",
-    action: "",
     from: "",
     to: "",
   });
@@ -29,9 +23,6 @@ export default function BasicDateRangePicker({
     switch (field) {
       case "name":
         onNameFilter(value);
-        break;
-      case "action":
-        onActionFilter(value);
         break;
       case "from":
         onDateFilter(value, "from");
@@ -64,22 +55,6 @@ export default function BasicDateRangePicker({
             value={filters.name}
             onChange={handleInput("name")}
           />
-        </div>
-
-        <div>
-          <label htmlFor="action">Action</label>
-          <select
-            className="form-control"
-            id="action"
-            onChange={handleInput("action")}
-          >
-            <option value="">Select</option>
-            {actions.map((action) => (
-              <option value={action} key={action}>
-                {action}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div>
