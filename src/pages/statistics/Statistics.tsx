@@ -4,9 +4,8 @@ import * as dayjs from "dayjs";
 import * as isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import {
   Box,
+  CircularProgress,
   Container,
-  List,
-  ListItem,
   Paper,
   Table,
   TableBody,
@@ -25,7 +24,6 @@ import { UserLogs } from "./statistics.type";
 import { statisticsSortTable, statisticsTable } from "./statisticsField";
 import { getComparator, Order, stableSort } from "./stableSort";
 import FilterBar from "./FilterBar";
-import ListItemText from "@mui/material/ListItemText";
 
 dayjs.extend(isSameOrAfter);
 
@@ -108,35 +106,61 @@ const Statistics = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(userLogs, getComparator(order, orderBy)).map((item) => (
-              <TableRow key={item.id}>
-                <TableCell align="left">{item.username}</TableCell>
-                <TableCell align="center">{item.data}</TableCell>
-                <TableCell align="center">{item.company}</TableCell>
-                <TableCell align="center">{item.action}</TableCell>
-                <TableCell align="center">{item.type}</TableCell>
-                <TableCell align="right">
-                  <List
-                    sx={{
-                      width: "100%",
-                      maxWidth: 360,
-                      bgcolor: "background.paper",
-                    }}
-                  >
-                    {Object.keys(item.changes).map((it) => (
-                      <ListItem key={it} disableGutters>
-                        <ListItemText>{`${it}:${
-                          Array.isArray(item.changes[it])
-                            ? item.changes[it].join(" to ")
-                            : item.changes[it]
-                        }`}</ListItemText>
-                      </ListItem>
-                    ))}
-                  </List>
+            {!userLogs ? (
+              <TableRow>
+                <TableCell>
+                  <CircularProgress />
                 </TableCell>
               </TableRow>
-            ))}
-            {/*  BUG: CHANGES COLUMN DOESN'T SHOW ALL CHANGES */}
+            ) : (
+              stableSort(userLogs, getComparator(order, orderBy)).map(
+                (item) => (
+                  <TableRow key={item.id}>
+                    <TableCell align="left">
+                      <Typography variant="body1">{item.username}</Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body1">{item.data}</Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body1">{item.company}</Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body1">{item.action}</Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body1">{item.type}</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <TableContainer component={Paper}>
+                        {Object.keys(item.changes).map((it) => (
+                          <Table key={it} aria-label="simple table">
+                            <TableHead sx={headStyle}>
+                              <TableRow sx={rowStyle}>
+                                <TableCell align="center">Before</TableCell>
+                                <TableCell align="center">After</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {Array.isArray(item.changes[it]) ? (
+                                <TableRow>
+                                  <TableCell align="center">
+                                    {item.changes[it][0]}
+                                  </TableCell>
+                                  <TableCell align="center">
+                                    {item.changes[it][1]}
+                                  </TableCell>
+                                </TableRow>
+                              ) : null}
+                            </TableBody>
+                          </Table>
+                        ))}
+                      </TableContainer>
+                    </TableCell>
+                  </TableRow>
+                )
+              )
+            )}
           </TableBody>
         </Table>
       </TableContainer>

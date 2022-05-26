@@ -4,7 +4,7 @@ export const statisticsSortTable = [
   {
     id: "username",
     title: "Name",
-    align: "left" as AlignType,
+    align: "center" as AlignType,
   },
   {
     id: "data",
@@ -32,6 +32,6 @@ export const statisticsTable = [
   {
     id: "changes",
     title: "Changes",
-    align: "right" as AlignType,
+    align: "center" as AlignType,
   },
 ];

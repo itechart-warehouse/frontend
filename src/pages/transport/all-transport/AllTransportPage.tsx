@@ -1,3 +1,6 @@
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Typography,
   Container,
@@ -11,11 +14,8 @@ import {
   Paper,
   Grid,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { clearError } from "../../../store/errorSlice";
 import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
+import { clearError } from "../../../store/errorSlice";
 import { truckApi } from "../../../services/truckApi";
 import { Transport } from "./AllTransportPage.types";
 // @ts-ignore
@@ -31,34 +31,20 @@ const backgroundStyle = {
 };
 
 const twinkleBlue = "#e9ecef";
-
-const headStyle = {
-  backgroundColor: twinkleBlue,
-};
-
-const mainContainerStyle = {
-  pt: 3,
-};
-
-const titleStyle = {
-  mb: 3,
-};
-
-const rowStyle = {
-  "&:last-child td, &:last-child th": { border: 0 },
-};
+const headStyle = { backgroundColor: twinkleBlue };
+const mainContainerStyle = { pt: 3 };
+const titleStyle = { mb: 3 };
+const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
 
 function Transports() {
-  const [transports, setTransports] = useState<Transport[]>([]);
+  const [transports, setTransports] = React.useState<Transport[]>([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    truckApi.transports
-      .getAll()
-      .then((response) => {
-        dispatch(clearError());
-        setTransports(response.data);
-      });
+  React.useEffect(() => {
+    truckApi.transports.getAll().then((response) => {
+      dispatch(clearError());
+      setTransports(response.data);
+    });
   }, []);
 
   return (
