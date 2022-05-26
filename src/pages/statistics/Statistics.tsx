@@ -6,6 +6,7 @@ import {
   Box,
   CircularProgress,
   Container,
+  Divider,
   Paper,
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { clientApi } from "../../services/clientApi";
 import { clearError } from "../../store/errorSlice";
 import { RootState } from "../../store";
@@ -32,6 +34,12 @@ const headStyle = { backgroundColor: twinkleBlue };
 const mainContainerStyle = { pt: 3 };
 const titleStyle = { mb: 3 };
 const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
+const rowChangeStyle = {
+  "&:last-child td, &:last-child th": { border: 0 },
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+};
 
 const Statistics = () => {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
@@ -116,7 +124,7 @@ const Statistics = () => {
               stableSort(userLogs, getComparator(order, orderBy)).map(
                 (item) => (
                   <TableRow key={item.id}>
-                    <TableCell align="left">
+                    <TableCell align="center">
                       <Typography variant="body1">{item.username}</Typography>
                     </TableCell>
                     <TableCell align="center">
@@ -131,23 +139,36 @@ const Statistics = () => {
                     <TableCell align="center">
                       <Typography variant="body1">{item.type}</Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center" style={{ width: "50%" }}>
                       <TableContainer component={Paper}>
                         {Object.keys(item.changes).map((it) => (
-                          <Table key={it} aria-label="simple table">
-                            <TableHead sx={headStyle}>
-                              <TableRow sx={rowStyle}>
-                                <TableCell align="center">Before</TableCell>
-                                <TableCell align="center">After</TableCell>
-                              </TableRow>
-                            </TableHead>
+                          <Table
+                            key={it}
+                            aria-label="simple table"
+                            style={{ tableLayout: "fixed" }}
+                          >
                             <TableBody>
                               {Array.isArray(item.changes[it]) ? (
-                                <TableRow>
-                                  <TableCell align="center">
+                                <TableRow sx={rowChangeStyle}>
+                                  <TableCell
+                                    align="center"
+                                    sx={{ flex: "3 0 20px" }}
+                                  >
+                                    {it}
+                                  </TableCell>
+                                  <TableCell
+                                    align="center"
+                                    sx={{ flex: "3 0 20px" }}
+                                  >
                                     {item.changes[it][0]}
                                   </TableCell>
-                                  <TableCell align="center">
+                                  <div style={{ flex: "3 0 20px" }}>
+                                    <ArrowForwardIcon />
+                                  </div>
+                                  <TableCell
+                                    align="center"
+                                    sx={{ flex: "3 0 20px" }}
+                                  >
                                     {item.changes[it][1]}
                                   </TableCell>
                                 </TableRow>
