@@ -73,7 +73,7 @@ function LoginForm() {
         <Grid item xs>
           <Typography>
             {/*TODO add path to recover password and change color definition*/}
-            <Link to="#" style={{ color: "#1976d2" }}>
+            <Link to="/users/password/new" style={{ color: "#1976d2" }}>
               Forgot password?
             </Link>
           </Typography>

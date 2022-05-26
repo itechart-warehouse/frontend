@@ -1,7 +1,8 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import "./App.css";
-//import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
+
+import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -30,6 +31,9 @@ import WarehouseConsignmentsPage from "./pages/consignment/warehouse-all-consign
 import ConsignmentGoodsPage from "./pages/consignment/warehouse-all-consignment/goods/consignment-goods/ConsignmentGoodsPage";
 import CreateReportPage from "./pages/report/create-report/CreateReportPage";
 import ReportsPage from "./pages/report/all-reports/ReportsPage";
+import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
+import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
+import NewPasswordPage from "./pages/new-password/NewPasswordPage";
 import Layout from "./pages/layout/Layout";
 
 function App() {
@@ -103,6 +107,8 @@ function App() {
             <Route path="/*" element={<Navigate to="/" />} />
             {/*// <Route path="/" element={<Layout />}>*/}
             <Route index element={<LoginPage />} />
+            <Route path="users/password/new" element={<RecoverPasswordPage />} />
+            <Route path="users/password/edit" element={<NewPasswordPage />} />
             {/*</Route>*/}
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
