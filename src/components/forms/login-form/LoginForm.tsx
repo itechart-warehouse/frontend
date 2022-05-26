@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../store/loginSlice";
-import { setError } from "../../../store/errorSlice";
+import { clearError, setError } from "../../../store/errorSlice";
 import { Values } from "./LoginForm.types";
 
 const validationSchema = yup.object({
@@ -28,11 +28,10 @@ function LoginForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (user: Values) => {
-      clientApi.userData
-        .login(user)
-        .then((res) => {
-          dispatch(loginUser(res));
-        });
+      clientApi.userData.login(user).then((res) => {
+        dispatch(loginUser(res));
+        dispatch(clearError());
+      });
     },
   });
 
