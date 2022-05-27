@@ -47,7 +47,7 @@ const Statistics = () => {
   const [userLogs, setUserLogs] = React.useState<UserLogs[]>([]);
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof UserLogs>("username");
-  const [actions, setActions] = React.useState([]);
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -67,6 +67,10 @@ const Statistics = () => {
     (property) => (event: React.MouseEvent<unknown>) => {
       handleRequestSort(event, property);
     };
+
+  const generateActionDataForDropdown = () => {
+    return userLogs.map((item) => item.action);
+  };
 
   const handleFilterName = (name) => {
     const filteredData = userLogs.filter((item) => {
@@ -90,6 +94,17 @@ const Statistics = () => {
     setUserLogs(filteredData);
   };
 
+  const handleFilterAction = (action) => {
+    const filteredData = userLogs.filter((item) => {
+      if (item.action === action) {
+        return item;
+      }
+    });
+
+    setUserLogs(filteredData);
+  };
+
+  console.log(userLogs);
   return (
     <Container maxWidth="xl" sx={mainContainerStyle}>
       <div
@@ -107,6 +122,12 @@ const Statistics = () => {
         <FilterBar
           onDateFilter={handleFilterDate}
           onNameFilter={handleFilterName}
+          onActionFilter={handleFilterAction}
+          actions={generateActionDataForDropdown()}
+          // startDate={startDate}
+          // setStartDate={setStartDate}
+          // endDate={endDate}
+          // setEndDate={setEndDate}
         />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
