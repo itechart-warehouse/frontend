@@ -52,7 +52,6 @@ export default function BasicDateRangePicker({
         onDateFilter(value, "from");
         break;
       case "to":
-        onDateFilter(value, "to");
         break;
       default:
         break;
@@ -84,6 +83,7 @@ export default function BasicDateRangePicker({
       <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel id="demo-simple-select-label">Action</InputLabel>
         <Select
+          name="filter_option"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={filters.action}
@@ -98,48 +98,45 @@ export default function BasicDateRangePicker({
         </Select>
       </FormControl>
 
-      {/*<LocalizationProvider dateAdapter={AdapterDateFns} sx={{ mb: 3 }}>*/}
-      {/*  <DatePicker*/}
-      {/*    disableFuture*/}
-      {/*    label="from"*/}
-      {/*    openTo="day"*/}
-      {/*    views={["year", "month", "day"]}*/}
-      {/*    value={startDate}*/}
-      {/*    onChange={(newDate) => {*/}
-      {/*      setStartDate(newDate);*/}
-      {/*      handleInput("from");*/}
-      {/*    }}*/}
-      {/*    renderInput={(params) => <TextField {...params} />}*/}
-      {/*  />*/}
-      {/*  <DatePicker*/}
-      {/*    disableFuture*/}
-      {/*    label="to"*/}
-      {/*    openTo="day"*/}
-      {/*    views={["year", "month", "day"]}*/}
-      {/*    value={endDate}*/}
-      {/*    onChange={(newDate) => setEndDate(newDate)}*/}
-      {/*    renderInput={(params) => <TextField {...params} />}*/}
-      {/*  />*/}
-      {/*</LocalizationProvider>*/}
+      <LocalizationProvider dateAdapter={AdapterDateFns} sx={{ mb: 3 }}>
+        <DatePicker
+          disableFuture
+          label="from"
+          openTo="day"
+          views={["year", "month", "day"]}
+          value={startDate}
+          onChange={(newDate) => setStartDate(newDate)}
+          renderInput={(params) => <TextField {...params} />}
+        />
+        <DatePicker
+          disableFuture
+          label="to"
+          openTo="day"
+          views={["year", "month", "day"]}
+          value={endDate}
+          onChange={(newDate) => setEndDate(newDate)}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
 
-      <div>
-        <label htmlFor="startDate">From</label>
-        <input
-          type="date"
-          className="form-control"
-          id="startDate"
-          onChange={handleInput("from")}
-        />
-      </div>
-      <div>
-        <label htmlFor="endDate">To</label>
-        <input
-          type="date"
-          className="form-control"
-          id="endDate"
-          onChange={handleInput("to")}
-        />
-      </div>
+      {/*<div>*/}
+      {/*  <label htmlFor="startDate">From</label>*/}
+      {/*  <input*/}
+      {/*    type="date"*/}
+      {/*    className="form-control"*/}
+      {/*    id="startDate"*/}
+      {/*    onChange={handleInput("from")}*/}
+      {/*  />*/}
+      {/*</div>*/}
+      {/*<div>*/}
+      {/*  <label htmlFor="endDate">To</label>*/}
+      {/*  <input*/}
+      {/*    type="date"*/}
+      {/*    className="form-control"*/}
+      {/*    id="endDate"*/}
+      {/*    onChange={handleInput("to")}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </div>
   );
 }

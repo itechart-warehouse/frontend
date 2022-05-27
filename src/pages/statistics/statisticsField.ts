@@ -30,7 +30,7 @@ export const statisticsSortTable = [
 
 export const statisticsTable = [
   {
-    id: "changes",
+    id: "сhanges",
     title: "Changes",
     align: "center" as AlignType,
   },
