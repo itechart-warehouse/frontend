@@ -1,61 +1,35 @@
 import * as React from "react";
 import ruLocale from "date-fns/locale/ru";
 import {
+  Button,
   Divider,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import * as dayjs from "dayjs";
 
-export default function BasicDateRangePicker({
-  onDateFilter,
-  onNameFilter,
-  onActionFilter,
-  actions,
-  // startDate,
-  // setStartDate,
-  // endDate,
-  // setEndDate,
-}) {
-  const [filters, setFilters] = React.useState({
-    name: "",
-    action: "",
-    from: "",
-    to: "",
-  });
+export default function BasicDateRangePicker() {
+  const [searchName, setSearchName] = React.useState("");
+  const [actionData, setActionData] = React.useState(null);
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
-  const handleInput = (field) => (event) => {
-    const { value } = event.target;
+  const handlerDataFilters = () => {
+    console.log(searchName, actionData, startDate, endDate);
+  };
 
-    setFilters({
-      ...filters,
-      [field]: value,
-    });
-
-    switch (field) {
-      case "name":
-        onNameFilter(value);
-        break;
-      case "action":
-        onActionFilter(value);
-        break;
-      case "from":
-        onDateFilter(value, "from");
-        break;
-      case "to":
-        break;
-      default:
-        break;
-    }
+  const handleClearData = () => {
+    setSearchName("");
+    setActionData(null);
+    setStartDate(new Date());
+    setEndDate(null);
   };
 
   return (
@@ -72,11 +46,13 @@ export default function BasicDateRangePicker({
 
       <TextField
         fullWidth
-        id="name"
-        name="name"
+        id="search_name"
+        name="search_name"
         label="Name"
-        value={filters.name}
-        onChange={handleInput("name")}
+        value={searchName}
+        onChange={(event) => {
+          setSearchName(event.target.value);
+        }}
         sx={{ mb: 3 }}
       />
 
@@ -86,15 +62,13 @@ export default function BasicDateRangePicker({
           name="filter_option"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={filters.action}
+          value={actionData}
           label="Action"
-          onChange={handleInput("action")}
+          onChange={(event) => setActionData(event.target.value as string)}
         >
-          {actions.map((action) => (
-            <MenuItem value={action} key={action.id}>
-              {action}
-            </MenuItem>
-          ))}
+          <MenuItem value="create">create</MenuItem>
+          <MenuItem value="update">update</MenuItem>
+          <MenuItem value="delete">delete</MenuItem>
         </Select>
       </FormControl>
 
@@ -119,24 +93,19 @@ export default function BasicDateRangePicker({
         />
       </LocalizationProvider>
 
-      {/*<div>*/}
-      {/*  <label htmlFor="startDate">From</label>*/}
-      {/*  <input*/}
-      {/*    type="date"*/}
-      {/*    className="form-control"*/}
-      {/*    id="startDate"*/}
-      {/*    onChange={handleInput("from")}*/}
-      {/*  />*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*  <label htmlFor="endDate">To</label>*/}
-      {/*  <input*/}
-      {/*    type="date"*/}
-      {/*    className="form-control"*/}
-      {/*    id="endDate"*/}
-      {/*    onChange={handleInput("to")}*/}
-      {/*  />*/}
-      {/*</div>*/}
+      <Stack direction="row" spacing={2}>
+        <Button
+          variant="outlined"
+          color="error"
+          name="filter_option"
+          onClick={handleClearData}
+        >
+          Cancel
+        </Button>
+        <Button variant="outlined" color="success" onClick={handlerDataFilters}>
+          Apply
+        </Button>
+      </Stack>
     </div>
   );
 }

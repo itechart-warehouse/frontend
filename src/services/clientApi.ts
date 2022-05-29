@@ -367,7 +367,7 @@ function initClientApi() {
     statistics: {
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/statistics`, { headers: { authorization: jwt } }),
-      updateData: () => axios.post(`${baseUrl}/statistics`, { statistics: {} }),
+      updateData: () => axios.post(`${baseUrl}/statistics`),
     },
   };
 }
