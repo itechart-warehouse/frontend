@@ -1,6 +1,7 @@
 export interface errorData {
   response: {
     data: {
+      warehouse_errors: [];
       company_errors: [];
       user_errors: [];
     };

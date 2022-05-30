@@ -54,7 +54,6 @@ function CreateReportForm() {
   const { id } = useParams();
   const isMounted = useMount();
 
-
   const routeConsignmentCard = () => {
     navigate(`/warehouse-consignments/${id}`);
   };
@@ -74,37 +73,37 @@ function CreateReportForm() {
     initialValues,
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (data: Values) => {
+    onSubmit: (data: Values, { resetForm }) => {
       clientApi.report
         .create(id, jwt, data)
         .then((response) => {
           dispatch(clearError());
           routeConsignmentCard();
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
         });
       console.log(data);
     },
   });
 
   useEffect(() => {
-    clientApi.goods
-      .getByConsignmentId(id, jwt)
-      .then((response) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setGoods(response.data.goods);
-        }
-      });
+    clientApi.goods.getByConsignmentId(id, jwt).then((response) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setGoods(response.data.goods);
+      }
+    });
   }, []);
 
   useEffect(() => {
-    clientApi.report
-      .getListOfTypes(id, jwt)
-      .then((response) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setReportTypes(response.data.ReportTypes);
-        }
-      });
+    clientApi.report.getListOfTypes(id, jwt).then((response) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setReportTypes(response.data.ReportTypes);
+      }
+    });
   }, [id]);
 
   return (

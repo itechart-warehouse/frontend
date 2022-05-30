@@ -25,7 +25,7 @@ function errorHandler(err: errorData) {
   if (err.response) {
     err.response.status === 500 || err.response.status === 401
       ? store.dispatch(setError([err.response.data]))
-      : store.dispatch(setError(["Invalid Data"]));
+      : store.dispatch(setError([err.response.data]));
   } else if (err.request) {
     store.dispatch(setError(["Server is not working"]));
     console.log("request", err.request);
@@ -47,7 +47,9 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       logout: (jwt: string) =>
         axios
-          .delete(`${baseUrl}/users/sign_out`, { headers: { authorization: jwt } })
+          .delete(`${baseUrl}/users/sign_out`, {
+            headers: { authorization: jwt },
+          })
           .catch((err) => errorHandler(err)),
     },
     recoverData: {
@@ -62,9 +64,9 @@ function initClientApi() {
           .put(`${baseUrl}/users/password`, {
             password: credentials.password,
             password_confirmation: credentials.password_confirmation,
-            reset_password_token: credentials.reset_password_token
+            reset_password_token: credentials.reset_password_token,
           })
-          .catch((err) => errorHandler(err))
+          .catch((err) => errorHandler(err)),
     },
     company: {
       create: (companyCredentials: companyFullData, jwt: string) =>
