@@ -45,8 +45,7 @@ function Consignments() {
   const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
-    truckApi.consignment
-      .getAll()
+    truckApi.consignment.getByPage(page,rowsPerPage.toString())
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
@@ -57,14 +56,14 @@ function Consignments() {
   }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    truckApi.consignment.getByPage(newPage).then((response)=>{
-      setConsignments(response.data);
+    truckApi.consignment.getByPage(newPage,rowsPerPage.toString()).then((response)=>{
+      setConsignments(JSON.parse(response.data.consignments));
       setPage(newPage);
     })
   }
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     truckApi.consignment.getByPage(0,event.target.value).then((response)=>{
-      setConsignments(response.data);
+      setConsignments(JSON.parse(response.data.consignments));
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     })

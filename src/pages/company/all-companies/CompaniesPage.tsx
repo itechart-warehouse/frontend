@@ -73,13 +73,13 @@ function Companies() {
   };
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.company.getByPage(jwt,newPage,rowsPerPage.toString()).then((response)=>{
-      setCompanies(response.data.companies);
+      setCompanies(response.data.companies)
       setPage(newPage);
     })
   }
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     clientApi.company.getByPage(jwt,0,event.target.value).then((response)=>{
-      setCompanies(response.data.companies);
+      setCompanies(response.data.companies)
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     })

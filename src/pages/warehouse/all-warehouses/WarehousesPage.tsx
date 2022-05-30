@@ -57,20 +57,17 @@ function Warehouses() {
   }, []);
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.warehouse.getByPage(jwt,newPage,rowsPerPage.toString(),id).then((response)=>{
-
-      setWarehouses(response.data.warehouses.warehouses);
+      setWarehouses(JSON.parse(response.data.warehouses));
       setPage(newPage);
     })
   }
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     clientApi.warehouse.getAllByCompanyId(id, jwt).then((response)=>{
-
-      setWarehouses(response.data.warehouses);
+      setWarehouses(JSON.parse(response.data.warehouses));
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     })
   };
-
   const navigate = useNavigate();
   const routeCreateWarehouse = () => {
     navigate("create");
