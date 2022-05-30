@@ -98,10 +98,7 @@ function Companies() {
           >
             Create new company
           </Button>
-        ) : (
-          ""
-        )}
-
+        ) : ( "" )}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>
