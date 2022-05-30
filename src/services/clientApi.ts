@@ -12,9 +12,11 @@ import {
   goodsFullData,
   report,
   errorData,
+  userFilterData,
 } from "./clientApi.types";
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
+import { filterData } from "../pages/statistics/filterBar.type";
 
 // const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
@@ -367,7 +369,10 @@ function initClientApi() {
     statistics: {
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/statistics`, { headers: { authorization: jwt } }),
-      updateData: () => axios.post(`${baseUrl}/statistics`),
+      dataFilter: (filters: any, jwt: string) =>
+        axios.get(`${baseUrl}/statistics?${filters.name}&${filters.action}`, {
+          headers: { authorization: jwt },
+        }),
     },
   };
 }

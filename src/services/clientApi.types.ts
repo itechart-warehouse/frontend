@@ -125,6 +125,5 @@ export interface report {
 }
 
 export interface userFilterData {
-  firstName: string;
-  lastName: string;
+  search_name: string;
 }
