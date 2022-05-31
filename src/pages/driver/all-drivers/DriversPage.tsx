@@ -60,8 +60,7 @@ function Drivers() {
 
 
   useEffect(() => {
-    truckApi.driver
-      .getAll()
+    truckApi.driver.getByPage(page,rowsPerPage.toString())
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
