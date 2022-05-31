@@ -129,7 +129,6 @@ function initClientApi() {
             {
               user: {
                 email: userCredentials.userEmail,
-                password: userCredentials.userPassword,
                 first_name: userCredentials.firstName,
                 last_name: userCredentials.lastName,
                 birth_date: userCredentials.birthDate,
