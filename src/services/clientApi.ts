@@ -16,7 +16,7 @@ import {
 } from "./clientApi.types";
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
-import { filterData } from "../pages/statistics/filterBar.type";
+import { filterData } from "../pages/statistics/type/filterBar.type";
 
 // const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
@@ -369,10 +369,13 @@ function initClientApi() {
     statistics: {
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/statistics`, { headers: { authorization: jwt } }),
-      dataFilter: (filters: any, jwt: string) =>
-        axios.get(`${baseUrl}/statistics?${filters.name}&${filters.action}`, {
-          headers: { authorization: jwt },
-        }),
+      dataFilter: (filters: any, startDate: Date, endDate: Date, jwt: string) =>
+        axios.get(
+          `${baseUrl}/statistics?${filters.username}&${filters.action}&${startDate}&${endDate}`,
+          {
+            headers: { authorization: jwt },
+          }
+        ),
     },
   };
 }

@@ -1,4 +1,4 @@
-import { UserLogs } from "./statistics.type";
+import { UserLogs } from "../type/statistics.type";
 
 export type Order = "asc" | "desc";
 

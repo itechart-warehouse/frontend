@@ -13,25 +13,24 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { clientApi } from "../../services/clientApi";
-import { useNavigate } from "react-router-dom";
-import { filterData } from "./filterBar.type";
+import useDebounce from "./hook/useDebounce";
 
-export default function BasicDateRangePicker({ jwt, setUserLogs }) {
+export default function BasicDateRangePicker({ jwt }) {
   const [searchName, setSearchName] = React.useState("");
   const [actionData, setActionData] = React.useState(null);
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   const [endDate, setEndDate] = React.useState<Date | null>(null);
   const [filters, setFilters] = React.useState({
-    name: searchName,
+    username: searchName,
     action: actionData,
-    start_date: startDate,
-    end_date: endDate,
   });
-  const navigate = useNavigate();
+  const debouncedValue = useDebounce<string>(searchName, 500);
 
   React.useEffect(() => {
-    clientApi.statistics.dataFilter(filters, jwt);
-  }, [filters]);
+    if (debouncedValue) {
+      clientApi.statistics.dataFilter(filters, startDate, endDate, jwt).then();
+    }
+  }, [debouncedValue]);
 
   const handleInput = (field) => (event) => {
     const { value } = event.target;
@@ -42,25 +41,15 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
     });
 
     switch (field) {
-      case "name":
+      case "username":
         setSearchName(value);
         break;
       case "action":
         setActionData(value);
         break;
-      case "start_date":
-        setStartDate(value);
-        break;
-      case "end_date":
-        setEndDate(value);
-        break;
       default:
         break;
     }
-  };
-
-  const routeStatisticsList = () => {
-    navigate("/statistics");
   };
 
   const handleClearData = () => {
@@ -84,11 +73,11 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
 
       <TextField
         fullWidth
-        id="search_name"
-        name="search_name"
+        id="username"
+        name="username"
         label="Name"
-        value={filters.name}
-        onChange={handleInput("name")}
+        value={filters.username}
+        onChange={handleInput("username")}
         sx={{ mb: 3 }}
       />
 
@@ -111,20 +100,22 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
       <LocalizationProvider dateAdapter={AdapterDateFns} sx={{ mb: 3 }}>
         <DatePicker
           disableFuture
-          label="start_date"
+          label="from"
           openTo="day"
           views={["year", "month", "day"]}
-          value={filters.start_date}
-          onChange={handleInput("start_date")}
-          renderInput={(params) => <TextField {...params} />}
+          value={startDate}
+          onChange={(newDate) => setStartDate(newDate)}
+          renderInput={(params) => (
+            <TextField {...params} onChange={handleInput("from")} />
+          )}
         />
         <DatePicker
           disableFuture
-          label="end_date"
+          label="to"
           openTo="day"
           views={["year", "month", "day"]}
-          value={filters.end_date}
-          onChange={handleInput("end_date")}
+          value={endDate}
+          onChange={(newDate) => setEndDate(newDate)}
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>

@@ -22,9 +22,9 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { clientApi } from "../../services/clientApi";
 import { clearError } from "../../store/errorSlice";
 import { RootState } from "../../store";
-import { UserLogs } from "./statistics.type";
-import { statisticsSortTable, statisticsTable } from "./statisticsField";
-import { getComparator, Order, stableSort } from "./stableSort";
+import { UserLogs } from "./type/statistics.type";
+import { statisticsSortTable, statisticsTable } from "./utils/statisticsField";
+import { getComparator, Order, stableSort } from "./utils/stableSort";
 import FilterBar from "./FilterBar";
 
 dayjs.extend(isSameOrAfter);
@@ -68,42 +68,6 @@ const Statistics = () => {
       handleRequestSort(event, property);
     };
 
-  // const generateActionDataForDropdown = () => {
-  //   return userLogs.map((item) => item.action);
-  // };
-  //
-  // const handleFilterName = (name) => {
-  //   const filteredData = userLogs.filter((item) => {
-  //     const fullName = `${item.username}`;
-  //     if (fullName.toLowerCase().includes(name.toLowerCase())) {
-  //       return item;
-  //     }
-  //   });
-  //   setUserLogs(filteredData);
-  // };
-  //
-  // const handleFilterDate = (date, field) => {
-  //   const filteredData = userLogs.filter((item) => {
-  //     if (field === "from" && dayjs(item.data).isSameOrAfter(dayjs(date))) {
-  //       return item;
-  //     } else {
-  //       if (field === "to" && dayjs(item.data).isSameOrBefore(dayjs(date)))
-  //         return item;
-  //     }
-  //   });
-  //   setUserLogs(filteredData);
-  // };
-  //
-  // const handleFilterAction = (action) => {
-  //   const filteredData = userLogs.filter((item) => {
-  //     if (item.action === action) {
-  //       return item;
-  //     }
-  //   });
-  //
-  //   setUserLogs(filteredData);
-  // };
-
   return (
     <Container maxWidth="xl" sx={mainContainerStyle}>
       <div
@@ -118,7 +82,7 @@ const Statistics = () => {
         </Typography>
       </div>
       <div style={{ display: "flex", columnGap: "30px" }}>
-        <FilterBar jwt={jwt} setUserLogs={setUserLogs} />
+        <FilterBar jwt={jwt} />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>
