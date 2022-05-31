@@ -21,16 +21,14 @@ export default function BasicDateRangePicker({ jwt }) {
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   const [endDate, setEndDate] = React.useState<Date | null>(null);
   const [filters, setFilters] = React.useState({
-    username: searchName,
+    name: searchName,
     action: actionData,
   });
   const debouncedValue = useDebounce<string>(searchName, 500);
 
   React.useEffect(() => {
-    if (debouncedValue) {
-      clientApi.statistics.dataFilter(filters, startDate, endDate, jwt).then();
-    }
-  }, [debouncedValue]);
+    clientApi.statistics.dataFilter(filters, startDate, endDate, jwt).then();
+  }, [filters, startDate, endDate]);
 
   const handleInput = (field) => (event) => {
     const { value } = event.target;
@@ -41,7 +39,7 @@ export default function BasicDateRangePicker({ jwt }) {
     });
 
     switch (field) {
-      case "username":
+      case "name":
         setSearchName(value);
         break;
       case "action":
@@ -73,11 +71,11 @@ export default function BasicDateRangePicker({ jwt }) {
 
       <TextField
         fullWidth
-        id="username"
-        name="username"
+        id="name"
+        name="name"
         label="Name"
-        value={filters.username}
-        onChange={handleInput("username")}
+        value={filters.name}
+        onChange={handleInput("name")}
         sx={{ mb: 3 }}
       />
 
