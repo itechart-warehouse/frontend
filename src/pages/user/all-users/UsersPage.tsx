@@ -40,6 +40,7 @@ const rowStyle = {
 
 function Users() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const [users, setUsers] = useState<User[]>([]);
   const dispatch = useDispatch();
 
@@ -63,9 +64,13 @@ function Users() {
         <Typography variant="h2" sx={titleStyle}>
           Users listing
         </Typography>
-        <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
-          Create new user
-        </Button>
+        {role === "Warehouse admin" ? (
+          <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
+            Create new user
+          </Button>
+        ) : (
+          ""
+        )}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>
