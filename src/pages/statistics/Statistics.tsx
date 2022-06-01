@@ -82,7 +82,7 @@ const Statistics = () => {
         </Typography>
       </div>
       <div style={{ display: "flex", columnGap: "30px" }}>
-        <FilterBar jwt={jwt} />
+        <FilterBar jwt={jwt} setUserLogs={setUserLogs} />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

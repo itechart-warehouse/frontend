@@ -13,21 +13,22 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { clientApi } from "../../services/clientApi";
-import useDebounce from "./hook/useDebounce";
 
-export default function BasicDateRangePicker({ jwt }) {
+export default function BasicDateRangePicker({ jwt, setUserLogs }) {
   const [searchName, setSearchName] = React.useState("");
-  const [actionData, setActionData] = React.useState(null);
+  const [actionData, setActionData] = React.useState("");
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   const [endDate, setEndDate] = React.useState<Date | null>(null);
   const [filters, setFilters] = React.useState({
     name: searchName,
     action: actionData,
   });
-  const debouncedValue = useDebounce<string>(searchName, 500);
 
   React.useEffect(() => {
-    clientApi.statistics.dataFilter(filters, startDate, endDate, jwt).then();
+    if (searchName.length > 3 || actionData !== "" || endDate !== null)
+      clientApi.statistics
+        .dataFilter(filters, startDate, endDate, jwt)
+        .then((res) => setUserLogs(res.data.warehouse_audits));
   }, [filters, startDate, endDate]);
 
   const handleInput = (field) => (event) => {
@@ -48,13 +49,6 @@ export default function BasicDateRangePicker({ jwt }) {
       default:
         break;
     }
-  };
-
-  const handleClearData = () => {
-    setSearchName("");
-    setActionData(null);
-    setStartDate(new Date());
-    setEndDate(null);
   };
 
   return (
@@ -91,7 +85,6 @@ export default function BasicDateRangePicker({ jwt }) {
         >
           <MenuItem value="create">create</MenuItem>
           <MenuItem value="update">update</MenuItem>
-          <MenuItem value="delete">delete</MenuItem>
         </Select>
       </FormControl>
 
@@ -118,11 +111,9 @@ export default function BasicDateRangePicker({ jwt }) {
         />
       </LocalizationProvider>
 
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" color="error" onClick={handleClearData}>
-          Cancel
-        </Button>
-      </Stack>
+      {/*<Button variant="outlined" color="error" onClick={handleClearData}>*/}
+      {/*  Cancel*/}
+      {/*</Button>*/}
     </div>
   );
 }
