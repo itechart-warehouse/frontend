@@ -369,9 +369,14 @@ function initClientApi() {
     statistics: {
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/statistics`, { headers: { authorization: jwt } }),
-      dataFilter: (filters: any, startDate: Date, endDate: Date, jwt: string) =>
+      dataFilter: (
+        filters: any,
+        startDate: string,
+        endDate: string,
+        jwt: string
+      ) =>
         axios.get(
-          `${baseUrl}/statistics?name=${filters.name}&actions=${filters.action}&startDate=${startDate}&endDate=${endDate}`,
+          `${baseUrl}/statistics?name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
           {
             headers: { authorization: jwt },
           }

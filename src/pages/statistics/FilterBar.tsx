@@ -27,7 +27,7 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
   React.useEffect(() => {
     if (searchName.length > 3 || actionData !== "" || endDate !== null)
       clientApi.statistics
-        .dataFilter(filters, startDate, endDate, jwt)
+        .dataFilter(filters, String(startDate), String(endDate), jwt)
         .then((res) => setUserLogs(res.data.warehouse_audits));
   }, [filters, startDate, endDate]);
 
@@ -111,9 +111,9 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
         />
       </LocalizationProvider>
 
-      {/*<Button variant="outlined" color="error" onClick={handleClearData}>*/}
-      {/*  Cancel*/}
-      {/*</Button>*/}
+      <Button variant="outlined" color="error">
+        Cancel
+      </Button>
     </div>
   );
 }
