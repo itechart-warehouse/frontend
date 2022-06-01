@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as dayjs from "dayjs";
-import * as isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import * as isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+
 import {
   Box,
   CircularProgress,
@@ -26,9 +24,6 @@ import { UserLogs } from "./type/statistics.type";
 import { statisticsSortTable, statisticsTable } from "./utils/statisticsField";
 import { getComparator, Order, stableSort } from "./utils/stableSort";
 import FilterBar from "./FilterBar";
-
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
 
 const twinkleBlue = "#e9ecef";
 const headStyle = { backgroundColor: twinkleBlue };
