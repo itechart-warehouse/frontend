@@ -6,7 +6,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -14,25 +13,27 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { clientApi } from "../../services/clientApi";
 import { clearError } from "../../store/errorSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function BasicDateRangePicker({ jwt, setUserLogs }) {
   const dispatch = useDispatch();
   const [searchName, setSearchName] = React.useState("");
   const [actionData, setActionData] = React.useState("");
-  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
-  const [endDate, setEndDate] = React.useState<Date | null>(null);
+  const [startDate, setStartDate] = React.useState<Date | string>("");
+  const [endDate, setEndDate] = React.useState<Date | string>(new Date());
   const [filters, setFilters] = React.useState({
     name: searchName,
     action: actionData,
   });
 
   React.useEffect(() => {
-    if (searchName.length > 3 || actionData !== "" || endDate !== null)
+    if (searchName.length > 3 || actionData !== "" || startDate !== null)
       clientApi.statistics
         .dataFilter(filters, String(startDate), String(endDate), jwt)
         .then((res) => {
           setUserLogs(res.data.warehouse_audits);
           dispatch(clearError());
+          routeStatisticsList();
         });
   }, [filters, startDate, endDate]);
 
@@ -56,15 +57,17 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
     }
   };
 
+  const navigate = useNavigate();
+  const routeStatisticsList = () => {
+    navigate("/statistics");
+  };
+
   const handlerCancelBtn = () => {
-    clientApi.statistics.getAll(jwt).then((response) => {
-      dispatch(clearError());
-      setUserLogs(response.data.warehouse_audits);
-    });
     filters.name = "";
     filters.action = "";
-    setStartDate(new Date());
-    setEndDate(null);
+    setEndDate(new Date());
+    setStartDate(String(""));
+    routeStatisticsList();
   };
 
   return (
@@ -79,8 +82,6 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
         marginBottom: "20px",
       }}
     >
-      <Typography variant="h6">Filters</Typography>
-
       <TextField
         id="name"
         name="name"
