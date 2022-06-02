@@ -303,7 +303,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string,status='') =>
         axios
-          .get(`${baseUrl}/warehouse-consignments?status=${status}`, {
+          .get(`${baseUrl}/warehouse-consignments`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
