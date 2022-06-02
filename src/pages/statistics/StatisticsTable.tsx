@@ -3,7 +3,6 @@ import {
   Box,
   CircularProgress,
   Paper,
-  styled,
   Table,
   TableBody,
   TableCell,
@@ -13,69 +12,20 @@ import {
   TableSortLabel,
   Typography,
 } from "@mui/material";
-import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from "@mui/material/AccordionSummary";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import { getComparator, Order, stableSort } from "./utils/stableSort";
 import { StatisticsType, UserLogs } from "./type/statistics.type";
 import { statisticsSortTable, statisticsTable } from "./utils/statisticsField";
 import { visuallyHidden } from "@mui/utils";
+import StatisticsAccordion from "./StatisticsAccordion";
 
 const twinkleBlue = "#e9ecef";
 const headStyle = { backgroundColor: twinkleBlue };
 const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
-const rowChangeStyle = {
-  "&:last-child td, &:last-child th": { border: 0 },
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
-const Accordion = styled((props: AccordionProps) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-}));
-
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark"
-      ? "rgba(255, 255, 255, .05)"
-      : "rgba(0, 0, 0, .03)",
-  flexDirection: "row-reverse",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
-}));
 
 const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
   const { userLogs } = props;
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof UserLogs>("username");
-  const [expanded, setExpanded] = React.useState<string | false>(null);
 
   const handleRequestSort = (event, property: keyof UserLogs) => {
     const isAsc = orderBy === property && order === "asc";
@@ -86,11 +36,6 @@ const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
   const createSortHandler =
     (property) => (event: React.MouseEvent<unknown>) => {
       handleRequestSort(event, property);
-    };
-
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
     };
 
   return (
@@ -153,54 +98,7 @@ const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
                   <Typography variant="body1">{item.type}</Typography>
                 </TableCell>
                 <TableCell align="center" style={{ width: "45%" }}>
-                  <Accordion>
-                    <AccordionSummary
-                      aria-controls="panel1d-content"
-                      id="panel1d-header"
-                    >
-                      <Typography>Details</Typography>
-                    </AccordionSummary>
-                    {Object.keys(item.changes).map((it) => (
-                      <AccordionDetails key={it}>
-                        <Typography>
-                          <TableContainer>
-                            <Table>
-                              <TableBody>
-                                {Array.isArray(item.changes[it]) ? (
-                                  <TableRow sx={rowChangeStyle}>
-                                    <TableCell
-                                      align="center"
-                                      sx={{ flex: "3 0 20px" }}
-                                    >
-                                      {it}
-                                    </TableCell>
-                                    <TableCell
-                                      align="center"
-                                      sx={{ flex: "3 0 20px" }}
-                                    >
-                                      {item.changes[it][0]}
-                                    </TableCell>
-                                    <TableCell
-                                      align="center"
-                                      sx={{ flex: "3 0 20px" }}
-                                    >
-                                      <ArrowForwardIcon />
-                                    </TableCell>
-                                    <TableCell
-                                      align="center"
-                                      sx={{ flex: "3 0 20px" }}
-                                    >
-                                      {item.changes[it][1]}
-                                    </TableCell>
-                                  </TableRow>
-                                ) : null}
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </Typography>
-                      </AccordionDetails>
-                    ))}
-                  </Accordion>
+                  <StatisticsAccordion item={item} />
                 </TableCell>
               </TableRow>
             ))

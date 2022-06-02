@@ -12,3 +12,7 @@ export interface UserLogs {
 export type StatisticsType = {
   userLogs: UserLogs[];
 };
+
+export type StatAccordion = {
+  item: UserLogs;
+};
