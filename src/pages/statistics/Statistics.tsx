@@ -6,7 +6,7 @@ import { clearError } from "../../store/errorSlice";
 import { RootState } from "../../store";
 import { UserLogs } from "./type/statistics.type";
 import FilterBar from "./FilterBar";
-import StatisticsTable from "./StatisticsTableBody";
+import StatisticsTable from "./StatisticsTable";
 
 const mainContainerStyle = { pt: 3 };
 const titleStyle = { mb: 3 };
