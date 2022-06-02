@@ -8,3 +8,7 @@ export interface UserLogs {
   changes: {};
   type: string;
 }
+
+export type StatisticsType = {
+  userLogs: UserLogs[];
+};

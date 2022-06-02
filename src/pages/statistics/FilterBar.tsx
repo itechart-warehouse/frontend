@@ -5,7 +5,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -13,8 +12,11 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { clientApi } from "../../services/clientApi";
+import { clearError } from "../../store/errorSlice";
+import { useDispatch } from "react-redux";
 
 export default function BasicDateRangePicker({ jwt, setUserLogs }) {
+  const dispatch = useDispatch();
   const [searchName, setSearchName] = React.useState("");
   const [actionData, setActionData] = React.useState("");
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
@@ -28,7 +30,10 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
     if (searchName.length > 3 || actionData !== "" || endDate !== null)
       clientApi.statistics
         .dataFilter(filters, String(startDate), String(endDate), jwt)
-        .then((res) => setUserLogs(res.data.warehouse_audits));
+        .then((res) => {
+          setUserLogs(res.data.warehouse_audits);
+          dispatch(clearError());
+        });
   }, [filters, startDate, endDate]);
 
   const handleInput = (field) => (event) => {
@@ -51,29 +56,40 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
     }
   };
 
+  const handlerCancelBtn = () => {
+    clientApi.statistics.getAll(jwt).then((response) => {
+      dispatch(clearError());
+      setUserLogs(response.data.warehouse_audits);
+    });
+    filters.name = "";
+    filters.action = "";
+    setStartDate(new Date());
+    setEndDate(null);
+  };
+
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
         columnGap: "10px",
         rowGap: "10px",
+        marginBottom: "20px",
       }}
     >
       <Typography variant="h6">Filters</Typography>
 
       <TextField
-        fullWidth
         id="name"
         name="name"
         label="Name"
         value={filters.name}
         onChange={handleInput("name")}
-        sx={{ mb: 3 }}
       />
 
-      <FormControl fullWidth sx={{ mb: 3 }}>
+      <FormControl sx={{ width: "15%" }}>
         <InputLabel id="demo-simple-select-label">Action</InputLabel>
         <Select
           name="action"
@@ -88,7 +104,10 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
         </Select>
       </FormControl>
 
-      <LocalizationProvider dateAdapter={AdapterDateFns} sx={{ mb: 3 }}>
+      <LocalizationProvider
+        dateAdapter={AdapterDateFns}
+        sx={{ display: "flex", alignItems: "center", mb: 3 }}
+      >
         <DatePicker
           disableFuture
           label="from"
@@ -96,9 +115,7 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
           views={["year", "month", "day"]}
           value={startDate}
           onChange={(newDate) => setStartDate(newDate)}
-          renderInput={(params) => (
-            <TextField {...params} onChange={handleInput("from")} />
-          )}
+          renderInput={(params) => <TextField {...params} />}
         />
         <DatePicker
           disableFuture
@@ -111,7 +128,13 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
         />
       </LocalizationProvider>
 
-      <Button variant="outlined" color="error">
+      <Button
+        variant="outlined"
+        color="error"
+        sx={{ height: "56px" }}
+        size="large"
+        onClick={handlerCancelBtn}
+      >
         Cancel
       </Button>
     </div>
