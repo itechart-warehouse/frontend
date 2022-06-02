@@ -89,7 +89,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios
-          .get(`${baseUrl}/company`, { headers: { authorization: jwt } })
+          .get(`${baseUrl}/companies`, { headers: { authorization: jwt } })
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios

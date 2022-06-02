@@ -58,8 +58,8 @@ function CheckedWarehouseConsignments() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment
-      .getAll(jwt,'Checked')
+    clientApi.warehouseConsignment
+      .getByPage(jwt,'Checked',page,rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);

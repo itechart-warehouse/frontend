@@ -58,8 +58,8 @@ function PlacedWarehouseConsignments() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment
-      .getAll(jwt,'Placed')
+    clientApi.warehouseConsignment
+      .getByPage(jwt,'Placed',page,rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);

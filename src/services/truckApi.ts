@@ -24,12 +24,6 @@ function errorHandler(err: errorData) {
 function initTruckApi() {
   return {
     driver: {
-      getAll: () =>
-        axios
-          .get(`${baseUrl}/drivers.json`, {
-            headers: { authorization: token },
-          })
-          .catch((err) => errorHandler(err)),
         getByPage:  (page:number,perPage='') =>
             axios
                 .get(`${baseUrl}/drivers?page=${page}&per_page=${perPage}`, {
@@ -44,12 +38,6 @@ function initTruckApi() {
                     headers: { authorization: token },
                 } )
                 .catch((err) => errorHandler(err)),
-      getAll: () =>
-        axios
-          .get(`${baseUrl}/consignments`, {
-            headers: { authorization: token },
-          })
-          .catch((err) => errorHandler(err)),
       getById: (id: any) =>
         axios
           .get(`${baseUrl}/consignments/${id}`, {
@@ -58,12 +46,6 @@ function initTruckApi() {
           .catch((err) => errorHandler(err)),
     },
     transports: {
-      getAll: () =>
-        axios
-          .get(`${baseUrl}/trucks.json`, {
-            headers: { authorization: token },
-          })
-          .catch((err) => errorHandler(err)),
         getByPage:  (page:number,perPage='') =>
             axios
                 .get(`${baseUrl}/trucks?page=${page}&per_page=${perPage}`, {

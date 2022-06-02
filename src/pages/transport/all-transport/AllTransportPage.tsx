@@ -57,7 +57,7 @@ function Transports() {
 
   useEffect(() => {
     truckApi.transports
-      .getAll()
+      .getByPage(page,rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
         console.log(response.data.trucks)

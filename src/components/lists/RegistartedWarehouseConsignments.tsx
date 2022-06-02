@@ -59,8 +59,8 @@ function RegistartedWarehouseConsignments() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment
-      .getAll(jwt,'Registered')
+    clientApi.warehouseConsignment
+      .getByPage(jwt,'Registered',page,rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);

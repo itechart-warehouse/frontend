@@ -62,7 +62,7 @@ function CheckedWarehouseConsignments() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment.getAll(jwt,'Checked before shipment').then((response) => {
+    clientApi.warehouseConsignment.getByPage(jwt,'Checked before shipment',page,rowsPerPage.toString()).then((response) => {
       dispatch(clearError());
       setConsignments(response.data.consignments);
       setConsCount(response.data.consignment_count)
