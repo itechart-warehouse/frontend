@@ -44,8 +44,9 @@ function LoginPage() {
           alt="Login"
           src={Login}
         />
-
-        <Grid item>
+        <Grid item
+        sx={{ width: 570 }}
+        >
           {/*<Typography*/}
           {/*  variant="h2"*/}
           {/*  component="div"*/}

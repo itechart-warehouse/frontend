@@ -21,10 +21,6 @@ const validationSchema = yup.object({
     .string()
     .email("Enter a valid email")
     .required("Email is required"),
-  userPassword: yup
-    .string()
-    .min(8, "Too short. Minimum 8 characters")
-    .required("Password is required"),
   firstName: yup
     .string()
     .min(3, "Too short. Minimum 3 characters")
@@ -65,7 +61,6 @@ function CreateUserForm() {
   const formik = useFormik({
     initialValues: {
       userEmail: "",
-      userPassword: "",
       firstName: "",
       lastName: "",
       birthDate: "",
@@ -102,6 +97,7 @@ function CreateUserForm() {
       />
       <TextField
         fullWidth
+
         id="userPassword"
         name="userPassword"
         label="User Password"

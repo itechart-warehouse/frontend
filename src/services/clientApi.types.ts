@@ -49,7 +49,6 @@ export interface companyData {
 
 export interface userFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;
