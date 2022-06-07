@@ -68,7 +68,6 @@ export default function ConsignmentCard() {
       .then((res) => {
         if (isMounted()) {
           setConsignment(res.data);
-          console.log("consignment", res.data);
           dispatch(clearError());
           setIsLoaded(true);
         }
