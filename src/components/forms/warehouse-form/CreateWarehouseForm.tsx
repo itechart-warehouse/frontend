@@ -74,12 +74,16 @@ function CreateWarehouseForm() {
       active: true,
     },
     validationSchema: validationSchema,
-    onSubmit: (data: Values) => {
+    onSubmit: (data: Values, { resetForm }) => {
       clientApi.warehouse
         .create(data, id, jwt)
         .then(() => {
           dispatch(clearError());
           routeWarehouseList();
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
         });
     },
   });

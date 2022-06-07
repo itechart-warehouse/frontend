@@ -69,11 +69,17 @@ function CreateUserForm() {
       role_id: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (data: Values) => {
-      clientApi.user.create(data, jwt).then(() => {
-        dispatch(clearError());
-        routeUsersList();
-      });
+    onSubmit: (data: Values, { resetForm }) => {
+      clientApi.user
+        .create(data, jwt)
+        .then(() => {
+          dispatch(clearError());
+          routeUsersList();
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
+        });
     },
   });
   return (
@@ -83,10 +89,25 @@ function CreateUserForm() {
         id="userEmail"
         name="userEmail"
         label="User Email"
-        value={formik.values.userEmail}
+        value={formik.values.userEmail || ""}
         onChange={formik.handleChange}
         error={formik.touched.userEmail && Boolean(formik.errors.userEmail)}
         helperText={formik.touched.userEmail && formik.errors.userEmail}
+        sx={{ mb: 3 }}
+      />
+      <TextField
+        fullWidth
+
+        id="userPassword"
+        name="userPassword"
+        label="User Password"
+        type="password"
+        value={formik.values.userPassword || ""}
+        onChange={formik.handleChange}
+        error={
+          formik.touched.userPassword && Boolean(formik.errors.userPassword)
+        }
+        helperText={formik.touched.userPassword && formik.errors.userPassword}
         sx={{ mb: 3 }}
       />
       <TextField
@@ -180,6 +201,7 @@ function CreateUserForm() {
         color="primary"
         variant="contained"
         fullWidth
+        // onClick={formik.handleReset}
         type="submit"
         style={{ margin: "0 0 10px 0" }}
       >
