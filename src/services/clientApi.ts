@@ -12,18 +12,21 @@ import {
   goodsFullData,
   report,
   errorData,
+  newPassword,
 } from "./clientApi.types";
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-//const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
+
+// const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
- const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+
 
 function errorHandler(err: errorData) {
   if (err.response) {
     err.response.status === 500 || err.response.status === 401
-      ? store.dispatch(setError([err.response.statusText]))
+      ? store.dispatch(setError([err.response.data]))
       : store.dispatch(setError(["Invalid Data"]));
   } else if (err.request) {
     store.dispatch(setError(["Server is not working"]));
@@ -40,22 +43,30 @@ function initClientApi() {
     userData: {
       login: (credentials: userData) =>
         axios
-          .post(`${baseUrl}/login`, {
+          .post(`${baseUrl}/users/sign_in`, {
             user: { email: credentials.email, password: credentials.password },
           })
           .catch((err) => errorHandler(err)),
       logout: (jwt: string) =>
         axios
-          .delete(`${baseUrl}/logout`, { headers: { authorization: jwt } })
+          .delete(`${baseUrl}/users/sign_out`, { headers: { authorization: jwt } })
           .catch((err) => errorHandler(err)),
     },
     recoverData: {
       recoverEmail: (credentials: recoverData) =>
         axios
-          .post(`${baseUrl}/password`, {
+          .post(`${baseUrl}/users/password`, {
             user: { email: credentials.email },
           })
           .catch((err) => errorHandler(err)),
+      newPassword: (credentials: newPassword) =>
+        axios
+          .put(`${baseUrl}/users/password`, {
+            password: credentials.password,
+            password_confirmation: credentials.password_confirmation,
+            reset_password_token: credentials.reset_password_token
+          })
+          .catch((err) => errorHandler(err))
     },
     company: {
         getByPage:  (jwt: string,page:number,perPage='') =>
@@ -132,7 +143,6 @@ function initClientApi() {
             {
               user: {
                 email: userCredentials.userEmail,
-                password: userCredentials.userPassword,
                 first_name: userCredentials.firstName,
                 last_name: userCredentials.lastName,
                 birth_date: userCredentials.birthDate,

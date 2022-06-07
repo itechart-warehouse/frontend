@@ -20,6 +20,12 @@ export interface recoverData {
   email: string;
 }
 
+export interface newPassword {
+  password: string;
+  password_confirmation: string;
+  reset_password_token: string | null;
+}
+
 export interface companyFullData {
   userEmail: string;
   userPassword: string;
@@ -42,7 +48,6 @@ export interface companyData {
 
 export interface userFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;
