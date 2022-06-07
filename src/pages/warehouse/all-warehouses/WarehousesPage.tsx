@@ -15,11 +15,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError} from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { Warehouse, Company } from "./WarehousesPage.types";
-import {response} from "msw";
 
 const CompanyState = {
   name: "",
@@ -52,12 +51,14 @@ function Warehouses() {
       .then((response) => {
         dispatch(clearError());
         setWarehouses(JSON.parse(response.data.warehouses));
+        setWarehousesCount(response.data.warehouses_count)
         setCompany(JSON.parse(response.data.warehouses)[0].company.name)
       });
   }, []);
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.warehouse.getByPage(jwt,newPage,rowsPerPage.toString(),id).then((response)=>{
       setWarehouses(JSON.parse(response.data.warehouses));
+      setWarehousesCount(response.data.warehouses_count)
       setPage(newPage);
     })
   }
