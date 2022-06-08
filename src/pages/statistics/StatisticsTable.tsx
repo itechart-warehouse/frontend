@@ -73,9 +73,9 @@ const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!userLogs ? (
+          {Object.keys(userLogs).length === 0 ? (
             <TableRow>
-              <TableCell>
+              <TableCell align="center" colSpan={6}>
                 <CircularProgress />
               </TableCell>
             </TableRow>

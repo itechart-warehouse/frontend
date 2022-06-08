@@ -14,9 +14,11 @@ import { clientApi } from "../../services/clientApi";
 import { clearError } from "../../store/errorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDebouncedEffect } from "./hook/useDebounceEffect";
 
 export default function BasicDateRangePicker({ jwt, setUserLogs }) {
   const dispatch = useDispatch();
+  const [debounced, setDebounced] = React.useState("");
   const [searchName, setSearchName] = React.useState("");
   const [actionData, setActionData] = React.useState("");
   const [startDate, setStartDate] = React.useState<Date | string>("");
@@ -26,8 +28,16 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
     action: actionData,
   });
 
+  useDebouncedEffect(
+    () => {
+      setDebounced(searchName);
+    },
+    [searchName],
+    500
+  );
+
   React.useEffect(() => {
-    if (searchName.length > 3 || actionData !== "" || startDate !== null)
+    if (debounced || actionData !== "" || startDate !== null)
       clientApi.statistics
         .dataFilter(filters, String(startDate), String(endDate), jwt)
         .then((res) => {
@@ -35,7 +45,7 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
           dispatch(clearError());
           routeStatisticsList();
         });
-  }, [filters, startDate, endDate]);
+  }, [actionData, startDate, endDate, debounced]);
 
   const handleInput = (field) => (event) => {
     const { value } = event.target;
@@ -66,7 +76,7 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
     filters.name = "";
     filters.action = "";
     setEndDate(new Date());
-    setStartDate(String(""));
+    setStartDate("");
     routeStatisticsList();
   };
 
