@@ -13,11 +13,13 @@ import {
 import { truckApi } from "../../../services/truckApi";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { clearError } from "../../../store/errorSlice";
 import { ConsignmentsType } from "./ConsignmentsPage.types";
 import useMount from "../../../services/isMountedHook";
 import {clientApi} from "../../../services/clientApi";
+import {RootState} from "../../../store";
+import Search from "../../../components/search/Search";
 
 const mainContainerStyle = {
   pt: 3,
@@ -61,6 +63,19 @@ function Consignments() {
       setPage(newPage);
     })
   }
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      truckApi.consignment.search(text.text).then((response) => {
+        setConsignments(response.data)
+      })
+    }
+    else{
+      truckApi.consignment.getByPage(0,rowsPerPage.toString()).then((response)=>{
+        setConsignments(JSON.parse(response.data.consignments));
+        setPage(0);
+      });
+    }
+  };
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     truckApi.consignment.getByPage(0,event.target.value).then((response)=>{
       setConsignments(JSON.parse(response.data.consignments));
@@ -74,6 +89,7 @@ function Consignments() {
         <Typography variant="h2" sx={titleStyle}>
           Consignments listing
         </Typography>
+        <Search handleSubmit={handleSubmitSearch}/>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

@@ -19,6 +19,7 @@ import { clearError } from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { User } from "./UsersPage.types";
+import Search from "../../../components/search/Search";
 
 const twinkleBlue = "#e9ecef";
 
@@ -65,6 +66,21 @@ function Users() {
       setPage(newPage);
     })
   }
+
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      clientApi.user.search(jwt, text.text).then((response) => {
+        setUsers(response.data.users);
+      })
+    }
+    else{
+      clientApi.user.getByPage(jwt,0,rowsPerPage.toString()).then((response)=>{
+        setUsers(JSON.parse(response.data.users));
+        setPage(0);
+      });
+    }
+  };
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     clientApi.user.getByPage(jwt,0,event.target.value).then((response)=>{
       setUsers(JSON.parse(response.data.users));
@@ -75,6 +91,7 @@ function Users() {
   return (
       <>
         <Container maxWidth="xl" sx={mainContainerStyle}>
+          <Search handleSubmit={handleSubmitSearch}/>
           <Typography variant="h2" sx={titleStyle}>
             Users listing
           </Typography>

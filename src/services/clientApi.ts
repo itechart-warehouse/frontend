@@ -71,9 +71,15 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     company: {
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/companies?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
         getByPage:  (jwt: string,page:number,perPage='') =>
             axios
-                .get(`${baseUrl}/company?page=${page}&per_page=${perPage}`,  {
+                .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`,  {
                     headers: { authorization: jwt },
                 })
                 .catch((err) => errorHandler(err)),
@@ -132,6 +138,12 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     user: {
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/users?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
         getByPage:  (jwt: string,page:number,perPage='') =>
             axios
                 .get(`${baseUrl}/users?page=${page}&per_page=${perPage}`, {
@@ -195,6 +207,12 @@ function initClientApi() {
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
+        search:  (jwt: string,search: string, company_id: any) =>
+            axios
+                .get(`${baseUrl}/companies/${company_id}/warehouses?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
         getByPage:  (jwt: string,page:number,perPage='',company_id:any) =>
             axios
                 .get(`${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`,  {
@@ -319,6 +337,12 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/warehouse-consignments?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
     },
     warehouseConsignment: {
         getByPage:  (jwt: string,status:string,page:number,perPage='') =>

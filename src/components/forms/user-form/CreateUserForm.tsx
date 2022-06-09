@@ -67,6 +67,7 @@ function CreateUserForm() {
       address: "",
       company_id: "",
       role_id: "",
+      userPassword: "",
     },
     validationSchema: validationSchema,
     onSubmit: (data: Values, { resetForm }) => {

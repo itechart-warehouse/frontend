@@ -17,6 +17,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Search from "../search/Search";
 
 interface Consignments {
   id: number;
@@ -73,6 +74,21 @@ function PlacedWarehouseConsignments() {
       setPage(newPage);
     })
   }
+
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      clientApi.consignment.search(jwt, text.text).then((response) => {
+        setConsignments(response.data.consignments);
+      })
+    }
+    else{
+      clientApi.warehouseConsignment.getByPage(jwt,'Placed',0,rowsPerPage.toString()).then((response)=>{
+        setConsignments(response.data.consignments);
+        setPage(0);
+      });
+    }
+  };
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     clientApi.warehouseConsignment.getByPage(jwt,'Placed',0,event.target.value).then((response)=>{
       setConsignments(response.data.consignments);
@@ -82,6 +98,7 @@ function PlacedWarehouseConsignments() {
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
+        <Search handleSubmit={handleSubmitSearch}/>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

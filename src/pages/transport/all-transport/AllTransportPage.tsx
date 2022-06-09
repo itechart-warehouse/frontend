@@ -20,6 +20,7 @@ import { truckApi } from "../../../services/truckApi";
 import { Transport } from "./AllTransportPage.types";
 // @ts-ignore
 import TransportCardImage from "../../../image/TransportCard.svg";
+import Search from "../../../components/search/Search";
 
 const backgroundStyle = {
   height: "90vh",
@@ -60,7 +61,6 @@ function Transports() {
       .getByPage(page,rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
-        console.log(response.data.trucks)
         setTransports(JSON.parse(response.data.trucks));
         setTrucksCount(JSON.parse(response.data.trucks_count))
       });
@@ -72,6 +72,21 @@ function Transports() {
       setPage(newPage);
     })
   }
+
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      truckApi.transports.search(text.text).then((response) => {
+        setTransports(response.data);
+      })
+    }
+    else{
+      truckApi.transports.getByPage(0,rowsPerPage.toString()).then((response)=>{
+        setTransports(JSON.parse(response.data.trucks));
+        setPage(0);
+      });
+    }
+  };
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     truckApi.transports.getByPage(0,event.target.value).then((response)=>{
       setTransports(JSON.parse(response.data.trucks));
@@ -86,6 +101,7 @@ function Transports() {
         <Typography variant="h2" sx={titleStyle}>
           Transport listing
         </Typography>
+        <Grid style={{ textAlign: 'right' }}> <Search handleSubmit={handleSubmitSearch}/></Grid>
         <TableContainer  component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>

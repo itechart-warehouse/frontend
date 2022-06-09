@@ -22,6 +22,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { Company } from "./CompaniesPage.types";
 import useMount from "../../../services/isMountedHook";
+import Search from "../../../components/search/Search";
+import axios from "axios";
 
 const mainContainerStyle = {
   pt: 3,
@@ -71,6 +73,19 @@ function Companies() {
   const routeCreateCompany = () => {
     navigate("/company/create");
   };
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      clientApi.company.search(jwt, text.text).then((response) => {
+        setCompanies(response.data.companies)
+      })
+    }
+    else{
+      clientApi.company.getByPage(jwt,0,rowsPerPage.toString()).then((response)=>{
+        setCompanies(response.data.companies);
+        setPage(0);
+    });
+    }
+  };
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.company.getByPage(jwt,newPage,rowsPerPage.toString()).then((response)=>{
       setCompanies(response.data.companies)
@@ -86,6 +101,7 @@ function Companies() {
   };
   return (
     <>
+      <Search handleSubmit={handleSubmitSearch}/>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Companies listing

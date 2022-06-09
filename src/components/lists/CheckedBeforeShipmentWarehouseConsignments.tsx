@@ -21,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import {response} from "msw";
+import Search from "../search/Search";
 
 interface Consignments {
   id: number;
@@ -76,6 +77,19 @@ function CheckedWarehouseConsignments() {
       setPage(newPage);
     })
   }
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      clientApi.consignment.search(jwt, text.text).then((response) => {
+        setConsignments(response.data.consignments);
+      })
+    }
+    else{
+      clientApi.warehouseConsignment.getByPage(jwt,'Checked before shipment',0,rowsPerPage.toString()).then((response)=>{
+        setConsignments(response.data.consignments);
+        setPage(0);
+      });
+    }
+  };
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     clientApi.warehouseConsignment.getByPage(jwt,'Checked before shipment',0,event.target.value).then((response)=>{
       setConsignments(response.data.consignments);
@@ -87,6 +101,7 @@ function CheckedWarehouseConsignments() {
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
+        <Search handleSubmit={handleSubmitSearch}/>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

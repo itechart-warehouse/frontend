@@ -22,6 +22,7 @@ import useMount from "../../../services/isMountedHook";
 // @ts-ignore
 import DriverCardImage from "../../../image/DriverCard.svg";
 import {clientApi} from "../../../services/clientApi";
+import Search from "../../../components/search/Search";
 
 const backgroundStyle = {
   height: "90vh",
@@ -66,7 +67,6 @@ function Drivers() {
           dispatch(clearError());
           setDrivers(JSON.parse(response.data.drivers));
           setDriversCount(response.data.drivers_count)
-          console.log(response.data.drivers_count);
         }
       });
   }, []);
@@ -76,6 +76,21 @@ function Drivers() {
       setPage(newPage);
     })
   }
+
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      truckApi.driver.search(text.text).then((response) => {
+        setDrivers(response.data);
+      })
+    }
+    else{
+      truckApi.driver.getByPage(0,rowsPerPage.toString()).then((response)=>{
+        setDrivers(JSON.parse(response.data.drivers));
+        setPage(0);
+      });
+    }
+  };
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     truckApi.driver.getByPage(0,event.target.value).then((response)=>{
       setDrivers(JSON.parse(response.data.drivers));
@@ -86,6 +101,7 @@ function Drivers() {
   return (
     <Grid sx={backgroundStyle}>
       <Container maxWidth="xl" sx={mainContainerStyle}>
+        <Search handleSubmit={handleSubmitSearch}/>
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
         </Typography>
@@ -109,7 +125,7 @@ function Drivers() {
                   <TableRow key={driver.id}>
                     <TableCell component="th" scope="row">
                       <Link to={`${driver.id}`}>
-                        {driver.first_name} {driver.second_name}
+                        {driver.first_name} {driver.second_name}  {driver.middle_name}
                       </Link>
                     </TableCell>
                     <TableCell align="left" component="th" scope="row">

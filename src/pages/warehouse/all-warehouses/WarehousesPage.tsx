@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper, TablePagination,
+  Paper, TablePagination, Grid,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
@@ -19,6 +19,8 @@ import { clearError} from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { Warehouse, Company } from "./WarehousesPage.types";
+import Search from "../../../components/search/Search";
+import {styled} from "@mui/material/styles";
 
 const CompanyState = {
   name: "",
@@ -31,6 +33,7 @@ const mainContainerStyle = {
 const titleStyle = {
   mb: 3,
 };
+
 
 const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
@@ -55,6 +58,22 @@ function Warehouses() {
         setCompany(JSON.parse(response.data.warehouses)[0].company.name)
       });
   }, []);
+
+  const handleSubmitSearch = (text:any) => {
+    if(text.text) {
+      clientApi.warehouse.search(jwt, text.text, id).then((response) => {
+        setWarehouses(response.data.warehouses);
+      })
+    }
+    else{
+      clientApi.warehouse.getByPage(jwt,0,rowsPerPage.toString(),id).then((response)=>{
+        setWarehouses(JSON.parse(response.data.warehouses));
+        setPage(0);
+      });
+    }
+  };
+
+
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.warehouse.getByPage(jwt,newPage,rowsPerPage.toString(),id).then((response)=>{
       setWarehouses(JSON.parse(response.data.warehouses));
@@ -85,13 +104,20 @@ function Warehouses() {
         <Typography variant="h2" sx={titleStyle}>
           Warehouses listing of company {company.name}
         </Typography>
-        <Button
-          onClick={routeCreateWarehouse}
-          variant="contained"
-          sx={{ mb: 3 }}
-        >
-          Create new warehouse
-        </Button>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+              <Button
+                onClick={routeCreateWarehouse}
+                variant="contained"
+                sx={{ mb: 3 }}
+            >
+              Create new warehouse
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+           <Search handleSubmit={handleSubmitSearch}/>
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>
