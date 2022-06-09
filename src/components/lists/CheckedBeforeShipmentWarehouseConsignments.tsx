@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper, TablePagination,
+  Paper, TablePagination, Grid,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import {response} from "msw";
+import Search from "../search/Search";
 
 interface Consignments {
   id: number;
@@ -76,6 +77,21 @@ function CheckedWarehouseConsignments() {
       setPage(newPage);
     })
   }
+  const handleSubmitSearch = (search:string) => {
+    if(search) {
+      clientApi.consignment.search(jwt, search , 'Checked before shipment').then((response) => {
+        setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
+      })
+    }
+    else{
+      clientApi.warehouseConsignment.getByPage(jwt,'Checked before shipment',0,rowsPerPage.toString()).then((response)=>{
+        setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
+        setPage(0);
+      });
+    }
+  };
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     clientApi.warehouseConsignment.getByPage(jwt,'Checked before shipment',0,event.target.value).then((response)=>{
       setConsignments(response.data.consignments);
@@ -87,6 +103,11 @@ function CheckedWarehouseConsignments() {
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
+        <Grid container spacing={2} sx={{ justifyContent: "end" }}>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch} />
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

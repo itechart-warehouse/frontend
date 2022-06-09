@@ -30,11 +30,23 @@ function initTruckApi() {
                     headers: { authorization: token },
                 } )
                 .catch((err) => errorHandler(err)),
+        search:  (search: string) =>
+            axios
+                .get(`${baseUrl}/drivers?search=${search}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
     },
     consignment: {
         getByPage:  (page:number,perPage='') =>
             axios
                 .get(`${baseUrl}/consignments?page=${page}&per_page=${perPage}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
+        search:  (search: string) =>
+            axios
+                .get(`${baseUrl}/consignments?search=${search}`, {
                     headers: { authorization: token },
                 } )
                 .catch((err) => errorHandler(err)),
@@ -49,6 +61,12 @@ function initTruckApi() {
         getByPage:  (page:number,perPage='') =>
             axios
                 .get(`${baseUrl}/trucks?page=${page}&per_page=${perPage}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
+        search:  (search: string) =>
+            axios
+                .get(`${baseUrl}/trucks?search=${search}`, {
                     headers: { authorization: token },
                 } )
                 .catch((err) => errorHandler(err)),

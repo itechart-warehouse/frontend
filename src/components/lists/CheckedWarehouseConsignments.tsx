@@ -7,7 +7,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button, TablePagination,
+  Button, TablePagination, Grid,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Search from "../search/Search";
 
 interface Consignments {
   id: number;
@@ -64,9 +65,23 @@ function CheckedWarehouseConsignments() {
         dispatch(clearError());
         setConsignments(response.data.consignments);
         setConsCount(response.data.consignment_count)
-        console.log(response.data.consignments);
       });
   }, []);
+  const handleSubmitSearch = (search:string) => {
+    if(search) {
+      clientApi.consignment.search(jwt, search, 'Checked').then((response) => {
+        setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
+      })
+    }
+    else{
+      clientApi.warehouseConsignment.getByPage(jwt,'Checked',0,rowsPerPage.toString()).then((response)=>{
+        setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
+        setPage(0);
+      });
+    }
+  };
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.warehouseConsignment.getByPage(jwt,'Checked',newPage,rowsPerPage.toString()).then((response)=>{
       setConsignments(response.data.consignments);
@@ -83,6 +98,11 @@ function CheckedWarehouseConsignments() {
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
+        <Grid container spacing={2} sx={{ justifyContent: "end" }}>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch} />
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>
