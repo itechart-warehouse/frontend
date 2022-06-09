@@ -71,12 +71,12 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     company: {
-        getByPage:  (jwt: string,page:number,perPage='') =>
-            axios
-                .get(`${baseUrl}/company?page=${page}&per_page=${perPage}`,  {
-                    headers: { authorization: jwt },
-                })
-                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       create: (companyCredentials: companyFullData, jwt: string) =>
         axios
           .post(
@@ -132,12 +132,12 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     user: {
-        getByPage:  (jwt: string,page:number,perPage='') =>
-            axios
-                .get(`${baseUrl}/users?page=${page}&per_page=${perPage}`, {
-                    headers: { authorization: jwt },
-                })
-                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/users?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       create: (userCredentials: userFullData, jwt: string) =>
         axios
           .post(
@@ -195,12 +195,12 @@ function initClientApi() {
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
-        getByPage:  (jwt: string,page:number,perPage='',company_id:any) =>
-            axios
-                .get(`${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`,  {
-                    headers: { authorization: jwt },
-                })
-                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '', company_id: any) =>
+        axios
+          .get(`${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios
           .get(`${baseUrl}/companies/${company_id}/warehouses`, {
@@ -269,10 +269,10 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     driver: {
-        getByPage:  (page:number,perPage='') =>
-            axios
-                .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`, )
-                .catch((err) => errorHandler(err)),
+      getByPage: (page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`,)
+          .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/drivers`, { headers: { authorization: jwt } }),
       getById: (id: any, jwt: string) =>
@@ -313,7 +313,7 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAll: (jwt: string,status='') =>
+      getAll: (jwt: string, status = '') =>
         axios
           .get(`${baseUrl}/warehouse-consignments`, {
             headers: { authorization: jwt },
@@ -321,12 +321,12 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     warehouseConsignment: {
-        getByPage:  (jwt: string,status:string,page:number,perPage='') =>
-            axios
-                .get(`${baseUrl}/warehouse-consignments?status=${status}&page=${page}&per_page=${perPage}`, {
-                    headers: { authorization: jwt },
-                })
-                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, status: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/warehouse-consignments?status=${status}&page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       check: (id: any, jwt: string) =>
         axios
           .post(
