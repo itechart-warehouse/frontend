@@ -97,21 +97,6 @@ function CreateUserForm() {
       />
       <TextField
         fullWidth
-
-        id="userPassword"
-        name="userPassword"
-        label="User Password"
-        type="password"
-        value={formik.values.userPassword || ""}
-        onChange={formik.handleChange}
-        error={
-          formik.touched.userPassword && Boolean(formik.errors.userPassword)
-        }
-        helperText={formik.touched.userPassword && formik.errors.userPassword}
-        sx={{ mb: 3 }}
-      />
-      <TextField
-        fullWidth
         id="firstName"
         name="firstName"
         label="First Name"
