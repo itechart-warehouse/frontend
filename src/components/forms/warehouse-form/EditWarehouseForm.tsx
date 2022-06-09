@@ -53,13 +53,17 @@ function EditWarehouseForm() {
       active: warehouse.active,
     },
     validationSchema: validationSchema,
-    onSubmit: (data: Values) => {
+    onSubmit: (data: Values, { resetForm }) => {
       clientApi.warehouse
         .editWarehouseById(id, data, jwt)
         .then(() => {
           dispatch(clearError());
           dispatch(clearWarehouseState());
           routeWarehouseCard();
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
         });
     },
   });

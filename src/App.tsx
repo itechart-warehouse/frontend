@@ -1,14 +1,14 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import "./App.css";
-//import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
+
+import RecoverPasswordPage from "./pages/recover-password/RecoverPasswordPage";
 import LoginPage from "./pages/login/LoginPage";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import CompanyShowPage from "./pages/company/show-company/CompanyShowPage";
 import CompaniesPage from "./pages/company/all-companies/CompaniesPage";
 import CreateCompanyPage from "./pages/company/create-company/CreateCompanyPage";
-import Layout from "./pages/layout/Layout";
 import UsersPage from "./pages/user/all-users/UsersPage";
 import EditUserPage from "./pages/user/edit-user/EditUserPage";
 import CreateUserPage from "./pages/user/create-user/CreateUserPage";
@@ -34,6 +34,8 @@ import ReportsPage from "./pages/report/all-reports/ReportsPage";
 import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
 import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
 import Statistics from "./pages/statistics/Statistics";
+import NewPasswordPage from "./pages/new-password/NewPasswordPage";
+import Layout from "./pages/layout/Layout";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -105,9 +107,11 @@ function App() {
         ) : (
           <>
             <Route path="/*" element={<Navigate to="/" />} />
-            <Route path="/" element={<Layout />}>
-              <Route index element={<LoginPage />} />
-            </Route>
+            {/*// <Route path="/" element={<Layout />}>*/}
+            <Route index element={<LoginPage />} />
+            <Route path="users/password/new" element={<RecoverPasswordPage />} />
+            <Route path="users/password/edit" element={<NewPasswordPage />} />
+            {/*</Route>*/}
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}
           </>
         )}

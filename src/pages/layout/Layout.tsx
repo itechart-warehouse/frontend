@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import ModalWindow from "../../components/modal/ModalWindow";
 import NotFoundPage from "../not-found/NotFoundPage";
+import { Alert } from "@mui/material";
 
 function Layout() {
   const isLoggedIn = useSelector(
@@ -15,10 +16,14 @@ function Layout() {
   return (
     <>
       {isLoggedIn ? <Header /> : null}
+
       {isError.length ? (
         <>
-          <ModalWindow isOpen={true} />
-          <NotFoundPage />
+          {/*<ModalWindow isOpen={true} />*/}
+          <Outlet />
+          {/*<Outlet />*/}
+          {/*<ModalWindow isOpen={true} />*/}
+          {/*<NotFoundPage />*/}
         </>
       ) : (
         <Outlet />

@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { clientApi } from "../../../services/clientApi";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../store/loginSlice";
-import { setError } from "../../../store/errorSlice";
+import { clearError, setError } from "../../../store/errorSlice";
 import { Values } from "./LoginForm.types";
 
 const validationSchema = yup.object({
@@ -26,12 +26,19 @@ function LoginForm() {
       email: "",
       password: "",
     },
+    enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (user: Values) => {
+    onSubmit: (user: Values, { resetForm }) => {
       clientApi.userData
         .login(user)
         .then((res) => {
           dispatch(loginUser(res));
+          dispatch(clearError());
+          // resetForm({});
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
         });
     },
   });
@@ -43,7 +50,7 @@ function LoginForm() {
         id="email"
         name="email"
         label="Email"
-        value={formik.values.email}
+        value={formik.values.email || ""}
         onChange={formik.handleChange}
         error={formik.touched.email && Boolean(formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
@@ -55,7 +62,7 @@ function LoginForm() {
         name="password"
         label="Password"
         type="password"
-        value={formik.values.password}
+        value={formik.values.password || ""}
         onChange={formik.handleChange}
         error={formik.touched.password && Boolean(formik.errors.password)}
         helperText={formik.touched.password && formik.errors.password}
@@ -68,13 +75,14 @@ function LoginForm() {
         type="submit"
         style={{ margin: "0 0 10px 0" }}
       >
+        {/*{formik.resetForm({})}*/}
         Log In
       </Button>
       <Grid container>
         <Grid item xs>
           <Typography>
             {/*TODO add path to recover password and change color definition*/}
-            <Link to="#" style={{ color: "#1976d2" }}>
+            <Link to="/users/password/new" style={{ color: "#1976d2" }}>
               Forgot password?
             </Link>
           </Typography>

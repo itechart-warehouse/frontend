@@ -8,14 +8,14 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper,
+  Paper, TablePagination,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
+import { clearError} from "../../../store/errorSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { Warehouse, Company } from "./WarehousesPage.types";
@@ -41,18 +41,34 @@ function Warehouses() {
   const dispatch = useDispatch();
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [warehousesCount, setWarehousesCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
   const [company, setCompany] = useState<Company>(CompanyState);
   useEffect(() => {
     clientApi.warehouse
       .getAllByCompanyId(id, jwt)
       .then((response) => {
         dispatch(clearError());
-        setWarehouses(response.data.warehouses);
-        setCompany(response.data.warehouses[0].company)
-        console.log(jwt);
+        setWarehouses(JSON.parse(response.data.warehouses));
+        setWarehousesCount(response.data.warehouses_count)
+        setCompany(JSON.parse(response.data.warehouses)[0].company.name)
       });
   }, []);
-
+  const handleChangePage = (event: unknown, newPage: number) => {
+    clientApi.warehouse.getByPage(jwt,newPage,rowsPerPage.toString(),id).then((response)=>{
+      setWarehouses(JSON.parse(response.data.warehouses));
+      setWarehousesCount(response.data.warehouses_count)
+      setPage(newPage);
+    })
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    clientApi.warehouse.getAllByCompanyId(id, jwt).then((response)=>{
+      setWarehouses(JSON.parse(response.data.warehouses));
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    })
+  };
   const navigate = useNavigate();
   const routeCreateWarehouse = () => {
     navigate("create");
@@ -62,6 +78,7 @@ function Warehouses() {
   const headStyle = {
     backgroundColor: twinkleBlue,
   };
+
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -111,8 +128,8 @@ function Warehouses() {
                   <TableCell align="center">{warehouse.address}</TableCell>
                   <TableCell align="center">{warehouse.phone}</TableCell>
                   <TableCell align="center">
-                    <Link to={`/users/${warehouse.user.id}`}>
-                      {warehouse.user.first_name} {warehouse.user.last_name}
+                    <Link to={`/users/${warehouse.id}`}>
+                      {warehouse.users[0].first_name} {warehouse.users[0].last_name}
                     </Link>
                   </TableCell>
                   <TableCell align="center">{warehouse.area}</TableCell>
@@ -125,6 +142,15 @@ function Warehouses() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={warehousesCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );
