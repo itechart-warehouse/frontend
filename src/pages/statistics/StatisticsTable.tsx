@@ -64,7 +64,7 @@ const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
         String(endDate)
       )
       .then((response) => {
-        setUserLogs(response.data.statistic.warehouse_audits);
+        setUserLogs(response.data.statistic.statistics);
         setPage(newPage);
       });
   };
@@ -81,7 +81,7 @@ const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
         String(endDate)
       )
       .then((response) => {
-        setUserLogs(response.data.statistic.warehouse_audits);
+        setUserLogs(response.data.statistic.statistics);
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
       });

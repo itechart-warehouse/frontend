@@ -52,9 +52,9 @@ const Statistics = () => {
       .then((response) => {
         if (isMounted()) {
           dispatch(clearError());
-          const statistics = response.data.statistic.warehouse_audits;
+          const statistics = response.data.statistic.statistics;
           setUserLogs(statistics);
-          setLogsCount(response.data.warehouse_audits_count);
+          setLogsCount(response.data.statistic_count);
         }
       });
   }, [page, actionData, startDate, endDate, debounced]);
