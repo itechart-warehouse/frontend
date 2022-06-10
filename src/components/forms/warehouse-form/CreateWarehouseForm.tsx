@@ -15,10 +15,6 @@ const validationSchema = yup.object({
     .string()
     .email("Enter a valid email")
     .required("Email is required"),
-  userPassword: yup
-    .string()
-    .min(6, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
   firstName: yup
     .string()
     .min(3, "Too short. Minimum 3 characters")
@@ -62,7 +58,6 @@ function CreateWarehouseForm() {
   const formik = useFormik({
     initialValues: {
       userEmail: "",
-      userPassword: "",
       firstName: "",
       lastName: "",
       birthDate: "",
@@ -174,20 +169,6 @@ function CreateWarehouseForm() {
         onChange={formik.handleChange}
         error={formik.touched.userEmail && Boolean(formik.errors.userEmail)}
         helperText={formik.touched.userEmail && formik.errors.userEmail}
-        sx={{ mb: 3 }}
-      />
-      <TextField
-        fullWidth
-        id="userPassword"
-        name="userPassword"
-        label="User Password"
-        type="password"
-        value={formik.values.userPassword}
-        onChange={formik.handleChange}
-        error={
-          formik.touched.userPassword && Boolean(formik.errors.userPassword)
-        }
-        helperText={formik.touched.userPassword && formik.errors.userPassword}
         sx={{ mb: 3 }}
       />
       <TextField

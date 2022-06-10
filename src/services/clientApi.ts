@@ -90,7 +90,6 @@ function initClientApi() {
               },
               user: {
                 email: companyCredentials.userEmail,
-                password: companyCredentials.userPassword,
                 first_name: companyCredentials.firstName,
                 last_name: companyCredentials.lastName,
                 birth_date: companyCredentials.birthDate,
@@ -220,7 +219,6 @@ function initClientApi() {
               },
               user: {
                 email: warehouseCredentials.userEmail,
-                password: warehouseCredentials.userPassword,
                 first_name: warehouseCredentials.firstName,
                 last_name: warehouseCredentials.lastName,
                 birth_date: warehouseCredentials.birthDate,
