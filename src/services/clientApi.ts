@@ -337,9 +337,9 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-        search:  (jwt: string,search: string) =>
+        search:  (jwt: string,search: string, status:string) =>
             axios
-                .get(`${baseUrl}/warehouse-consignments?search=${search}`,  {
+                .get(`${baseUrl}/warehouse-consignments?status=${status}&search=${search}`,  {
                     headers: { authorization: jwt },
                 })
                 .catch((err) => errorHandler(err)),

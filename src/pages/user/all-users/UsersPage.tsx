@@ -41,7 +41,7 @@ const rowStyle = {
 
 function Users() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [consCount, setConsCount] = useState<number>(0);
+  const [usersCount, setUsersCount] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(0);
   const [users, setUsers] = useState<User[]>([]);
@@ -53,7 +53,7 @@ function Users() {
         .then((response) => {
           dispatch(clearError());
           setUsers(JSON.parse(response.data.users));
-          setConsCount(response.data.users_count)
+          setUsersCount(response.data.users_count)
         });
   }, []);
   const navigate = useNavigate();
@@ -70,7 +70,8 @@ function Users() {
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
       clientApi.user.search(jwt, text.text).then((response) => {
-        setUsers(response.data.users);
+        setUsers(JSON.parse(response.data.users));
+        setUsersCount(response.data.users_count)
       })
     }
     else{
@@ -145,7 +146,7 @@ function Users() {
           <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={consCount}
+              count={usersCount}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
