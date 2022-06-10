@@ -10,42 +10,22 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { clientApi } from "../../services/clientApi";
-import { clearError } from "../../store/errorSlice";
-import { useDispatch } from "react-redux";
+import { DateRangeType } from "./type/statistics.type";
 import { useNavigate } from "react-router-dom";
-import { useDebouncedEffect } from "./hook/useDebounceEffect";
 
-export default function BasicDateRangePicker({ jwt, setUserLogs }) {
-  const dispatch = useDispatch();
-  const [debounced, setDebounced] = React.useState("");
-  const [searchName, setSearchName] = React.useState("");
-  const [actionData, setActionData] = React.useState("");
-  const [startDate, setStartDate] = React.useState<Date | string>("");
-  const [endDate, setEndDate] = React.useState<Date | string>(new Date());
-  const [filters, setFilters] = React.useState({
-    name: searchName,
-    action: actionData,
-  });
-
-  useDebouncedEffect(
-    () => {
-      setDebounced(searchName);
-    },
-    [searchName],
-    500
-  );
-
-  React.useEffect(() => {
-    if (debounced || actionData !== "" || startDate !== null)
-      clientApi.statistics
-        .dataFilter(filters, String(startDate), String(endDate), jwt)
-        .then((res) => {
-          setUserLogs(res.data.warehouse_audits);
-          dispatch(clearError());
-          routeStatisticsList();
-        });
-  }, [actionData, startDate, endDate, debounced]);
+const BasicDateRangePicker: React.FC<DateRangeType> = (
+  props: DateRangeType
+) => {
+  const {
+    filters,
+    setFilters,
+    setSearchName,
+    setActionData,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = props;
 
   const handleInput = (field) => (event) => {
     const { value } = event.target;
@@ -150,4 +130,6 @@ export default function BasicDateRangePicker({ jwt, setUserLogs }) {
       </Button>
     </div>
   );
-}
+};
+
+export default BasicDateRangePicker;
