@@ -29,7 +29,6 @@ export interface newPassword {
 
 export interface companyFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -68,7 +67,6 @@ export interface userEditData {
 
 export interface warehouseFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;
