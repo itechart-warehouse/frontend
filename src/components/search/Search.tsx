@@ -1,32 +1,36 @@
-import * as React from 'react';
-import { Form, Formik ,Field } from 'formik';
-import SearchIcon from '@mui/icons-material/Search';
-import {SearchPanel, SearchProps} from "./search_types";
-import { IconButton } from '@mui/material';
-
-
+import * as React from "react";
+import { Form, Formik } from "formik";
+import SearchIcon from "@mui/icons-material/Search";
+import { SearchPanel, SearchProps } from "./search_types";
+import { IconButton, TextField } from "@mui/material";
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { handleSubmit } = props;
 
   return (
     <SearchPanel>
-      <Formik
-        initialValues={{ text: '' }}
-        onSubmit={handleSubmit}
-      >
-        <Form style={{ display: 'flex', alignItems: 'center', padding: '0 0 0 15px' }}>
-          <Field
-              required={false}
-              autoComplete="off"
-              label="Search..."
-              name="text"
-              fullWidth
-              color="success"
-              type="text"
-              variant="standard"
+      <Formik initialValues={{ text: "" }} onSubmit={handleSubmit}>
+        <Form
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <TextField
+            required={false}
+            autoComplete="off"
+            label="Search..."
+            name="text"
+            fullWidth
+            type="text"
+            variant="standard"
           />
-          <IconButton size="large" aria-label="search" type="submit">
+          <IconButton
+            size="large"
+            aria-label="search"
+            type="submit"
+            color="primary"
+          >
             <SearchIcon />
           </IconButton>
         </Form>

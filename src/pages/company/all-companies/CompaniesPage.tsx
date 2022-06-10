@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Typography,
   Container,
@@ -10,10 +11,10 @@ import {
   Button,
   Paper,
   Box,
-  Grid, TablePagination,
+  Grid,
+  TablePagination,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
-import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -52,20 +53,20 @@ const rowStyle = {
 function Companies() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
-  const [compCount, setCompCount] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-  const [page, setPage] = useState<number>(0);
-  const [companies, setCompanies] = useState<Company[]>([]);
+  const [compCount, setCompCount] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
+  const [companies, setCompanies] = React.useState<Company[]>([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMounted = useMount();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.company.getAll(jwt).then((response) => {
       if (isMounted()) {
         dispatch(clearError());
         setCompanies(response.data.companies);
-        setCompCount(response.data.company_count)
+        setCompCount(response.data.company_count);
       }
     });
   }, []);
@@ -73,48 +74,61 @@ function Companies() {
   const routeCreateCompany = () => {
     navigate("/company/create");
   };
-  const handleSubmitSearch = (text:any) => {
-    if(text.text) {
+  const handleSubmitSearch = (text: any) => {
+    if (text.text) {
       clientApi.company.search(jwt, text.text).then((response) => {
-        setCompanies(response.data.companies)
-      })
-    }
-    else{
-      clientApi.company.getByPage(jwt,0,rowsPerPage.toString()).then((response)=>{
         setCompanies(response.data.companies);
-        setPage(0);
-    });
+      });
+    } else {
+      clientApi.company
+        .getByPage(jwt, 0, rowsPerPage.toString())
+        .then((response) => {
+          setCompanies(response.data.companies);
+          setPage(0);
+        });
     }
   };
   const handleChangePage = (event: unknown, newPage: number) => {
-    clientApi.company.getByPage(jwt,newPage,rowsPerPage.toString()).then((response)=>{
-      setCompanies(response.data.companies)
-      setPage(newPage);
-    })
-  }
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    clientApi.company.getByPage(jwt,0,event.target.value).then((response)=>{
-      setCompanies(response.data.companies)
+    clientApi.company
+      .getByPage(jwt, newPage, rowsPerPage.toString())
+      .then((response) => {
+        setCompanies(response.data.companies);
+        setPage(newPage);
+      });
+  };
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    clientApi.company.getByPage(jwt, 0, event.target.value).then((response) => {
+      setCompanies(response.data.companies);
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
-    })
+    });
   };
   return (
     <>
-      <Search handleSubmit={handleSubmitSearch}/>
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Typography variant="h2" sx={titleStyle}>
           Companies listing
         </Typography>
-        {role === "System admin" ? (
-          <Button
-            onClick={routeCreateCompany}
-            variant="contained"
-            sx={{ mb: 3 }}
-          >
-            Create new company
-          </Button>
-        ) : ( "" )}
+        <Grid container justifyContent="space-between">
+          <Grid item md={2} style={{ textAlign: "left" }}>
+            <Search handleSubmit={handleSubmitSearch} />
+          </Grid>
+          {role === "System admin" ? (
+            <Grid item xs={2} style={{ textAlign: "right" }}>
+              <Button
+                onClick={routeCreateCompany}
+                variant="contained"
+                sx={{ mb: 3 }}
+              >
+                Create new company
+              </Button>
+            </Grid>
+          ) : (
+            ""
+          )}
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">
             <TableHead sx={headStyle}>
@@ -165,13 +179,13 @@ function Companies() {
           </Table>
         </TableContainer>
         <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={compCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={compCount}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Container>
     </>
