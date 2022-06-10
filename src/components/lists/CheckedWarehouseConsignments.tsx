@@ -65,18 +65,19 @@ function CheckedWarehouseConsignments() {
         dispatch(clearError());
         setConsignments(response.data.consignments);
         setConsCount(response.data.consignment_count)
-        console.log(response.data.consignments);
       });
   }, []);
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
-      clientApi.consignment.search(jwt, text.text).then((response) => {
+      clientApi.consignment.search(jwt, text.text, 'Checked').then((response) => {
         setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
       })
     }
     else{
       clientApi.warehouseConsignment.getByPage(jwt,'Checked',0,rowsPerPage.toString()).then((response)=>{
         setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
         setPage(0);
       });
     }

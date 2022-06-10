@@ -80,12 +80,14 @@ function Drivers() {
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
       truckApi.driver.search(text.text).then((response) => {
-        setDrivers(response.data);
+        setDrivers(JSON.parse(response.data.drivers));
+        setDriversCount(response.data.drivers_count)
       })
     }
     else{
       truckApi.driver.getByPage(0,rowsPerPage.toString()).then((response)=>{
         setDrivers(JSON.parse(response.data.drivers));
+        setDriversCount(response.data.drivers_count)
         setPage(0);
       });
     }

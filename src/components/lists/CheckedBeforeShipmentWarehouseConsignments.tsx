@@ -79,13 +79,15 @@ function CheckedWarehouseConsignments() {
   }
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
-      clientApi.consignment.search(jwt, text.text).then((response) => {
+      clientApi.consignment.search(jwt, text.text , 'Checked before shipment').then((response) => {
         setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
       })
     }
     else{
       clientApi.warehouseConsignment.getByPage(jwt,'Checked before shipment',0,rowsPerPage.toString()).then((response)=>{
         setConsignments(response.data.consignments);
+        setConsCount(response.data.consignment_count)
         setPage(0);
       });
     }

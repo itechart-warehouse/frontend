@@ -76,12 +76,14 @@ function Transports() {
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
       truckApi.transports.search(text.text).then((response) => {
-        setTransports(response.data);
+        setTransports(JSON.parse(response.data.trucks));
+        setTrucksCount(JSON.parse(response.data.trucks_count))
       })
     }
     else{
       truckApi.transports.getByPage(0,rowsPerPage.toString()).then((response)=>{
         setTransports(JSON.parse(response.data.trucks));
+        setTrucksCount(JSON.parse(response.data.trucks_count))
         setPage(0);
       });
     }

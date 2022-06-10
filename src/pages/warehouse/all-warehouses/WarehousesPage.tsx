@@ -62,12 +62,14 @@ function Warehouses() {
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
       clientApi.warehouse.search(jwt, text.text, id).then((response) => {
-        setWarehouses(response.data.warehouses);
+        setWarehouses(JSON.parse(response.data.warehouses));
+        setWarehousesCount(response.data.warehouses_count)
       })
     }
     else{
       clientApi.warehouse.getByPage(jwt,0,rowsPerPage.toString(),id).then((response)=>{
         setWarehouses(JSON.parse(response.data.warehouses));
+        setWarehousesCount(response.data.warehouses_count)
         setPage(0);
       });
     }

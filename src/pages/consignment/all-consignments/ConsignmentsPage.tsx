@@ -66,12 +66,14 @@ function Consignments() {
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
       truckApi.consignment.search(text.text).then((response) => {
-        setConsignments(response.data)
+        setConsignments(JSON.parse(response.data.consignments));
+        setConsCount(response.data.consignments_count)
       })
     }
     else{
       truckApi.consignment.getByPage(0,rowsPerPage.toString()).then((response)=>{
         setConsignments(JSON.parse(response.data.consignments));
+        setConsCount(response.data.consignments_count)
         setPage(0);
       });
     }
