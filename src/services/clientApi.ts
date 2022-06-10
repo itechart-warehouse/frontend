@@ -73,7 +73,7 @@ function initClientApi() {
     company: {
       getByPage: (jwt: string, page: number, perPage = '') =>
         axios
-          .get(`${baseUrl}/company?page=${page}&per_page=${perPage}`, {
+          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
