@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Grid, Typography, Box, Alert } from "@mui/material";
 import CreateReportForm from "../../../components/forms/report-form/CreateReportForm";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
@@ -12,9 +12,7 @@ const CreateReportPage = () => {
   const errorAlert = () => {
     if (error.length) {
       clearTimeout();
-      Object.values(error[0]).map((err) => {
-        arr.push(err);
-      });
+      Object.values(error[0]).map((err) => arr.push(err));
       return <Alert severity="error">{arr.join(",")}</Alert>;
     } else {
       return "";

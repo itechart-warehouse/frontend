@@ -1,3 +1,6 @@
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Typography,
   Container,
@@ -9,19 +12,16 @@ import {
   TableBody,
   CircularProgress,
   Paper,
-  Grid, TablePagination,
+  Grid,
+  TablePagination,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { clearError } from "../../../store/errorSlice";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import { clearError } from "../../../store/errorSlice";
 import { truckApi } from "../../../services/truckApi";
 import { Driver } from "./DriversPage.types";
 import useMount from "../../../services/isMountedHook";
 // @ts-ignore
 import DriverCardImage from "../../../image/DriverCard.svg";
-import {clientApi} from "../../../services/clientApi";
 
 const backgroundStyle = {
   height: "90vh",
@@ -51,37 +51,39 @@ const rowStyle = {
 };
 
 function Drivers() {
-  const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [drivers, setDrivers] = React.useState<Driver[]>([]);
   const dispatch = useDispatch();
   const isMounted = useMount();
-  const [driversCount, setDriversCount] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-  const [page, setPage] = useState<number>(0);
+  const [driversCount, setDriversCount] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
 
-
-  useEffect(() => {
-    truckApi.driver.getByPage(page,rowsPerPage.toString())
-      .then((response) => {
-        if (isMounted()) {
-          dispatch(clearError());
-          setDrivers(JSON.parse(response.data.drivers));
-          setDriversCount(response.data.drivers_count)
-          console.log(response.data.drivers_count);
-        }
-      });
+  React.useEffect(() => {
+    truckApi.driver.getByPage(page, rowsPerPage.toString()).then((response) => {
+      if (isMounted()) {
+        dispatch(clearError());
+        setDrivers(JSON.parse(response.data.drivers));
+        setDriversCount(response.data.drivers_count);
+        console.log(response.data.drivers_count);
+      }
+    });
   }, []);
   const handleChangePage = (event: unknown, newPage: number) => {
-    truckApi.driver.getByPage(newPage,rowsPerPage.toString()).then((response)=>{
-      setDrivers(JSON.parse(response.data.drivers));
-      setPage(newPage);
-    })
-  }
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    truckApi.driver.getByPage(0,event.target.value).then((response)=>{
+    truckApi.driver
+      .getByPage(newPage, rowsPerPage.toString())
+      .then((response) => {
+        setDrivers(JSON.parse(response.data.drivers));
+        setPage(newPage);
+      });
+  };
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    truckApi.driver.getByPage(0, event.target.value).then((response) => {
       setDrivers(JSON.parse(response.data.drivers));
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
-    })
+    });
   };
   return (
     <Grid sx={backgroundStyle}>
@@ -89,7 +91,7 @@ function Drivers() {
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
         </Typography>
-        <TableContainer  component={Paper}>
+        <TableContainer component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
@@ -97,7 +99,6 @@ function Drivers() {
                   <Typography variant="h6">Driver</Typography>
                 </TableCell>
                 <TableCell>
-                  {" "}
                   <Typography variant="h6">Contractor</Typography>
                 </TableCell>
                 <TableCell></TableCell>
@@ -131,13 +132,13 @@ function Drivers() {
           </Table>
         </TableContainer>
         <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={driversCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={driversCount}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Container>
     </Grid>

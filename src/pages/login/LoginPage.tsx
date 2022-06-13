@@ -1,8 +1,9 @@
+import * as React from "react";
+import { Grid, Box, Alert } from "@mui/material";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import LoginForm from "../../components/forms/login-form/LoginForm";
-import { Grid, Typography, Box, Alert } from "@mui/material";
 // @ts-ignore
 import Login from "../../image/Login.svg";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { clearError } from "../../store/errorSlice";
 
 function LoginPage() {
@@ -19,47 +20,34 @@ function LoginPage() {
   };
 
   return (
-    <>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: "100vh" }}
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <Box
+        sx={{
+          height: "60px",
+          marginBottom: "60px",
+        }}
       >
-        <Box
-          sx={{
-            height: "60px",
-            marginBottom: "60px",
-          }}
-        >
-          {errorAlert()}
-        </Box>
-        <Box
-          component="img"
-          sx={{
-            marginBottom: "60px",
-          }}
-          alt="Login"
-          src={Login}
-        />
-        <Grid item
-        sx={{ width: 570 }}
-        >
-          {/*<Typography*/}
-          {/*  variant="h2"*/}
-          {/*  component="div"*/}
-          {/*  gutterBottom*/}
-          {/*  color="primary"*/}
-          {/*  align="center"*/}
-          {/*>*/}
-          {/*  Log in*/}
-          {/*</Typography>*/}
-          <LoginForm />
-        </Grid>
+        {errorAlert()}
+      </Box>
+      <Box
+        component="img"
+        sx={{
+          marginBottom: "60px",
+        }}
+        alt="Login"
+        src={Login}
+      />
+      <Grid item sx={{ width: 570 }}>
+        <LoginForm />
       </Grid>
-    </>
+    </Grid>
   );
 }
 

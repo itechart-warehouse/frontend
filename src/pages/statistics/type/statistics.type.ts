@@ -3,7 +3,7 @@ export type UserLogs = {
   user_id: string;
   username: string;
   company: string;
-  data: string;
+  date: string;
   action: string;
   changes: {};
   type: string;

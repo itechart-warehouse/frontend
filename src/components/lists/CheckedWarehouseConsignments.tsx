@@ -1,3 +1,6 @@
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Container,
@@ -7,16 +10,14 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button, TablePagination,
+  Button,
+  TablePagination,
+  Paper,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { clearError, setError } from "../../store/errorSlice";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { clearError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 interface Consignments {
   id: number;
@@ -35,50 +36,50 @@ interface Consignments {
 const mainContainerStyle = {
   pt: 3,
 };
-
-const titleStyle = {
-  mb: 3,
-};
 const twinkleBlue = "#e9ecef";
-
 const headStyle = {
   backgroundColor: twinkleBlue,
 };
-
 const rowStyle = {
   "&:last-child td, &:last-child th": { border: 0 },
 };
 
 function CheckedWarehouseConsignments() {
-  const [consCount, setConsCount] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-  const [page, setPage] = useState<number>(0);
-  const [consignments, setConsignments] = useState<Consignments[]>([]);
+  const [consCount, setConsCount] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
+  const [consignments, setConsignments] = React.useState<Consignments[]>([]);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.warehouseConsignment
-      .getByPage(jwt,'Checked',page,rowsPerPage.toString())
+      .getByPage(jwt, "Checked", page, rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);
-        setConsCount(response.data.consignment_count)
+        setConsCount(response.data.consignment_count);
         console.log(response.data.consignments);
       });
   }, []);
   const handleChangePage = (event: unknown, newPage: number) => {
-    clientApi.warehouseConsignment.getByPage(jwt,'Checked',newPage,rowsPerPage.toString()).then((response)=>{
-      setConsignments(response.data.consignments);
-      setPage(newPage);
-    })
-  }
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    clientApi.warehouseConsignment.getByPage(jwt,'Checked',0,event.target.value).then((response)=>{
-      setConsignments(response.data.consignments);
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    })
+    clientApi.warehouseConsignment
+      .getByPage(jwt, "Checked", newPage, rowsPerPage.toString())
+      .then((response) => {
+        setConsignments(response.data.consignments);
+        setPage(newPage);
+      });
+  };
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    clientApi.warehouseConsignment
+      .getByPage(jwt, "Checked", 0, event.target.value)
+      .then((response) => {
+        setConsignments(response.data.consignments);
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
   };
   return (
     <>
@@ -164,13 +165,13 @@ function CheckedWarehouseConsignments() {
           </Table>
         </TableContainer>
         <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={consCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={consCount}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Container>
     </>

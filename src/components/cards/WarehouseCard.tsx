@@ -1,3 +1,6 @@
+import * as React from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   CardContent,
@@ -6,11 +9,8 @@ import {
   CardActions,
 } from "@mui/material";
 import { clientApi } from "../../services/clientApi";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import { setWarehouseState } from "../../store/warehouseSlice";
 import LoadingCard from "./LoadingCard";
 import { Warehouse } from "./types/Warehouse.types";
@@ -34,8 +34,8 @@ const warehouseInit = {
 };
 
 function WarehouseCard() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [warehouse, setWarehouse] = useState<Warehouse>(warehouseInit);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [warehouse, setWarehouse] = React.useState<Warehouse>(warehouseInit);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
   const { id } = useParams();
@@ -43,7 +43,7 @@ function WarehouseCard() {
   const dispatch = useDispatch();
   const isMounted = useMount();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.warehouse.getById(id, jwt).then((res) => {
       if (isMounted()) {
         dispatch(clearError());
@@ -54,7 +54,6 @@ function WarehouseCard() {
   }, [id]);
 
   const routeWarehouseList = () => {
-    console.log(warehouse.company.id);
     navigate(`/companies/${warehouse.company.id}/warehouses`);
   };
   const routeWarehouseEdit = () => {
@@ -106,8 +105,8 @@ function WarehouseCard() {
 
             <CardActions>
               {role === "System admin" ||
-                role === "Company owner" ||
-                role === "Company admin" ? (
+              role === "Company owner" ||
+              role === "Company admin" ? (
                 <>
                   <Button onClick={routeWarehouseEdit}>Edit</Button>
                   <Button onClick={routeWarehouseList}>

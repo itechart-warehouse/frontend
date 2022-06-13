@@ -1,3 +1,6 @@
+import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardContent,
@@ -5,13 +8,10 @@ import {
   Typography,
   CardActions,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { setCompanyState } from "../../store/companySlice";
 import { RootState } from "../../store";
-import { clearError, setError } from "../../store/errorSlice";
+import { clearError } from "../../store/errorSlice";
 import LoadingCard from "./LoadingCard";
 import { Company } from "./types/Company.types";
 import useMount from "../../services/isMountedHook";
@@ -24,16 +24,16 @@ const companyInitValues: Company = {
 };
 
 export default function CompanyCard() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const role = useSelector((state: RootState) => state.user.userRole.name);
-  const [company, setCompany] = useState<Company>(companyInitValues);
+  const [company, setCompany] = React.useState<Company>(companyInitValues);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useMount();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.company.getById(id, jwt).then((res) => {
       if (isMounted()) {
         dispatch(clearError());

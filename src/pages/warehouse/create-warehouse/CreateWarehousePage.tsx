@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Grid, Typography, Box, Alert } from "@mui/material";
 import CreateWarehouseForm from "../../../components/forms/warehouse-form/CreateWarehouseForm";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
@@ -12,13 +12,9 @@ const CreateWarehousePage = () => {
   const errorAlert = () => {
     if (error.length) {
       clearTimeout();
-      Object.values(error[0]).map((err) => {
-        arr.push(err);
-      });
+      Object.values(error[0]).map((err) => arr.push(err));
       return <Alert severity="error">{arr.join(",")}</Alert>;
-    } else {
-      return "";
-    }
+    } else return "";
   };
   return (
     <Grid

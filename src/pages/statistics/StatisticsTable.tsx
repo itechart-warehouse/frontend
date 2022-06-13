@@ -13,10 +13,10 @@ import {
   TableSortLabel,
   Typography,
 } from "@mui/material";
+import { visuallyHidden } from "@mui/utils";
 import { getComparator, Order, stableSort } from "./utils/stableSort";
 import { StatisticsType, UserLogs } from "./type/statistics.type";
 import { statisticsSortTable, statisticsTable } from "./utils/statisticsField";
-import { visuallyHidden } from "@mui/utils";
 import StatisticsAccordion from "./StatisticsAccordion";
 import { clientApi } from "../../services/clientApi";
 
@@ -137,7 +137,7 @@ const StatisticsTable: React.FC<StatisticsType> = (props: StatisticsType) => {
                       <Typography variant="body1">{item.username}</Typography>
                     </TableCell>
                     <TableCell align="center">
-                      <Typography variant="body1">{item.data}</Typography>
+                      <Typography variant="body1">{item.date}</Typography>
                     </TableCell>
                     <TableCell align="center">
                       <Typography variant="body1">{item.company}</Typography>

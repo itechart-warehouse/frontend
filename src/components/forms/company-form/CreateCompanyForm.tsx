@@ -1,13 +1,13 @@
-import { useFormik } from "formik";
-import { Alert, Button, TextField, Typography } from "@mui/material";
-import * as yup from "yup";
-import { clientApi } from "../../../services/clientApi";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { clearError, setError } from "../../../store/errorSlice";
 import InputMask from "react-input-mask";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { Button, TextField, Typography } from "@mui/material";
+import { clientApi } from "../../../services/clientApi";
+import { RootState } from "../../../store";
+import { clearError } from "../../../store/errorSlice";
 import { Values } from "./CreateCompany.types";
 
 const validationSchema = yup.object({
@@ -48,7 +48,6 @@ const validationSchema = yup.object({
 
 function CreateCompanyForm() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const isError = useSelector((state: RootState) => state.error.errors);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
