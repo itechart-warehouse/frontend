@@ -111,23 +111,23 @@ function Companies() {
         <Typography variant="h2" sx={titleStyle}>
           Companies listing
         </Typography>
-        <Grid container justifyContent="space-between">
-          <Grid item md={2} style={{ textAlign: "left" }}>
-            <Search handleSubmit={handleSubmitSearch} />
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            {role === "System admin" ? (
+                <Button
+                    onClick={routeCreateCompany}
+                    variant="contained"
+                    sx={{ mb: 3 }}
+                >
+                  Create new company
+                </Button>
+            ) : (
+                ""
+            )}
           </Grid>
-          {role === "System admin" ? (
-            <Grid item xs={2} style={{ textAlign: "right" }}>
-              <Button
-                onClick={routeCreateCompany}
-                variant="contained"
-                sx={{ mb: 3 }}
-              >
-                Create new company
-              </Button>
-            </Grid>
-          ) : (
-            ""
-          )}
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch}/>
+          </Grid>
         </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="companiesPage table">

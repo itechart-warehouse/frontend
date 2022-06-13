@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper, TablePagination,
+  Paper, TablePagination, Grid,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -77,9 +77,9 @@ function CheckedWarehouseConsignments() {
       setPage(newPage);
     })
   }
-  const handleSubmitSearch = (text:any) => {
-    if(text.text) {
-      clientApi.consignment.search(jwt, text.text , 'Checked before shipment').then((response) => {
+  const handleSubmitSearch = (text:string) => {
+    if(text) {
+      clientApi.consignment.search(jwt, text , 'Checked before shipment').then((response) => {
         setConsignments(response.data.consignments);
         setConsCount(response.data.consignment_count)
       })
@@ -103,7 +103,12 @@ function CheckedWarehouseConsignments() {
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
-        <Search handleSubmit={handleSubmitSearch}/>
+        <Grid container spacing={2}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch}/>
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

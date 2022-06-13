@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Paper, TablePagination,
+  Paper, TablePagination, Grid,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
@@ -66,10 +66,10 @@ function Users() {
       setPage(newPage);
     })
   }
+  const handleSubmitSearch = (text:string) => {
 
-  const handleSubmitSearch = (text:any) => {
-    if(text.text) {
-      clientApi.user.search(jwt, text.text).then((response) => {
+    if(text) {
+      clientApi.user.search(jwt, text).then((response) => {
         setUsers(JSON.parse(response.data.users));
         setUsersCount(response.data.users_count)
       })
@@ -92,13 +92,19 @@ function Users() {
   return (
       <>
         <Container maxWidth="xl" sx={mainContainerStyle}>
-          <Search handleSubmit={handleSubmitSearch}/>
           <Typography variant="h2" sx={titleStyle}>
             Users listing
           </Typography>
-          <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
-            Create new user
-          </Button>
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
+                Create new user
+              </Button>
+            </Grid>
+            <Grid item xs={4}>
+              <Search handleSubmit={handleSubmitSearch}/>
+            </Grid>
+          </Grid>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
               <TableHead sx={headStyle}>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Formik } from "formik";
+import {Field, Form, Formik} from "formik";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchPanel, SearchProps } from "./search_types";
 import { IconButton, TextField } from "@mui/material";
@@ -7,18 +7,23 @@ import { IconButton, TextField } from "@mui/material";
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { handleSubmit } = props;
 
+    const normalize = (text: any) => {
+        handleSubmit(text.text.replace('\t', ' '));
+    };
+
   return (
     <SearchPanel>
-      <Formik initialValues={{ text: "" }} onSubmit={handleSubmit}>
+      <Formik initialValues={{ text: '' }} onSubmit={normalize}>
         <Form
           style={{
             display: "flex",
             alignItems: "center",
           }}
         >
-          <TextField
+          <Field
             required={false}
             autoComplete="off"
+            as={TextField}
             label="Search..."
             name="text"
             fullWidth

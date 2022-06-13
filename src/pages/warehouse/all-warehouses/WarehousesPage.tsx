@@ -59,9 +59,9 @@ function Warehouses() {
       });
   }, []);
 
-  const handleSubmitSearch = (text:any) => {
-    if(text.text) {
-      clientApi.warehouse.search(jwt, text.text, id).then((response) => {
+  const handleSubmitSearch = (text:string) => {
+    if(text) {
+      clientApi.warehouse.search(jwt, text, id).then((response) => {
         setWarehouses(JSON.parse(response.data.warehouses));
         setWarehousesCount(response.data.warehouses_count)
       })

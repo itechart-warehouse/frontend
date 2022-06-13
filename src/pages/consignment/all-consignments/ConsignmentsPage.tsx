@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
-  Paper, TablePagination,
+  Paper, TablePagination, Grid,
 } from "@mui/material";
 import { truckApi } from "../../../services/truckApi";
 import React, { useEffect, useState } from "react";
@@ -63,9 +63,9 @@ function Consignments() {
       setPage(newPage);
     })
   }
-  const handleSubmitSearch = (text:any) => {
-    if(text.text) {
-      truckApi.consignment.search(text.text).then((response) => {
+  const handleSubmitSearch = (text:string) => {
+    if(text) {
+      truckApi.consignment.search(text).then((response) => {
         setConsignments(JSON.parse(response.data.consignments));
         setConsCount(response.data.consignments_count)
       })
@@ -91,7 +91,12 @@ function Consignments() {
         <Typography variant="h2" sx={titleStyle}>
           Consignments listing
         </Typography>
-        <Search handleSubmit={handleSubmitSearch}/>
+        <Grid container spacing={2}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch}/>
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>

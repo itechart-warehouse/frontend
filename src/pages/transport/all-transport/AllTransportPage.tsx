@@ -9,7 +9,7 @@ import {
   TableBody,
   CircularProgress,
   Paper,
-  Grid, TablePagination,
+  Grid, TablePagination, Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -72,7 +72,6 @@ function Transports() {
       setPage(newPage);
     })
   }
-
   const handleSubmitSearch = (text:any) => {
     if(text.text) {
       truckApi.transports.search(text.text).then((response) => {
@@ -103,7 +102,12 @@ function Transports() {
         <Typography variant="h2" sx={titleStyle}>
           Transport listing
         </Typography>
-        <Grid style={{ textAlign: 'right' }}> <Search handleSubmit={handleSubmitSearch}/></Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch}/>
+          </Grid>
+        </Grid>
         <TableContainer  component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>

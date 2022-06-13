@@ -77,9 +77,9 @@ function Drivers() {
     })
   }
 
-  const handleSubmitSearch = (text:any) => {
-    if(text.text) {
-      truckApi.driver.search(text.text).then((response) => {
+  const handleSubmitSearch = (text:string) => {
+    if(text) {
+      truckApi.driver.search(text).then((response) => {
         setDrivers(JSON.parse(response.data.drivers));
         setDriversCount(response.data.drivers_count)
       })
@@ -103,10 +103,15 @@ function Drivers() {
   return (
     <Grid sx={backgroundStyle}>
       <Container maxWidth="xl" sx={mainContainerStyle}>
-        <Search handleSubmit={handleSubmitSearch}/>
         <Typography variant="h2" sx={titleStyle}>
           Drivers listing
         </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch}/>
+          </Grid>
+        </Grid>
         <TableContainer  component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
