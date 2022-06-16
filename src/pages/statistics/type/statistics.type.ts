@@ -1,6 +1,5 @@
 export type UserLogs = {
   id: string;
-  user_id: string;
   username: string;
   company: string;
   date: string;
