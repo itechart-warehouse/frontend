@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Typography,
   Container,
@@ -11,7 +12,6 @@ import {
   Paper, TablePagination,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
-import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -40,13 +40,13 @@ const rowStyle = {
 
 function Users() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
-  const [consCount, setConsCount] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-  const [page, setPage] = useState<number>(0);
-  const [users, setUsers] = useState<User[]>([]);
+  const [consCount, setConsCount] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
+  const [users, setUsers] = React.useState<User[]>([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.user
         .getAll(jwt)
         .then((response) => {

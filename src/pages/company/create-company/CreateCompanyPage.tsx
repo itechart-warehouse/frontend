@@ -1,7 +1,7 @@
-import CreateCompanyForm from "../../../components/forms/company-form/CreateCompanyForm";
-import React from "react";
-import { Grid, Typography, Box, Alert } from "@mui/material";
+import * as React from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { Grid, Typography, Box, Alert } from "@mui/material";
+import CreateCompanyForm from "../../../components/forms/company-form/CreateCompanyForm";
 import { clearError } from "../../../store/errorSlice";
 
 const CreateCompanyPage = () => {
@@ -12,13 +12,9 @@ const CreateCompanyPage = () => {
   const errorAlert = () => {
     if (error.length) {
       clearTimeout();
-      Object.values(error[0]).map((err) => {
-        arr.push(err);
-      });
+      Object.values(error[0]).map((err) => arr.push(err));
       return <Alert severity="error">{arr.join(",")}</Alert>;
-    } else {
-      return "";
-    }
+    } else return "";
   };
 
   return (

@@ -1,7 +1,7 @@
-import CreateUserForm from "../../../components/forms/user-form/CreateUserForm";
-import React from "react";
-import { Grid, Typography, Box, Alert } from "@mui/material";
+import * as React from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { Grid, Typography, Box, Alert } from "@mui/material";
+import CreateUserForm from "../../../components/forms/user-form/CreateUserForm";
 import { clearError } from "../../../store/errorSlice";
 
 const CreateUserPage = () => {
@@ -12,13 +12,9 @@ const CreateUserPage = () => {
   const errorAlert = () => {
     if (error.length) {
       clearTimeout();
-      Object.values(error[0]).map((err) => {
-        arr.push(err);
-      });
+      Object.values(error[0]).map((err) => arr.push(err));
       return <Alert severity="error">{arr.join(",")}</Alert>;
-    } else {
-      return "";
-    }
+    } else return "";
   };
   return (
     <Grid

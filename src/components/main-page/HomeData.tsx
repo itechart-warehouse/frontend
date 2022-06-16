@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import {
   Table,
@@ -11,31 +12,28 @@ import {
   TableCell,
   tableCellClasses,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { clientApi } from "../../services/clientApi";
 import { clearError, setError } from "../../store/errorSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import Consignments from "../../pages/consignment/all-consignments/ConsignmentsPage";
 
 interface Consignments {
-  consignment:{
-    registeredCount:number,
-    checkedCount:number,
-    placedCount:number,
-    checkedBeforeSpipmentCount:number,
-    shippedCount:number,
-  }
+  consignment: {
+    registeredCount: number;
+    checkedCount: number;
+    placedCount: number;
+    checkedBeforeSpipmentCount: number;
+    shippedCount: number;
+  };
 }
-const  consignment={
-  consignment:{
-    registeredCount:0,
-    checkedCount:0,
-    placedCount:0,
-    checkedBeforeSpipmentCount:0,
-    shippedCount:0,
-  }
-}
+const consignment = {
+  consignment: {
+    registeredCount: 0,
+    checkedCount: 0,
+    placedCount: 0,
+    checkedBeforeSpipmentCount: 0,
+    shippedCount: 0,
+  },
+};
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,23 +61,21 @@ function createData(name: string, count: number) {
 }
 
 export default function HomeData() {
-  const [consignments, setConsignments] = useState<Consignments>(consignment);
+  const [consignments, setConsignments] =
+    React.useState<Consignments>(consignment);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     clientApi.consignment
       .getAll(jwt)
       .catch((err) => {
         if (err.response) {
           dispatch(setError([err.response.statusText]));
-          console.log("response", err.response.statusText);
         } else if (err.request) {
           dispatch(setError(["Server is not working"]));
-          console.log("request", err.request);
         } else {
           dispatch(setError([err.message]));
-          console.log("message", err.message);
         }
         return Promise.reject(err);
       })
@@ -90,20 +86,22 @@ export default function HomeData() {
             registeredCount: response.data.registered_conisgnment,
             checkedCount: response.data.checked_conisgnment,
             placedCount: response.data.placed_conisgnment,
-            checkedBeforeSpipmentCount: response.data.checked_before_conisgnment,
+            checkedBeforeSpipmentCount:
+              response.data.checked_before_conisgnment,
             shippedCount: response.data.shipped_conisgnment,
-          }
+          },
         });
       });
   }, []);
-
-
 
   const rows = [
     createData("Registered", consignments.consignment.registeredCount),
     createData("Checked", consignments.consignment.checkedCount),
     createData("Placed", consignments.consignment.placedCount),
-    createData("Checked before shipment", consignments.consignment.checkedBeforeSpipmentCount),
+    createData(
+      "Checked before shipment",
+      consignments.consignment.checkedBeforeSpipmentCount
+    ),
     createData("Shipped", consignments.consignment.shippedCount),
   ];
 
@@ -112,7 +110,6 @@ export default function HomeData() {
       sx={(theme) => ({
         width: "100%",
         height: "100%",
-        // background: "linear-gradient(45deg,#448acf 30%, #1976D2 90%)",
         background: "#F5F5F5",
         border: 0,
         borderRadius: 3,

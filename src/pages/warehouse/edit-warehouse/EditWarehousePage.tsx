@@ -1,8 +1,8 @@
+import * as React from "react";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { Alert, Box, Grid, Typography } from "@mui/material";
 import EditWarehouseForm from "../../../components/forms/warehouse-form/EditWarehouseForm";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { clearError } from "../../../store/errorSlice";
-import React from "react";
 
 function EditWarehousePage() {
   const error = useSelector((state: RootStateOrAny) => state.error.errors);
@@ -12,13 +12,9 @@ function EditWarehousePage() {
   const errorAlert = () => {
     if (error.length) {
       clearTimeout();
-      Object.values(error[0]).map((err) => {
-        arr.push(err);
-      });
+      Object.values(error[0]).map((err) => arr.push(err));
       return <Alert severity="error">{arr.join(",")}</Alert>;
-    } else {
-      return "";
-    }
+    } else return "";
   };
   return (
     <Grid

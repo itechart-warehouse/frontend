@@ -127,3 +127,7 @@ export interface report {
   report_type_id: string;
   reported: { id: number; name: string; quantity: string }[];
 }
+
+export interface userFilterData {
+  search_name: string;
+}

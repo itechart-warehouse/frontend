@@ -17,11 +17,9 @@ import {
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-
 // const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
 const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
-
 
 function errorHandler(err: errorData) {
   if (err.response) {
@@ -401,6 +399,22 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
+    },
+    statistics: {
+      getAll: (
+        jwt: string,
+        page: number,
+        perPage = "",
+        filters: any,
+        startDate: string,
+        endDate: string
+      ) =>
+        axios.get(
+          `${baseUrl}/statistics?page=${page}&per_page=${perPage}&name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
+          {
+            headers: { authorization: jwt },
+          }
+        ),
     },
   };
 }

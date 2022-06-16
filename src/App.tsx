@@ -33,6 +33,7 @@ import CreateReportPage from "./pages/report/create-report/CreateReportPage";
 import ReportsPage from "./pages/report/all-reports/ReportsPage";
 import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
 import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
+import Statistics from "./pages/statistics/Statistics";
 import NewPasswordPage from "./pages/new-password/NewPasswordPage";
 import Layout from "./pages/layout/Layout";
 
@@ -100,6 +101,7 @@ function App() {
                 path="warehouse-consignments/:id/reports"
                 element={<ReportsPage />}
               />
+              <Route path="statistics" element={<Statistics />} />
             </Route>
           </>
         ) : (
