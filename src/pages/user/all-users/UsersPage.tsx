@@ -48,6 +48,7 @@ function Users() {
   const routeCreateUser = () => {
     navigate("/user/create");
   };
+
   const handleChangePage = (event: unknown, newPage: number) => {
     clientApi.user
       .getByPage(jwt, newPage, rowsPerPage.toString())
@@ -67,6 +68,7 @@ function Users() {
         .getByPage(jwt, 0, rowsPerPage.toString())
         .then((response) => {
           setUsers(JSON.parse(response.data.users));
+          setUsersCount(response.data.users_count);
           setPage(0);
         });
     }
@@ -93,7 +95,7 @@ function Users() {
           </Button>
         </Grid>
         <Grid item xs={4}>
-          <Search handleSubmit={handleSubmitSearch} />
+          <Search handleSubmit={handleSubmitSearch} label={'last name and first name...'}/>
         </Grid>
       </Grid>
       <TableContainer component={Paper}>

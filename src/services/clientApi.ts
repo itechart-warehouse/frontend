@@ -413,9 +413,9 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAllByConsignmentId: (consignment_id: any, jwt: string) =>
+      getAllByConsignmentId: (consignment_id: any, jwt: string,page:number,perPage:number) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports`, {
+          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports?page=${page}&perPage-${perPage}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),

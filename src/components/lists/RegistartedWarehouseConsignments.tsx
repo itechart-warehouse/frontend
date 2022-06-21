@@ -100,7 +100,7 @@ function RegistartedWarehouseConsignments() {
       <Container maxWidth="xl" sx={mainContainerStyle}>
         <Grid container spacing={2} sx={{ justifyContent: "end" }}>
           <Grid item xs={4}>
-            <Search handleSubmit={handleSubmitSearch} />
+            <Search handleSubmit={handleSubmitSearch} label={'consignment seria +  consignment number...'}/>
           </Grid>
         </Grid>
         <TableContainer component={Paper}>

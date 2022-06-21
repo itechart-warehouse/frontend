@@ -100,6 +100,7 @@ function Warehouses() {
     backgroundColor: twinkleBlue,
   };
 
+
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
@@ -117,7 +118,7 @@ function Warehouses() {
             </Button>
           </Grid>
           <Grid item xs={4}>
-           <Search handleSubmit={handleSubmitSearch}/>
+           <Search handleSubmit={handleSubmitSearch} label={'warehouse name...'}/>
           </Grid>
         </Grid>
         <TableContainer component={Paper}>

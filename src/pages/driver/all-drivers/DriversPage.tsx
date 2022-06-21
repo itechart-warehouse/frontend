@@ -97,7 +97,7 @@ function Drivers() {
         </Typography>
         <Grid container spacing={2} sx={{ justifyContent: "end" }}>
           <Grid item xs={4}>
-            <Search handleSubmit={handleSubmitSearch} />
+            <Search handleSubmit={handleSubmitSearch} label={'last name + first name + middle name...'}/>
           </Grid>
         </Grid>
         <TableContainer component={Paper}>
