@@ -35,6 +35,7 @@ import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
 import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
 import NewPasswordPage from "./pages/new-password/NewPasswordPage";
 import Layout from "./pages/layout/Layout";
+import CountriesCitiesCatalog from "./pages/catalogs/countries-cities/CountriesCitiesPage";
 
 function App() {
   const isLoggedIn = useSelector(
@@ -100,6 +101,7 @@ function App() {
                 path="warehouse-consignments/:id/reports"
                 element={<ReportsPage />}
               />
+              <Route path="catalog" element={<CountriesCitiesCatalog />} />
             </Route>
           </>
         ) : (
@@ -107,7 +109,10 @@ function App() {
             <Route path="/*" element={<Navigate to="/" />} />
             {/*// <Route path="/" element={<Layout />}>*/}
             <Route index element={<LoginPage />} />
-            <Route path="users/password/new" element={<RecoverPasswordPage />} />
+            <Route
+              path="users/password/new"
+              element={<RecoverPasswordPage />}
+            />
             <Route path="users/password/edit" element={<NewPasswordPage />} />
             {/*</Route>*/}
             {/*<Route path="/password" element={<RecoverPasswordPage />} />*/}

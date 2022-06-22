@@ -15,6 +15,8 @@ import userSlice from "./userSlice";
 import companySlice from "./companySlice";
 import errorSlice from "./errorSlice";
 import warehouseSlice from "./warehouseSlice";
+import citySlice from "./countrySlice";
+import countrySlice from "./countrySlice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +29,7 @@ const rootReducer = combineReducers({
   company: companySlice,
   error: errorSlice,
   warehouse: warehouseSlice,
+  country: countrySlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
