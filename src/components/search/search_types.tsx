@@ -20,4 +20,5 @@ export const SearchPanel = styled("div")(({ theme }) => ({
 
 export interface SearchProps {
   handleSubmit: (search: string) => void;
+  label: string;
 }

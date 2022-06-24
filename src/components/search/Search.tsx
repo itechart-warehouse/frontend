@@ -5,7 +5,7 @@ import { SearchPanel, SearchProps } from "./search_types";
 import { IconButton, TextField } from "@mui/material";
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, label } = props;
 
     const normalize = (search: any) => {
         handleSubmit(search.text.replace('\t', ' '));
@@ -24,7 +24,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
             required={false}
             autoComplete="off"
             as={TextField}
-            label="Search..."
+            label={label}
             name="text"
             fullWidth
             type="text"

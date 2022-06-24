@@ -128,7 +128,7 @@ function Companies() {
             )}
           </Grid>
           <Grid item xs={4}>
-            <Search handleSubmit={handleSubmitSearch}/>
+            <Search handleSubmit={handleSubmitSearch} label={'company name...'}/>
           </Grid>
         </Grid>
         <TableContainer component={Paper}>
