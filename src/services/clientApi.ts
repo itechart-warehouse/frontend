@@ -258,14 +258,6 @@ function initClientApi() {
           )
           .catch((err) => errorHandler(err)),
     },
-    section: {
-      getAllByWarehouseId: (warehouse_id: any, jwt: string) =>
-        axios
-          .get(`${baseUrl}/warehouses/${warehouse_id}/sections`, {
-            headers: { authorization: jwt },
-          })
-          .catch((err) => errorHandler(err)),
-    },
     driver: {
       getByPage: (page: number, perPage = '') =>
         axios
@@ -314,6 +306,36 @@ function initClientApi() {
       getAll: (jwt: string, status = '') =>
         axios
           .get(`${baseUrl}/warehouse-consignments`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+    },
+    roles:{
+      getAll: (jwt: string) =>
+        axios
+          .get(`${baseUrl}/user_roles`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+      delete: (id: number, jwt: string) =>
+        axios
+          .delete(`${baseUrl}/user_roles/${id}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+      getById: (id: any, jwt: string) =>
+        axios
+          .get(`${baseUrl}/user_roles/${id}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+      getAllUserByRoleId: (id: any, jwt: string) =>
+        axios
+          .get(`${baseUrl}/user_roles/${id}/users`, { headers: { authorization: jwt } })
+          .catch((err) => errorHandler(err)),
+      getUserByRoleId: (id: any, jwt: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/user_roles/${id}/users?page=${page}&per_page=${perPage}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),

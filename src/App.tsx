@@ -35,6 +35,11 @@ import ReportedGoodsDialog from "./components/dialogs/ReportedGoodsDialog";
 import ReportedGoodsDialogDemo from "./components/dialogs/ReportedGoodsDialog";
 import NewPasswordPage from "./pages/new-password/NewPasswordPage";
 import Layout from "./pages/layout/Layout";
+import AllRolePage from "./pages/role/all-roles/RolesPage";
+import UsersByRolePage from "./pages/role/user-by-role/UsersByRolePage";
+import RoleShowPage from "./pages/role/show-role/ShowRolePage";
+
+
 
 function App() {
   const isLoggedIn = useSelector(
@@ -100,6 +105,10 @@ function App() {
                 path="warehouse-consignments/:id/reports"
                 element={<ReportsPage />}
               />
+              <Route path="roles" element={<AllRolePage />} />
+              <Route path="roles/:id" element={<RoleShowPage />}/>
+              <Route path="roles/:id/users" element={<UsersByRolePage />}/>
+
             </Route>
           </>
         ) : (
