@@ -44,12 +44,16 @@ function Roles() {
   const dispatch = useDispatch();
   const isMounted = useMount();
   const [roles, setRoles] = useState<Role[]>([]);
+  const [consCount, setConsCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
     clientApi.roles.getAll(jwt).then((response) => {
       if (isMounted()) {
         dispatch(clearError());
-        setRoles(response.data.roles);
+        setRoles(JSON.parse(response.data.roles));
+        setConsCount(response.data.roles_count)
       }
     });
   }, []);
@@ -61,6 +65,19 @@ function Roles() {
     }
 };
 
+const handleChangePage = (event: unknown, newPage: number) => {
+  clientApi.roles.getByPage(jwt,newPage,rowsPerPage.toString()).then((response)=>{
+    setRoles(JSON.parse(response.data.roles));
+    setPage(newPage);
+  })
+}
+const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  clientApi.roles.getByPage(jwt,0,event.target.value).then((response)=>{
+    setRoles(JSON.parse(response.data.roles));
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  })
+};
 
   return (
     <>
@@ -87,15 +104,15 @@ function Roles() {
                 roles.map((role) => (
                   <TableRow key={role.id}>
                     <TableCell component="th" scope="row">
-                      <Link to={`${role[0].id}`}>{role[0].name}</Link>
+                      <Link to={`${role.id}`}>{role.name}</Link>
                     </TableCell>
                     <TableCell>
-                      <Typography align="left">{role[1]}</Typography>
+                      <Typography align="left">{role.company_name}</Typography>
                     </TableCell>
                     <TableCell align="right">
                     <Button
                       variant="contained"
-                      href={`roles/${role[0].id}/users`}
+                      href={`roles/${role.id}/users`}
                       disabled
                     >
                       Users
@@ -106,7 +123,7 @@ function Roles() {
                       variant="outlined"
                       startIcon={<DeleteIcon />}
                       color="error"
-                      onClick={deleteRole(role[0].id)}
+                      onClick={deleteRole(role.id)}
                     >
                      Delete
                     </Button>
@@ -116,6 +133,15 @@ function Roles() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={consCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );

@@ -317,6 +317,12 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/user_roles?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       delete: (id: number, jwt: string) =>
         axios
           .delete(`${baseUrl}/user_roles/${id}`, {
