@@ -66,6 +66,7 @@
     ]
   },
   "devDependencies": {
+    "@evilmartians/lefthook": "^0.8.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "cross-env": "^7.0.3",
