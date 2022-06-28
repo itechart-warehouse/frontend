@@ -31,6 +31,7 @@ const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
 
 function Users() {
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
+  const role = useSelector((state: RootState) => state.user.userRole.name);
   const [usersCount, setUsersCount] = React.useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [page, setPage] = React.useState<number>(0);
@@ -90,9 +91,13 @@ function Users() {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
-            Create new user
-          </Button>
+         {role === "Warehouse admin" ? (
+           <Button onClick={routeCreateUser} variant="contained" sx={{ mb: 3 }}>
+             Create new user
+           </Button>
+         ) : (
+           ""
+         )}
         </Grid>
         <Grid item xs={4}>
           <Search handleSubmit={handleSubmitSearch} label={'last name and first name...'}/>
