@@ -25,13 +25,13 @@ function LoginPage() {
         spacing={0}
         direction="column"
         alignItems="center"
-        justifyContent="center"
         style={{ minHeight: "100vh" }}
       >
         <Box
           sx={{
-            height: "60px",
-            marginBottom: "60px",
+            height: "50px",
+            marginBottom: "30px",
+            marginTop: "30px",
           }}
         >
           {errorAlert()}
@@ -39,14 +39,13 @@ function LoginPage() {
         <Box
           component="img"
           sx={{
-            marginBottom: "60px",
+            height: "270px",
+            marginBottom: "20px",
           }}
           alt="Login"
           src={Login}
         />
-        <Grid item
-        sx={{ width: 570 }}
-        >
+        <Grid item sx={{ width: 570 }}>
           {/*<Typography*/}
           {/*  variant="h2"*/}
           {/*  component="div"*/}
