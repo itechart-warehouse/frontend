@@ -8,7 +8,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
+  Paper, TablePagination,
 } from "@mui/material";
 import { clientApi } from "../../../services/clientApi";
 import React, { useEffect, useState } from "react";
@@ -38,14 +38,18 @@ const rowStyle = {
 function Reports() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [reportsCount, setReportsCountCount] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const [reports, setReports] = useState<Report[]>([]);
   useEffect(() => {
     clientApi.report
-      .getAllByConsignmentId(id, jwt)
+      .getAllByConsignmentId(id, jwt,page,rowsPerPage)
       .then((response) => {
         dispatch(clearError());
-        setReports(response.data.reports);
+        setReports(JSON.parse(response.data.reports));
+        setReportsCountCount(response.data.total_count);
       });
   }, [id]);
 
@@ -53,6 +57,25 @@ function Reports() {
 
   const headStyle = {
     backgroundColor: twinkleBlue,
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    clientApi.report
+        .getAllByConsignmentId(id, jwt,page,rowsPerPage)
+        .then((response) => {
+          setReports(JSON.parse(response.data.reports));
+          setPage(newPage);
+        });
+  };
+  const handleChangeRowsPerPage = (
+      event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    clientApi.report.getAllByConsignmentId(id, jwt,page,rowsPerPage)
+        .then((response) => {
+      setReports(JSON.parse(response.data.reports));
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    });
   };
 
   return (
@@ -116,6 +139,15 @@ function Reports() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={reportsCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );

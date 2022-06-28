@@ -48,13 +48,17 @@ function EditUserForm() {
     },
 
     validationSchema: validationSchema,
-    onSubmit: (data: Values) => {
+    onSubmit: (data: Values, { resetForm }) => {
       clientApi.user
         .editUserById(id, data, jwt)
         .then(() => {
           //  TODO we need to clear current user state after submit
           dispatch(clearError());
           routeUsersList();
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
         });
     },
   });

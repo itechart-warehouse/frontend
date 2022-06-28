@@ -7,7 +7,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
+  Button, TablePagination, Grid,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { clearError, setError } from "../../store/errorSlice";
 import { clientApi } from "../../services/clientApi";
 import { RootState } from "../../store";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Search from "../search/Search";
 
 interface Consignments {
   id: number;
@@ -51,21 +52,58 @@ const rowStyle = {
 
 function CheckedWarehouseConsignments() {
   const [consignments, setConsignments] = useState<Consignments[]>([]);
+  const [consCount, setConsCount] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
   const jwt = useSelector((state: RootState) => state.user.user.jwt);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clientApi.consignment
-      .getAll(jwt)
+    clientApi.warehouseConsignment
+      .getByPage(jwt,'Shipped',page,rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
         setConsignments(response.data.consignments);
-        console.log(response.data.consignments);
+        setConsCount(response.data.consignment_count)
+        setConsignments(response.data.consignments);
       });
   }, []);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    clientApi.warehouseConsignment.getByPage(jwt,'Shipped',newPage,rowsPerPage.toString()).then((response)=>{
+      setConsignments(response.data.consignments);
+      setPage(newPage);
+    })
+  }
+  const handleSubmitSearch = (search:string) => {
+    if(search) {
+      clientApi.consignment.search(jwt, search, 'Shipped').then((response) => {
+        setConsCount(response.data.consignment_count)
+        setConsignments(response.data.consignments);
+      })
+    }
+    else{
+      clientApi.warehouseConsignment.getByPage(jwt,'Shipped',0,rowsPerPage.toString()).then((response)=>{
+        setConsCount(response.data.consignment_count)
+        setConsignments(response.data.consignments);
+        setPage(0);
+      });
+    }
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    clientApi.warehouseConsignment.getByPage(jwt,'Shipped',0,event.target.value).then((response)=>{
+      setConsignments(response.data.consignments);
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    })}
   return (
     <>
       <Container maxWidth="xl" sx={mainContainerStyle}>
+        <Grid container spacing={2} sx={{ justifyContent: "end" }}>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch} label={'consignment seria +  consignment number...'}/>
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="usersPage table">
             <TableHead sx={headStyle}>
@@ -146,6 +184,15 @@ function CheckedWarehouseConsignments() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={consCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </>
   );

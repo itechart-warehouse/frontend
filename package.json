@@ -41,10 +41,11 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "PORT=3006 react-scripts start",
+    "start": "cross-env  PORT=3006 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src"
   },
   "eslintConfig": {
     "extends": [
@@ -65,11 +66,14 @@
     ]
   },
   "devDependencies": {
+    "@evilmartians/lefthook": "^0.8.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
+    "cross-env": "^7.0.3",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "msw": "^0.36.8",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "webpack-cli": "^4.9.2"
   },
   "msw": {
     "workerDirectory": "public"

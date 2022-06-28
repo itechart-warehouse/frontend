@@ -1,6 +1,7 @@
 export interface errorData {
   response: {
     data: {
+      warehouse_errors: [];
       company_errors: [];
       user_errors: [];
     };
@@ -28,7 +29,6 @@ export interface newPassword {
 
 export interface companyFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -48,7 +48,6 @@ export interface companyData {
 
 export interface userFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -68,7 +67,6 @@ export interface userEditData {
 
 export interface warehouseFullData {
   userEmail: string;
-  userPassword: string;
   firstName: string;
   lastName: string;
   birthDate: string;

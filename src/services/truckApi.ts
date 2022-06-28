@@ -24,20 +24,32 @@ function errorHandler(err: errorData) {
 function initTruckApi() {
   return {
     driver: {
-      getAll: () =>
-        axios
-          .get(`${baseUrl}/drivers.json`, {
-            headers: { authorization: token },
-          })
-          .catch((err) => errorHandler(err)),
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/drivers?page=${page}&per_page=${perPage}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
+        search:  (search: string) =>
+            axios
+                .get(`${baseUrl}/drivers?search=${search}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
     },
     consignment: {
-      getAll: () =>
-        axios
-          .get(`${baseUrl}/consignments`, {
-            headers: { authorization: token },
-          })
-          .catch((err) => errorHandler(err)),
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/consignments?page=${page}&per_page=${perPage}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
+        search:  (search: string) =>
+            axios
+                .get(`${baseUrl}/consignments?search=${search}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
       getById: (id: any) =>
         axios
           .get(`${baseUrl}/consignments/${id}`, {
@@ -46,12 +58,18 @@ function initTruckApi() {
           .catch((err) => errorHandler(err)),
     },
     transports: {
-      getAll: () =>
-        axios
-          .get(`${baseUrl}/trucks.json`, {
-            headers: { authorization: token },
-          })
-          .catch((err) => errorHandler(err)),
+        getByPage:  (page:number,perPage='') =>
+            axios
+                .get(`${baseUrl}/trucks?page=${page}&per_page=${perPage}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
+        search:  (search: string) =>
+            axios
+                .get(`${baseUrl}/trucks?search=${search}`, {
+                    headers: { authorization: token },
+                } )
+                .catch((err) => errorHandler(err)),
     },
     goods: {
       getByConsignmentId: (id: any) =>

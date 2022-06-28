@@ -17,15 +17,17 @@ import {
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
+
 // const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
 const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
+
 
 function errorHandler(err: errorData) {
   if (err.response) {
     err.response.status === 500 || err.response.status === 401
       ? store.dispatch(setError([err.response.data]))
-      : store.dispatch(setError(["Invalid Data"]));
+      : store.dispatch(setError([err.response.data]));
   } else if (err.request) {
     store.dispatch(setError(["Server is not working"]));
     console.log("request", err.request);
@@ -47,7 +49,9 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       logout: (jwt: string) =>
         axios
-          .delete(`${baseUrl}/users/sign_out`, { headers: { authorization: jwt } })
+          .delete(`${baseUrl}/users/sign_out`, {
+            headers: { authorization: jwt },
+          })
           .catch((err) => errorHandler(err)),
     },
     recoverData: {
@@ -62,11 +66,23 @@ function initClientApi() {
           .put(`${baseUrl}/users/password`, {
             password: credentials.password,
             password_confirmation: credentials.password_confirmation,
-            reset_password_token: credentials.reset_password_token
+            reset_password_token: credentials.reset_password_token,
           })
-          .catch((err) => errorHandler(err))
+          .catch((err) => errorHandler(err)),
     },
     company: {
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/companies?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       create: (companyCredentials: companyFullData, jwt: string) =>
         axios
           .post(
@@ -80,7 +96,6 @@ function initClientApi() {
               },
               user: {
                 email: companyCredentials.userEmail,
-                password: companyCredentials.userPassword,
                 first_name: companyCredentials.firstName,
                 last_name: companyCredentials.lastName,
                 birth_date: companyCredentials.birthDate,
@@ -122,6 +137,18 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     user: {
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/users?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/users?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       create: (userCredentials: userFullData, jwt: string) =>
         axios
           .post(
@@ -129,7 +156,6 @@ function initClientApi() {
             {
               user: {
                 email: userCredentials.userEmail,
-                password: userCredentials.userPassword,
                 first_name: userCredentials.firstName,
                 last_name: userCredentials.lastName,
                 birth_date: userCredentials.birthDate,
@@ -155,7 +181,7 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
       getById: (id: any, jwt: string) =>
         axios
-          .get(`${baseUrl}/users/${id}`, {
+          .get(`${baseUrl}/user/${id}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
@@ -180,6 +206,18 @@ function initClientApi() {
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
+        search:  (jwt: string,search: string, company_id: any) =>
+            axios
+                .get(`${baseUrl}/companies/${company_id}/warehouses?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '', company_id: any) =>
+        axios
+          .get(`${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios
           .get(`${baseUrl}/companies/${company_id}/warehouses`, {
@@ -199,7 +237,6 @@ function initClientApi() {
               },
               user: {
                 email: warehouseCredentials.userEmail,
-                password: warehouseCredentials.userPassword,
                 first_name: warehouseCredentials.firstName,
                 last_name: warehouseCredentials.lastName,
                 birth_date: warehouseCredentials.birthDate,
@@ -248,6 +285,10 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     driver: {
+      getByPage: (page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`,)
+          .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/drivers`, { headers: { authorization: jwt } }),
       getById: (id: any, jwt: string) =>
@@ -288,14 +329,26 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAll: (jwt: string) =>
+      getAll: (jwt: string, status = '') =>
         axios
           .get(`${baseUrl}/warehouse-consignments`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
+        search:  (jwt: string,search: string, status:string) =>
+            axios
+                .get(`${baseUrl}/warehouse-consignments?status=${status}&search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
     },
     warehouseConsignment: {
+      getByPage: (jwt: string, status: string, page: number, perPage = '') =>
+        axios
+          .get(`${baseUrl}/warehouse-consignments?status=${status}&page=${page}&per_page=${perPage}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
       check: (id: any, jwt: string) =>
         axios
           .post(
@@ -360,9 +413,9 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAllByConsignmentId: (consignment_id: any, jwt: string) =>
+      getAllByConsignmentId: (consignment_id: any, jwt: string,page:number,perPage:number) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports`, {
+          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports?page=${page}&perPage-${perPage}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),

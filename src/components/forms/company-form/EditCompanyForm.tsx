@@ -50,13 +50,17 @@ function EditCompanyForm() {
       active: company.active,
     },
     validationSchema: validationSchema,
-    onSubmit: (data: Values) => {
+    onSubmit: (data: Values, { resetForm }) => {
       clientApi.company
         .editCompanyById(id, data, jwt)
         .then(() => {
           //  TODO we need to clear current company state after submit
           dispatch(clearError());
           routeCompaniesList();
+        })
+        .catch((error) => {
+          resetForm({});
+          window.scrollTo(0, 0);
         });
     },
   });

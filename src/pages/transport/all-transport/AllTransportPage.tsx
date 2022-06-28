@@ -1,3 +1,6 @@
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Typography,
   Container,
@@ -10,16 +13,15 @@ import {
   CircularProgress,
   Paper,
   Grid,
+  TablePagination,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { clearError } from "../../../store/errorSlice";
 import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFilledTwoTone";
+import { clearError } from "../../../store/errorSlice";
 import { truckApi } from "../../../services/truckApi";
 import { Transport } from "./AllTransportPage.types";
 // @ts-ignore
 import TransportCardImage from "../../../image/TransportCard.svg";
+import Search from "../../../components/search/Search";
 
 const backgroundStyle = {
   height: "90vh",
@@ -29,37 +31,63 @@ const backgroundStyle = {
   backgroundSize: "50%",
   marginRight: "20px",
 };
-
 const twinkleBlue = "#e9ecef";
-
-const headStyle = {
-  backgroundColor: twinkleBlue,
-};
-
-const mainContainerStyle = {
-  pt: 3,
-};
-
-const titleStyle = {
-  mb: 3,
-};
-
-const rowStyle = {
-  "&:last-child td, &:last-child th": { border: 0 },
-};
+const headStyle = { backgroundColor: twinkleBlue };
+const mainContainerStyle = { pt: 3 };
+const titleStyle = { mb: 3 };
+const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
 
 function Transports() {
-  const [transports, setTransports] = useState<Transport[]>([]);
+  const [transports, setTransports] = React.useState<Transport[]>([]);
+  const [trucksCount, setTrucksCount] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     truckApi.transports
-      .getAll()
+      .getByPage(page, rowsPerPage.toString())
       .then((response) => {
         dispatch(clearError());
-        setTransports(response.data);
+        setTransports(JSON.parse(response.data.trucks));
+        setTrucksCount(JSON.parse(response.data.trucks_count));
       });
   }, []);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    truckApi.transports
+      .getByPage(newPage, rowsPerPage.toString())
+      .then((response) => {
+        setTransports(JSON.parse(response.data.trucks));
+        setPage(newPage);
+      });
+  };
+  const handleSubmitSearch = (search: string) => {
+    if (search) {
+      truckApi.transports.search(search).then((response) => {
+        setTransports(JSON.parse(response.data.trucks));
+        setTrucksCount(JSON.parse(response.data.trucks_count));
+      });
+    } else {
+      truckApi.transports
+        .getByPage(0, rowsPerPage.toString())
+        .then((response) => {
+          setTransports(JSON.parse(response.data.trucks));
+          setTrucksCount(JSON.parse(response.data.trucks_count));
+          setPage(0);
+        });
+    }
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    truckApi.transports.getByPage(0, event.target.value).then((response) => {
+      setTransports(JSON.parse(response.data.trucks));
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    });
+  };
 
   return (
     <Grid sx={backgroundStyle}>
@@ -67,7 +95,12 @@ function Transports() {
         <Typography variant="h2" sx={titleStyle}>
           Transport listing
         </Typography>
-        <TableContainer sx={{ width: 500 }} component={Paper}>
+        <Grid container spacing={2} sx={{ justifyContent: "end" }}>
+          <Grid item xs={4}>
+            <Search handleSubmit={handleSubmitSearch} label={'truck number...'}/>
+          </Grid>
+        </Grid>
+        <TableContainer component={Paper}>
           <Table aria-label="usersPage table">
             <TableHead sx={headStyle}>
               <TableRow sx={rowStyle}>
@@ -81,7 +114,7 @@ function Transports() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {transports.length ? (
+              {transports ? (
                 transports.map((tr) => (
                   <TableRow key={tr.id}>
                     <TableCell component="th" scope="row">
@@ -103,6 +136,15 @@ function Transports() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={trucksCount}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Container>
     </Grid>
   );

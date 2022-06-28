@@ -5,11 +5,11 @@ export interface Warehouse {
   phone: string;
   area: string;
   active: boolean;
-  user: {
+  users:[ {
     id: number;
     first_name: string;
     last_name: string;
-  };
+  }];
 }
 export interface Company {
   name: string;
