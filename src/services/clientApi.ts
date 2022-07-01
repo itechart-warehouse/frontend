@@ -71,7 +71,13 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     company: {
-      getByPage: (jwt: string, page: number, perPage = "") =>
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/companies?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
         axios
           .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`, {
             headers: { authorization: jwt },
@@ -131,7 +137,13 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     user: {
-      getByPage: (jwt: string, page: number, perPage = "") =>
+        search:  (jwt: string,search: string) =>
+            axios
+                .get(`${baseUrl}/users?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '') =>
         axios
           .get(`${baseUrl}/users?page=${page}&per_page=${perPage}`, {
             headers: { authorization: jwt },
@@ -194,7 +206,13 @@ function initClientApi() {
         axios.get(`${baseUrl}/roles`, { headers: { authorization: jwt } }),
     },
     warehouse: {
-      getByPage: (jwt: string, page: number, perPage = "", company_id: any) =>
+        search:  (jwt: string,search: string, company_id: any) =>
+            axios
+                .get(`${baseUrl}/companies/${company_id}/warehouses?search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
+      getByPage: (jwt: string, page: number, perPage = '', company_id: any) =>
         axios
           .get(
             `${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`,
@@ -320,6 +338,12 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
+        search:  (jwt: string,search: string, status:string) =>
+            axios
+                .get(`${baseUrl}/warehouse-consignments?status=${status}&search=${search}`,  {
+                    headers: { authorization: jwt },
+                })
+                .catch((err) => errorHandler(err)),
     },
     warehouseConsignment: {
       getByPage: (jwt: string, status: string, page: number, perPage = "") =>
@@ -395,9 +419,9 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAllByConsignmentId: (consignment_id: any, jwt: string) =>
+      getAllByConsignmentId: (consignment_id: any, jwt: string,page:number,perPage:number) =>
         axios
-          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports`, {
+          .get(`${baseUrl}/warehouse-consignments/${consignment_id}/reports?page=${page}&perPage-${perPage}`, {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
