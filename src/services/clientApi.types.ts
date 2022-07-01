@@ -4,6 +4,8 @@ export interface errorData {
       warehouse_errors: [];
       company_errors: [];
       user_errors: [];
+      country_errors: [];
+      city_errors: [];
     };
     statusText: string;
     status: number;
@@ -126,4 +128,13 @@ export interface report {
   description: string;
   report_type_id: string;
   reported: { id: number; name: string; quantity: string }[];
+}
+
+export interface country {
+  name: string;
+}
+
+export interface city {
+  name: string;
+  country_id: number;
 }

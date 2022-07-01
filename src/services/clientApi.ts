@@ -13,15 +13,15 @@ import {
   report,
   errorData,
   newPassword,
+  country,
+  city,
 } from "./clientApi.types";
 import { store } from "../store";
 import { setError } from "../store/errorSlice";
 
-
 // const baseUrl: string = process.env.REACT_APP_WAREHOUSE_URL as string;
 //TODO Test local url
 const baseUrl: string = process.env.REACT_APP_WAREHOUSE_LOCAL_URL as string;
-
 
 function errorHandler(err: errorData) {
   if (err.response) {
@@ -214,9 +214,12 @@ function initClientApi() {
                 .catch((err) => errorHandler(err)),
       getByPage: (jwt: string, page: number, perPage = '', company_id: any) =>
         axios
-          .get(`${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`, {
-            headers: { authorization: jwt },
-          })
+          .get(
+            `${baseUrl}/companies/${company_id}/warehouses?page=${page}&per_page=${perPage}`,
+            {
+              headers: { authorization: jwt },
+            }
+          )
           .catch((err) => errorHandler(err)),
       getAllByCompanyId: (company_id: any, jwt: string) =>
         axios
@@ -285,9 +288,9 @@ function initClientApi() {
           .catch((err) => errorHandler(err)),
     },
     driver: {
-      getByPage: (page: number, perPage = '') =>
+      getByPage: (page: number, perPage = "") =>
         axios
-          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`,)
+          .get(`${baseUrl}/companies?page=${page}&per_page=${perPage}`)
           .catch((err) => errorHandler(err)),
       getAll: (jwt: string) =>
         axios.get(`${baseUrl}/drivers`, { headers: { authorization: jwt } }),
@@ -329,7 +332,7 @@ function initClientApi() {
             headers: { authorization: jwt },
           })
           .catch((err) => errorHandler(err)),
-      getAll: (jwt: string, status = '') =>
+      getAll: (jwt: string, status = "") =>
         axios
           .get(`${baseUrl}/warehouse-consignments`, {
             headers: { authorization: jwt },
@@ -343,11 +346,14 @@ function initClientApi() {
                 .catch((err) => errorHandler(err)),
     },
     warehouseConsignment: {
-      getByPage: (jwt: string, status: string, page: number, perPage = '') =>
+      getByPage: (jwt: string, status: string, page: number, perPage = "") =>
         axios
-          .get(`${baseUrl}/warehouse-consignments?status=${status}&page=${page}&per_page=${perPage}`, {
-            headers: { authorization: jwt },
-          })
+          .get(
+            `${baseUrl}/warehouse-consignments?status=${status}&page=${page}&per_page=${perPage}`,
+            {
+              headers: { authorization: jwt },
+            }
+          )
           .catch((err) => errorHandler(err)),
       check: (id: any, jwt: string) =>
         axios
@@ -424,6 +430,104 @@ function initClientApi() {
           .get(`${baseUrl}/reports/${report_id}/goods`, {
             headers: { authorization: jwt },
           })
+          .catch((err) => errorHandler(err)),
+    },
+    country: {
+      getByPage: (jwt: any, page: number, perPage = "") =>
+        axios
+          .get(
+            `${baseUrl}/settings/countries?page=${page}&per_page=${perPage}`,
+            {
+              headers: { authorization: jwt },
+            }
+          )
+          .catch((err) => errorHandler(err)),
+      create: (jwt: string, countryData: country) =>
+        axios
+          .post(
+            `${baseUrl}/settings/countries`,
+            {
+              country: {
+                name: countryData.name,
+              },
+            },
+            {
+              headers: { authorization: jwt },
+            }
+          )
+          .catch((err) => errorHandler(err)),
+      getAll: (jwt: any) =>
+        axios
+          .get(`${baseUrl}/settings/non_paginate_countries`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+      delete: (jwt: string, id: number) =>
+        axios
+          .delete(`${baseUrl}/settings/countries/${id}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+      update: (jwt: string, countryData: country, id: any) =>
+        axios
+          .patch(
+            `${baseUrl}/settings/countries/${id}`,
+            {
+              country: {
+                name: countryData.name,
+              },
+            },
+            {
+              headers: { authorization: jwt },
+            }
+          )
+          .catch((err) => errorHandler(err)),
+    },
+    city: {
+      getByPage: (jwt: any, page: number, perPage = "", country_id: number) =>
+        axios
+          .get(
+            `${baseUrl}/settings/countries/${country_id}/cities?page=${page}&per_page=${perPage}`,
+            {
+              headers: { authorization: jwt },
+            }
+          )
+          .catch((err) => errorHandler(err)),
+      create: (jwt: string, cityData: city, country_id: number) =>
+        axios
+          .post(
+            `${baseUrl}/settings/countries/${country_id}/cities`,
+            {
+              city: {
+                name: cityData.name,
+                country_id: cityData.country_id,
+              },
+            },
+            {
+              headers: { authorization: jwt },
+            }
+          )
+          .catch((err) => errorHandler(err)),
+      delete: (jwt: string, id: number, country_id: number) =>
+        axios
+          .delete(`${baseUrl}/settings/countries/${country_id}/cities/${id}`, {
+            headers: { authorization: jwt },
+          })
+          .catch((err) => errorHandler(err)),
+      update: (jwt: string, cityData: city, id: any, country_id: number) =>
+        axios
+          .patch(
+            `${baseUrl}/settings/countries/${country_id}/cities/${id}`,
+            {
+              city: {
+                name: cityData.name,
+                country_id: cityData.country_id,
+              },
+            },
+            {
+              headers: { authorization: jwt },
+            }
+          )
           .catch((err) => errorHandler(err)),
     },
   };
